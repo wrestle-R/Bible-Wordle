@@ -7,12 +7,18 @@ import Wordle from '../components/Wordle';
 import { Toaster } from 'react-hot-toast';
 import { getDailyWord } from '../utils/wordUtils';
 import { FiLock } from 'react-icons/fi';
+import { updateGameStats } from '../services/statsService';
+import { getGameState } from '../services/gameStateService';
+import { db } from '../firebase.config';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 export default function Game() {
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState(null);
   const [currentWord, setCurrentWord] = useState(null);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [isFirstGameOfDay, setIsFirstGameOfDay] = useState(true);
+  const [userStats, setUserStats] = useState(null);
 
   useEffect(() => {
     // Check authentication
@@ -39,7 +45,51 @@ export default function Game() {
       });
   }, []);
 
+  useEffect(() => {
+    const gameState = getGameState();
+    if (gameState?.completed) {
+      setIsFirstGameOfDay(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userProfile && auth.currentUser) {
+      // Set up real-time listener for stats
+      const unsubscribe = onSnapshot(
+        doc(db, 'users', auth.currentUser.uid),
+        (doc) => {
+          if (doc.exists()) {
+            setUserStats(doc.data() || null);
+          }
+        },
+        (error) => {
+          console.error("Error fetching stats:", error);
+        }
+      );
+
+      return () => unsubscribe();
+    }
+  }, [userProfile]);
+
   if (!currentWord) return null;
+
+  const handleGameComplete = async (gameResult) => {
+    if (userProfile && auth.currentUser) {
+      console.log('Game completed with result:', gameResult);
+      try {
+        const updatedStats = await updateGameStats(auth.currentUser.uid, gameResult);
+        console.log('Updated stats:', updatedStats);
+        if (updatedStats) {
+          setUserStats(updatedStats);
+        }
+      } catch (error) {
+        console.error('Error updating stats:', error);
+      }
+    } else {
+      console.log('No user profile or not authenticated');
+      setShowLoginPrompt(true);
+    }
+  };
 
   const LoginPromptModal = () => (
     <motion.div
@@ -120,15 +170,15 @@ export default function Game() {
                 <div className="flex gap-4">
                   <div className="text-center">
                     <p className="text-xs text-purple-400 font-medium">Games</p>
-                    <p className="text-xl text-white">0</p>
+                    <p className="text-xl text-white">{userStats?.gamesPlayed || 0}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-xs text-purple-400 font-medium">Win Rate</p>
-                    <p className="text-xl text-white">0%</p>
+                    <p className="text-xl text-white">{Math.round(userStats?.winPercentage || 0)}%</p>
                   </div>
                   <div className="text-center">
                     <p className="text-xs text-purple-400 font-medium">Streak</p>
-                    <p className="text-xl text-white">0</p>
+                    <p className="text-xl text-white">{userStats?.currentStreak || 0}</p>
                   </div>
                 </div>
               </div>
@@ -150,7 +200,11 @@ export default function Game() {
           <div className="mt-8">
             <Wordle 
               wordData={currentWord}
-              onGameComplete={() => !userProfile && setShowLoginPrompt(true)}
+              onGameComplete={(result) => {
+                if (isFirstGameOfDay && userProfile) {
+                  handleGameComplete(result);
+                }
+              }}
             />
           </div>
         </motion.div>

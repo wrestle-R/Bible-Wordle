@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiHelpCircle, FiInfo, FiBook } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
 import { checkAndClearDailyStorage } from '../utils/storageUtils';
+import { getGameState, setGameCompleted, getTodayKey } from '../services/gameStateService';
 
 const WORD_LENGTH = 5;
 const MAX_ATTEMPTS = 6;
@@ -184,6 +185,7 @@ export default function Wordle({ wordData, onGameComplete }) {
   });
   const [testamentHintAvailable, setTestamentHintAvailable] = useState(false);
   const [categoryHintAvailable, setCategoryHintAvailable] = useState(false);
+  const [isFirstGame, setIsFirstGame] = useState(true);
 
   useEffect(() => {
     // Check and clear storage if it's a new day
@@ -204,6 +206,13 @@ export default function Wordle({ wordData, onGameComplete }) {
     // Log the daily word for development
     console.log('Today\'s word:', wordData.name);
   }, [wordData]);
+
+  useEffect(() => {
+    const gameState = getGameState();
+    if (gameState?.completed) {
+      setIsFirstGame(false);
+    }
+  }, []);
 
   const toggleHint = (type) => {
     if (type === 'testament') {
@@ -261,12 +270,18 @@ export default function Wordle({ wordData, onGameComplete }) {
       // Check win/loss conditions
       if (statuses.every(s => s === 'correct')) {
         setGameStatus('won');
+        handleGameComplete({
+          won: true,
+          attempts: newAttempts.length
+        });
         toast.success('Congratulations! You won! 🎉');
-        onGameComplete?.(); // Call callback when game ends
       } else if (newAttempts.length >= MAX_ATTEMPTS) {
         setGameStatus('lost');
+        handleGameComplete({
+          won: false,
+          attempts: MAX_ATTEMPTS
+        });
         toast.error(`Game Over! The word was ${wordData.name.toUpperCase()}`);
-        onGameComplete?.(); // Call callback when game ends
       }
 
       // Silently enable hints based on attempts
@@ -351,6 +366,11 @@ export default function Wordle({ wordData, onGameComplete }) {
     ] || category;
   };
 
+  const handleGameComplete = (result) => {
+    console.log('Game completed:', result); // Add debug log
+    onGameComplete?.(result);
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto px-4">
       <div className="flex flex-col items-center gap-8">
@@ -390,6 +410,12 @@ export default function Wordle({ wordData, onGameComplete }) {
             />
           )}
         </AnimatePresence>
+
+        {!isFirstGame && (
+          <div className="bg-purple-900/20 px-4 py-2 rounded-lg text-purple-300 text-sm">
+            <span>Practice Mode - Progress won't be saved</span>
+          </div>
+        )}
 
         <div className="flex flex-col gap-3 scale-110 mb-8">
           {renderGameGrid()}

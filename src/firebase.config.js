@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -20,6 +21,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+const db = getFirestore(app);
 provider.addScope("profile");
 provider.addScope("email");
 provider.setCustomParameters({
@@ -37,6 +39,7 @@ if (typeof window !== "undefined") {
 
 export {
   auth,
+  db,
   provider,
   signInWithPopup,
   createUserWithEmailAndPassword,
