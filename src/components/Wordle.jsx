@@ -723,13 +723,73 @@ export default function Wordle({ wordData, onGameComplete }) {
   }
 
   const formatCategory = (category) => {
+    // Normalize the category for consistent comparison
+    const normalizedCategory = category.toLowerCase().trim();
+    
+    // Map alternative spellings/formats to standard categories
+    const categoryMappings = {
+      "minor bible charachter": "Minor Bible Character",
+      "minor bible character": "Minor Bible Character",
+      "prophets": "Prophet",
+      "prophet": "Prophet",
+      "warriors": "Warrior",
+      "warrior": "Warrior",
+      "villains": "Villain",
+      "villain": "Villain",
+      "kings": "King",
+      "king": "King",
+      "symbols": "Symbol",
+      "symbol": "Symbol",
+      "place": "Place",
+      "places": "Place",
+      "events": "Event",
+      "event": "Event",
+      "apostle": "Apostle"
+    };
+    
+    // Get properly formatted category name
+    const formattedCategory = categoryMappings[normalizedCategory] || 
+      // If not found in mappings, capitalize first letter of each word
+      category.split(' ').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      ).join(' ');
+    
+    // Create engaging descriptions for categories
+    const categoryDescriptions = {
+      "Prophet": "A divine messenger chosen to speak God's truth to the people",
+      "Minor Bible Character": "A supporting figure whose brief appearance impacts the biblical narrative",
+      "Warrior": "A mighty fighter in biblical battles who shaped Israel's history",
+      "Villain": "An adversary who opposed God's people and divine purposes",
+      "King": "A royal ruler whose decisions affected God's covenant nation",
+      "Symbol": "A representation carrying deeper spiritual significance in Scripture",
+      "Place": "A location where significant biblical events unfolded",
+      "Event": "A momentous happening that revealed God's plan in history",
+      "Apostle": "One of Christ's chosen disciples sent to establish His church"
+    };
+
+    // Provide custom fallback descriptions based on category name
+    const getFallbackDescription = (category) => {
+      if (category.includes("Bible") || category.includes("Character"))
+        return "A figure mentioned in Scripture with historical or spiritual significance";
+      if (category.includes("Priest") || category.includes("Temple"))
+        return "One who served in the sacred rituals of Israel's worship";
+      return `An important ${category.toLowerCase()} mentioned in biblical text`;
+    };
+
+    // Get description or create appropriate fallback
+    const description = categoryDescriptions[formattedCategory] || 
+                        getFallbackDescription(formattedCategory);
+    
     return (
-      BibleCharacterCategory[
-        Object.keys(BibleCharacterCategory).find(
-          (key) => BibleCharacterCategory[key].toLowerCase() === category.toLowerCase(),
-        )
-      ] || category
-    )
+      <div className="space-y-2">
+        <div className="text-lg font-bold text-purple-300 uppercase tracking-wider">
+          {formattedCategory}
+        </div>
+        <div className="text-gray-300 italic">
+          {description}
+        </div>
+      </div>
+    );
   }
 
   const handleGameComplete = async (result) => {
@@ -802,8 +862,8 @@ export default function Wordle({ wordData, onGameComplete }) {
           )}
           {showCategory && (
             <HintCard
-              title="Category Hint"
-              content={`Category: ${formatCategory(wordData.category)}`}
+              title="Category Hint" 
+              content={formatCategory(wordData.category)}
               onClose={() => setShowCategory(false)}
             />
           )}
