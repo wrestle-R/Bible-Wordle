@@ -9,6 +9,12 @@
           ".write": "$uid === auth.uid"
         }
       }
+    },
+    "dailyPlays": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
     }
   }
 }
