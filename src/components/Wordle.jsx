@@ -240,6 +240,57 @@ const getCurrentDate = () => new Date().toISOString().split('T')[0];
 
 const STORAGE_KEY = 'wordleGameState';
 
+// Update the Keyboard component to be fixed at the bottom
+const Keyboard = ({ onKeyPress, onDelete, onEnter, usedLetters }) => {
+  const rows = [
+    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+    ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫']
+  ];
+
+  const getKeyStatus = (key) => {
+    if (!usedLetters) return '';
+    if (key === 'ENTER' || key === '⌫') return '';
+    return usedLetters[key] || '';
+  };
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 w-full bg-black/80 backdrop-filter backdrop-blur-sm pt-4 pb-5 px-1 border-t border-gray-800 z-50">
+      <div className="w-full max-w-md mx-auto">
+        {rows.map((row, i) => (
+          <div key={i} className="flex justify-center gap-1 mb-1.5">
+            {row.map((key) => {
+              const isSpecialKey = key === 'ENTER' || key === '⌫';
+              const keyStatus = getKeyStatus(key);
+              return (
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  key={key}
+                  onClick={() => {
+                    if (key === '⌫') onDelete();
+                    else if (key === 'ENTER') onEnter();
+                    else onKeyPress(key);
+                  }}
+                  className={`text-sm sm:text-base font-medium rounded-md px-2 py-3 sm:px-3 sm:py-4
+                    ${isSpecialKey ? 'px-1.5 sm:px-3 text-xs sm:text-sm bg-gray-700 text-white min-w-[50px]' : 'min-w-[30px] sm:min-w-[36px]'}
+                    ${!keyStatus && !isSpecialKey && 'bg-gray-600 text-white'}
+                    ${keyStatus === 'correct' && 'bg-green-600/60 text-white border-green-500'}
+                    ${keyStatus === 'present' && 'bg-yellow-600/60 text-white border-yellow-500'}
+                    ${keyStatus === 'absent' && 'bg-gray-800/80 text-gray-400'}
+                    active:bg-opacity-70 touch-manipulation
+                  `}
+                >
+                  {key}
+                </motion.button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function Wordle({ wordData, onGameComplete }) {
   const [attempts, setAttempts] = useState([])
   const [currentAttempt, setCurrentAttempt] = useState("")
@@ -264,6 +315,9 @@ export default function Wordle({ wordData, onGameComplete }) {
 
   // Add new state for saved game
   const [savedGame, setSavedGame] = useState(null);
+
+  // Add this new state for tracking used letters
+  const [usedLetters, setUsedLetters] = useState({});
 
   // Load saved game state on mount
   useEffect(() => {
@@ -442,13 +496,14 @@ export default function Wordle({ wordData, onGameComplete }) {
     }
   }
 
+  // Update the checkWord function to track used letters
   const checkWord = async (word) => {
     const statuses = []
     const wordArray = wordData.name.toUpperCase().split("")
-    const attempArray = word.toUpperCase().split("")
-
+    const attemptArray = word.toUpperCase().split("")
+    
     // First pass: mark correct letters
-    attempArray.forEach((letter, i) => {
+    attemptArray.forEach((letter, i) => {
       if (letter === wordArray[i]) {
         statuses[i] = "correct"
         wordArray[i] = null
@@ -456,7 +511,7 @@ export default function Wordle({ wordData, onGameComplete }) {
     })
 
     // Second pass: mark present letters
-    attempArray.forEach((letter, i) => {
+    attemptArray.forEach((letter, i) => {
       if (statuses[i]) return
 
       const index = wordArray.indexOf(letter)
@@ -467,6 +522,23 @@ export default function Wordle({ wordData, onGameComplete }) {
         statuses[i] = "absent"
       }
     })
+
+    // Track used letters for keyboard display
+    const newUsedLetters = { ...usedLetters };
+    attemptArray.forEach((letter, i) => {
+      // Only update if the new status is better than previous
+      const currentStatus = newUsedLetters[letter];
+      const newStatus = statuses[i];
+      
+      if (
+        !currentStatus || 
+        (currentStatus === 'absent' && (newStatus === 'present' || newStatus === 'correct')) ||
+        (currentStatus === 'present' && newStatus === 'correct')
+      ) {
+        newUsedLetters[letter] = newStatus;
+      }
+    });
+    setUsedLetters(newUsedLetters);
 
     return statuses
   }
@@ -521,6 +593,74 @@ export default function Wordle({ wordData, onGameComplete }) {
       setCurrentAttempt((prev) => prev + e.key.toUpperCase())
     }
   }
+
+  // Add these new handlers for the on-screen keyboard
+  const handleKeyPress = (key) => {
+    if (gameStatus !== "playing" || isRevealing || currentAttempt.length >= WORD_LENGTH) return;
+    setCurrentAttempt(prev => prev + key);
+  };
+
+  const handleDelete = () => {
+    if (gameStatus !== "playing" || isRevealing) return;
+    setCurrentAttempt(prev => prev.slice(0, -1));
+  };
+
+  // Fix the flickering issue with a pre-checked validity
+  const handleEnter = async () => {
+    if (gameStatus !== "playing" || isRevealing || currentAttempt.length !== WORD_LENGTH) return;
+    
+    // Check if max attempts reached or already completed
+    if (hasPlayedToday && attempts.length >= MAX_ATTEMPTS) {
+      console.log("Max attempts reached or already played today");
+      return;
+    }
+
+    setIsRevealing(true);
+    
+    // Prepare the new attempt with statuses but don't update state immediately
+    const statuses = await checkWord(currentAttempt);
+    const newAttempts = [...attempts, { word: currentAttempt, statuses }];
+    
+    // Check win/loss conditions before updating state
+    const isWin = statuses.every((s) => s === "correct");
+    const isLoss = newAttempts.length >= MAX_ATTEMPTS && !isWin;
+    
+    // First set the game status to prevent flickering
+    if (isWin) {
+      setGameStatus("won");
+    } else if (isLoss) {
+      setGameStatus("lost");
+    }
+    
+    // Then update attempts and clear current attempt
+    setAttempts(newAttempts);
+    setCurrentAttempt("");
+    
+    // Handle game completion
+    if (isWin) {
+      handleGameComplete({
+        won: true,
+        attempts: newAttempts.length,
+      });
+      toast.success("Congratulations! You won! 🎉");
+    } else if (isLoss) {
+      handleGameComplete({
+        won: false,
+        attempts: MAX_ATTEMPTS,
+      });
+      toast.error(`Game Over! The word was ${wordData.name.toUpperCase()}`);
+    }
+    
+    // Silently enable hints based on attempts
+    if (newAttempts.length === 4) {
+      setCategoryHintAvailable(true);
+    }
+    if (newAttempts.length === 5) {
+      setTestamentHintAvailable(true);
+    }
+    
+    setTimeout(() => setIsRevealing(false), 1500);
+  };
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeydown)
@@ -613,6 +753,34 @@ export default function Wordle({ wordData, onGameComplete }) {
       <div className="flex flex-col items-center gap-6 sm:gap-8">
         <InstructionModal isOpen={showInstructions} onClose={() => setShowInstructions(false)} />
 
+        {/* Biblical information displayed above the hint buttons when game is completed */}
+        {gameStatus !== "playing" && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-purple-900/10 backdrop-blur-sm p-4 sm:p-6 rounded-lg border border-purple-500/30 max-w-2xl w-full"
+          >
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
+              {gameStatus === "won" ? "🎉 Excellent Work!" : "📖 Learning Opportunity"}
+            </h3>
+            <p className="text-purple-200 mb-4">
+              The word was <span className="text-purple-400 font-bold">{wordData.name.toUpperCase()}</span>
+            </p>
+            <div className="space-y-3 text-gray-300 text-sm sm:text-base">
+              <p className="flex gap-2 items-start">
+                <FiBook className="mt-1 text-purple-400" />
+                <span>
+                  <strong className="text-purple-300">Scripture:</strong> {wordData.verse_location}
+                </span>
+              </p>
+              <p className="text-purple-200">{wordData.description}</p>
+              <p className="text-purple-100 bg-purple-500/10 p-3 rounded border border-purple-500/20">
+                <strong className="text-purple-300">Biblical Moment:</strong> {wordData.special_moment}
+              </p>
+            </div>
+          </motion.div>
+        )}
+
         <div className="flex justify-center gap-2 sm:gap-4 mb-2 sm:mb-4">
           <HintButton
             type="Category"
@@ -647,33 +815,16 @@ export default function Wordle({ wordData, onGameComplete }) {
           </div>
         )}
 
-        <div className="flex flex-col gap-2 sm:gap-3 scale-100 sm:scale-110 mb-6 sm:mb-8">{renderGameGrid()}</div>
+        <div className="flex flex-col gap-2 sm:gap-3 scale-100 sm:scale-110 mb-6 sm:mb-8 pb-32">{renderGameGrid()}</div>
 
-        {gameStatus !== "playing" && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-purple-900/10 backdrop-blur-sm p-4 sm:p-6 rounded-lg border border-purple-500/30 max-w-2xl w-full"
-          >
-            <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
-              {gameStatus === "won" ? "🎉 Excellent Work!" : "📖 Learning Opportunity"}
-            </h3>
-            <p className="text-purple-200 mb-4">
-              The word was <span className="text-purple-400 font-bold">{wordData.name.toUpperCase()}</span>
-            </p>
-            <div className="space-y-3 text-gray-300 text-sm sm:text-base">
-              <p className="flex gap-2 items-start">
-                <FiBook className="mt-1 text-purple-400" />
-                <span>
-                  <strong className="text-purple-300">Scripture:</strong> {wordData.verse_location}
-                </span>
-              </p>
-              <p className="text-purple-200">{wordData.description}</p>
-              <p className="text-purple-100 bg-purple-500/10 p-3 rounded border border-purple-500/20">
-                <strong className="text-purple-300">Biblical Moment:</strong> {wordData.special_moment}
-              </p>
-            </div>
-          </motion.div>
+        {/* Add the on-screen keyboard */}
+        {gameStatus === "playing" && (
+          <Keyboard 
+            onKeyPress={handleKeyPress}
+            onDelete={handleDelete}
+            onEnter={handleEnter}
+            usedLetters={usedLetters}
+          />
         )}
       </div>
     </div>
