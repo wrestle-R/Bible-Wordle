@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Game from './pages/Game'
 import HowToPlay from './pages/HowToPlay'
-import SignUp from './pages/SignUp'
+// Fix the case sensitivity issue
+import SignUp from './pages/SignUp'  // Match the actual file name case
 
 const App = () => {
   return (
