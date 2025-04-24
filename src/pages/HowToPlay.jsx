@@ -64,10 +64,7 @@ export default function HowToPlay() {
         >
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">About Bible Wordle</h2>
           <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-            Bible Wordle is a spiritual journey disguised as a word game, designed to deepen your understanding of
-            biblical characters, events, and places. Created with love for the church community, this game aims to make
-            biblical learning engaging and memorable for people of all ages, especially youth. Every word tells a story
-            from Scripture, making the Bible's timeless wisdom accessible through modern gameplay.
+          Bible Wordle is where scripture meets strategy. It’s a fresh, fast-paced word game that dives into the people, places, and moments of the Bible—without feeling like a Sunday school quiz. Built for everyone from curious minds to committed believers, it’s a fun way to level up your Bible knowledge while keeping it real. Every word has a story. Ready to play yours?
           </p>
         </motion.section>
 

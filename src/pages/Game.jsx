@@ -37,18 +37,59 @@ export default function Game() {
   }, [navigate])
 
   useEffect(() => {
-    // Fetch word regardless of auth
-    fetch("/5letter.jsonl")
-      .then((res) => res.text())
-      .then((text) => {
+    // Updated fetch logic with better error handling
+    const fetchWord = async () => {
+      try {
+        // Add cache control headers
+        const response = await fetch("/5letter.jsonl", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const text = await response.text();
+        
+        // Split and parse lines with error handling
         const words = text
           .trim()
           .split("\n")
-          .map((line) => JSON.parse(line))
-        const dailyWord = getDailyWord(words)
-        setCurrentWord(dailyWord)
-      })
-  }, [])
+          .map(line => {
+            try {
+              return JSON.parse(line.trim());
+            } catch (err) {
+              console.error("Error parsing line:", line, err);
+              return null;
+            }
+          })
+          .filter(Boolean); // Remove any null entries from failed parses
+
+        if (words.length === 0) {
+          throw new Error("No valid words found in word list");
+        }
+
+        console.log("Successfully loaded words:", words.length);
+        const dailyWord = getDailyWord(words);
+        setCurrentWord(dailyWord);
+      } catch (error) {
+        console.error("Error loading word list:", error);
+        // Fallback to a default word if needed
+        setCurrentWord({
+          name: "JESUS",
+          verse_location: "Matthew 1:21",
+          description: "The Messiah",
+          category: "prophets",
+          special_moment: "Born to save people from their sins."
+        });
+      }
+    };
+
+    fetchWord();
+  }, []);
 
   useEffect(() => {
     const gameState = getGameState()

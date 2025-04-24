@@ -1,12 +1,38 @@
 {
+  "buildCommand": "vite build",
+  "devCommand": "vite dev",
+  "framework": "vite",
+  "outputDirectory": "dist",
   "rewrites": [
+    {
+      "source": "/5letter.jsonl",
+      "destination": "/5letter.jsonl",
+      "has": [
+        {
+          "type": "header",
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
-  "buildCommand": "vite build",
-  "devCommand": "vite dev",
-  "framework": "vite",
-  "outputDirectory": "dist"
+  "headers": [
+    {
+      "source": "/5letter.jsonl",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=1, stale-while-revalidate"
+        }
+      ]
+    }
+  ]
 }
