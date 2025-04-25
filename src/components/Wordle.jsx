@@ -118,38 +118,32 @@ const letterVariants = {
   validate: (index) => ({
     scale: [1, 1.2, 0.95, 1],
     opacity: [1, 0.8, 0.9, 1],
-    rotate: [0, -10, 10, 0],
-    transition: {
-      duration: 0.4,
-      delay: (WORD_LENGTH - 1 - index) * 0.1, // Faster cascade
-      ease: [0.22, 1, 0.36, 1],
-      rotate: {
-        duration: 0.4,
-        ease: "easeInOut"
-      }
-    }
-  }),
-  checkingWord: (index) => ({
-    scale: [1, 1.1, 0.9, 1],
-    borderColor: ['rgb(75, 85, 99)', 'rgb(139, 92, 246)', 'rgb(75, 85, 99)'],
     transition: {
       duration: 0.3,
-      delay: (WORD_LENGTH - 1 - index) * 0.08,
-      ease: [0.34, 1.56, 0.64, 1],
-      repeat: Infinity,
-      repeatType: "reverse"
+      delay: index * 0.05,
+      ease: [0.22, 1, 0.36, 1],
     }
-  })
+  }),
+  submit: (index) => ({
+    opacity: [1, 0.6, 1],
+    y: [0, -2, 0],
+    transition: {
+      duration: 0.2,
+      delay: index * 0.05,
+      ease: "easeInOut"
+    }
+  }),
+  checkingWord: null // Remove the checkingWord animation
 }
 
-const LetterTile = ({ letter, status, delay = 0, isRevealing, isValidating, isChecking, index }) => {
+const LetterTile = ({ letter, status, delay = 0, isRevealing, isValidating, isSubmitting, index }) => {
   const tileSize = window.innerWidth < 400 ? "w-10 h-10 text-xl" : 
                   window.innerWidth < 640 ? "w-12 h-12 text-xl" : 
                   "w-14 h-14 text-2xl";
 
   let animationState = "animate";
   if (isValidating) animationState = "validate";
-  else if (isChecking) animationState = "checkingWord";
+  else if (isSubmitting) animationState = "submit";
   else if (isRevealing) animationState = "flip";
 
   return (
@@ -363,7 +357,6 @@ export default function Wordle({ wordData, onGameComplete }) {
 
   // Add new states for animations
   const [isValidating, setIsValidating] = useState(false);
-  const [isChecking, setIsChecking] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   // Add grid ref for click handling
@@ -577,22 +570,10 @@ export default function Wordle({ wordData, onGameComplete }) {
 
   // Handle clicking on the game grid to show keyboard on mobile
   const handleGridClick = () => {
-    if (gameStatus === "playing") {
+    if (gameStatus === "playing" && !keyboardVisible) {
       setKeyboardVisible(true);
     }
   };
-
-  // Add click outside handler to hide keyboard
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (gridRef.current && !gridRef.current.contains(e.target)) {
-        setKeyboardVisible(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   // Set up the valid word list from the JSON
   useEffect(() => {
@@ -684,7 +665,6 @@ export default function Wordle({ wordData, onGameComplete }) {
           attempts: newAttempts.length,
         })
         toast.success("Congratulations! You won! 🎉")
-        setShowKeyboard(false); // Hide keyboard on game end
       } else if (newAttempts.length >= MAX_ATTEMPTS) {
         setGameStatus("lost")
         handleGameComplete({
@@ -692,7 +672,6 @@ export default function Wordle({ wordData, onGameComplete }) {
           attempts: MAX_ATTEMPTS,
         })
         toast.error(`Game Over! The word was ${wordData.name.toUpperCase()}`)
-        setShowKeyboard(false); // Hide keyboard on game end
       }
 
       // Silently enable hints based on attempts
@@ -736,39 +715,30 @@ export default function Wordle({ wordData, onGameComplete }) {
         return;
       }
       
-      // Show checking animation
-      setIsChecking(true);
+      setIsRevealing(true);
+      const statuses = await checkWord(currentAttempt);
+      const newAttempts = [...attempts, { word: currentAttempt, statuses }];
       
-      setTimeout(async () => {
-        setIsChecking(false);
-        setIsRevealing(true);
-        
-        const statuses = await checkWord(currentAttempt);
-        const newAttempts = [...attempts, { word: currentAttempt, statuses }];
-        
-        // Handle win/loss conditions
-        const isWin = statuses.every((s) => s === "correct");
-        if (isWin) {
-          setGameStatus("won");
-          handleGameComplete({ won: true, attempts: newAttempts.length });
-          toast.success("Congratulations! You won! 🎉");
-          setKeyboardVisible(false);
-        } else if (newAttempts.length >= MAX_ATTEMPTS) {
-          setGameStatus("lost");
-          handleGameComplete({ won: false, attempts: MAX_ATTEMPTS });
-          toast.error(`Game Over! The word was ${wordData.name.toUpperCase()}`);
-          setKeyboardVisible(false);
-        }
-        
-        setAttempts(newAttempts);
-        setCurrentAttempt("");
-        
-        // Update hints availability
-        if (newAttempts.length === 4) setCategoryHintAvailable(true);
-        if (newAttempts.length === 5) setTestamentHintAvailable(true);
-        
-        setTimeout(() => setIsRevealing(false), 1500);
-      }, 800); // Duration for checking animation
+      // Handle win/loss conditions
+      const isWin = statuses.every((s) => s === "correct");
+      if (isWin) {
+        setGameStatus("won");
+        handleGameComplete({ won: true, attempts: newAttempts.length });
+        toast.success("Congratulations! You won! 🎉");
+      } else if (newAttempts.length >= MAX_ATTEMPTS) {
+        setGameStatus("lost");
+        handleGameComplete({ won: false, attempts: MAX_ATTEMPTS });
+        toast.error(`Game Over! The word was ${wordData.name.toUpperCase()}`);
+      }
+      
+      setAttempts(newAttempts);
+      setCurrentAttempt("");
+      
+      // Update hints availability
+      if (newAttempts.length === 4) setCategoryHintAvailable(true);
+      if (newAttempts.length === 5) setTestamentHintAvailable(true);
+      
+      setTimeout(() => setIsRevealing(false), 1500);
     }, 600); // Duration for validation animation
   };
 
@@ -813,7 +783,6 @@ export default function Wordle({ wordData, onGameComplete }) {
                 letter={currentAttempt[i] || ""} 
                 status={null}
                 isValidating={isValidating && currentAttempt.length === WORD_LENGTH}
-                isChecking={isChecking && currentAttempt.length === WORD_LENGTH}
                 index={i}
               />
             ))}

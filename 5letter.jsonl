@@ -333,3 +333,4 @@
 {"name": "Booth", "verse_location": "Leviticus 23:42", "description": "Feast of Tabernacles", "category": "events", "special_moment": "Israel dwelled in booths to remember their wilderness journey during this annual feast."}
 {"name": "Peter","verse_location": "Matthew 16:18","description": "Apostle, leader of early church","category": "prophets","special_moment": "Jesus declared Peter the 'rock' upon which He would build His church, giving him the keys to the kingdom of heaven."}
 {"name": "James", "verse_location": "Matthew 4:21", "description": "Son of Zebedee and brother of John", "category": "apostle", "special_moment": "James was one of the first disciples called by Jesus and was part of His inner circle, witnessing events like the Transfiguration."}
+{"name": "Jacob", "verse_location": "Genesis 25:26", "description": "Son of Isaac and Rebekah", "category": "prophets", "special_moment": "Jacob wrestled with God for an entire night" }
