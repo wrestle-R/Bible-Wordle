@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Game from './pages/Game'
 import HowToPlay from './pages/HowToPlay'
-// Fix the case sensitivity issue
-import SignUp from './pages/SignUp'  // Match the actual file name case
+import SignUp from './pages/SignUp'
+import CrosswordPage from './pages/CrosswordPage'
 
 const App = () => {
   return (
@@ -14,6 +14,7 @@ const App = () => {
         <Route path="/play" element={<Game />} />
         <Route path="/how-to-play" element={<HowToPlay />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/crossword" element={<CrosswordPage />} />
       </Routes>
     </BrowserRouter>
   )

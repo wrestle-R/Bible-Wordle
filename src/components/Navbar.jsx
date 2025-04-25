@@ -8,6 +8,14 @@ import { FiLogOut, FiUser, FiMenu, FiX } from "react-icons/fi"
 import Profile from "./Profile"
 import { initializeUserStats } from "../services/statsService"
 
+// Add crossword route to the navItems array
+const navItems = [
+  { path: '/', label: 'Wordle' },
+  { path: '/quiz', label: 'Quiz' },
+  { path: '/crossword', label: 'Crossword' },
+  { path: '/profile', label: 'Profile' },
+];
+
 const Navbar = () => {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
