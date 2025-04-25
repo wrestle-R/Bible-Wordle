@@ -35,7 +35,7 @@ export const WarpBackground = ({
   beamDelayMax = 3,
   beamDelayMin = 0,
   beamDuration = 3,
-  gridColor = "rgb(229 231 235)",
+  gridColor = "rgba(229, 231, 235, 0.2)", // Changed to rgba with 0.3 opacity
   ...props
 }) => {
   const generateBeams = useCallback(() => {
@@ -57,7 +57,7 @@ export const WarpBackground = ({
   const leftBeams = useMemo(() => generateBeams(), [generateBeams]);
 
   return (
-    <div className={`relative rounded border p-20 ${className}`} {...props}>
+    <div className={`relative p-20 ${className}`} {...props}>
       <div
         style={{
           "--perspective": `${perspective}px`,

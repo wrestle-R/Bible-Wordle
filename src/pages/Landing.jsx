@@ -25,7 +25,7 @@ export default function Landing() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-black/80 backdrop-blur-sm w-[90%] sm:w-full max-w-[520px] h-auto py-12 md:h-80 rounded-xl shadow-2xl border border-purple-500/20 overflow-hidden mx-4 transition-all duration-300 hover:border-purple-500/30"
+      className="bg-black/80 backdrop-blur-sm w-[90%] sm:w-full max-w-[520px] h-auto py-12 md:h-80 md:mr-16 mt-4 rounded-xl shadow-2xl border border-purple-500/20 overflow-hidden mx-4 transition-all duration-300 hover:border-purple-500/30"
     >
       <div className="flex flex-col justify-center items-center text-center h-full gap-5 md:gap-7 px-5 md:px-12">
         <HyperText

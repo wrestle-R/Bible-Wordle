@@ -172,15 +172,17 @@ const Navbar = () => {
                   How to Play
                 </Link>
 
-                <button
-                  onClick={() => {
-                    navigate("/play")
-                    setMobileMenuOpen(false)
-                  }}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                >
-                  Play Now
-                </button>
+                <div className="flex">
+                  <button
+                    onClick={() => {
+                      navigate("/play")
+                      setMobileMenuOpen(false)
+                    }}
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  >
+                    Play Now
+                  </button>
+                </div>
 
                 {user ? (
                   <div className="flex flex-col gap-2 border-t border-gray-800/50 pt-3">

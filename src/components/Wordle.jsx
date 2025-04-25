@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FiBook } from "react-icons/fi"
 import { toast } from "react-hot-toast"
@@ -8,6 +8,7 @@ import { checkAndClearDailyStorage } from "../utils/storageUtils"
 import { getGameState } from "../services/gameStateService"
 import { db, auth } from "../firebase.config"
 import { doc, getDoc, setDoc } from "firebase/firestore"
+import validWords from '../../5letterwords.json'
 
 const WORD_LENGTH = 5
 const MAX_ATTEMPTS = 6
@@ -255,7 +256,12 @@ const Keyboard = ({ onKeyPress, onDelete, onEnter, usedLetters }) => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 w-full bg-black/80 backdrop-filter backdrop-blur-sm pt-4 pb-5 px-1 border-t border-gray-800 z-50">
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 50 }}
+      className="fixed bottom-0 left-0 right-0 w-full bg-black/80 backdrop-filter backdrop-blur-sm pt-4 pb-5 px-1 border-t border-gray-800 z-50"
+    >
       <div className="w-full max-w-md mx-auto">
         {rows.map((row, i) => (
           <div key={i} className="flex justify-center gap-1 mb-1.5">
@@ -287,7 +293,7 @@ const Keyboard = ({ onKeyPress, onDelete, onEnter, usedLetters }) => {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -318,6 +324,12 @@ export default function Wordle({ wordData, onGameComplete }) {
 
   // Add this new state for tracking used letters
   const [usedLetters, setUsedLetters] = useState({});
+
+  // Set up the valid word list from the JSON
+  const [validWordList, setValidWordList] = useState([])
+
+  // Add new state for showing keyboard
+  const [showKeyboard, setShowKeyboard] = useState(false)
 
   // Load saved game state on mount
   useEffect(() => {
@@ -370,7 +382,13 @@ export default function Wordle({ wordData, onGameComplete }) {
   useEffect(() => {
     // Check if mobile
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640)
+      const isMobileDevice = window.innerWidth < 640;
+      setIsMobile(isMobileDevice);
+      
+      // Hide keyboard on desktop or when orientation changes
+      if (!isMobileDevice) {
+        setShowKeyboard(false);
+      }
     }
 
     checkMobile()
@@ -496,6 +514,44 @@ export default function Wordle({ wordData, onGameComplete }) {
     }
   }
 
+  // Update the check for mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice = window.innerWidth < 640;
+      setIsMobile(isMobileDevice);
+      
+      // Hide keyboard on desktop or when orientation changes
+      if (!isMobileDevice) {
+        setShowKeyboard(false);
+      }
+    }
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Function to check if a word is valid
+  const isValidWord = (word) => {
+    return validWordList.includes(word.toUpperCase());
+  };
+
+  // Handle clicking on the game grid to show keyboard on mobile
+  const handleGridClick = () => {
+    if (isMobile && gameStatus === "playing") {
+      setShowKeyboard(true);
+    }
+  };
+
+  // Set up the valid word list from the JSON
+  useEffect(() => {
+    if (validWords && validWords.words) {
+      // Convert words to uppercase for consistent comparison
+      setValidWordList(validWords.words.map(word => word.toUpperCase()));
+    }
+  }, []);
+
   // Update the checkWord function to track used letters
   const checkWord = async (word) => {
     const statuses = []
@@ -550,6 +606,13 @@ export default function Wordle({ wordData, onGameComplete }) {
     if (e.key === "Backspace") {
       setCurrentAttempt((prev) => prev.slice(0, -1))
     } else if (e.key === "Enter" && currentAttempt.length === WORD_LENGTH) {
+      // Check if the word is valid before proceeding
+      if (!isValidWord(currentAttempt)) {
+        toast.error("Not in word list");
+        return;
+      }
+
+      // ... existing handleKeydown functionality ...
       // Check if max attempts reached or already completed
       if (hasPlayedToday && attempts.length >= MAX_ATTEMPTS) {
         console.log("Max attempts reached or already played today")
@@ -571,6 +634,7 @@ export default function Wordle({ wordData, onGameComplete }) {
           attempts: newAttempts.length,
         })
         toast.success("Congratulations! You won! 🎉")
+        setShowKeyboard(false); // Hide keyboard on game end
       } else if (newAttempts.length >= MAX_ATTEMPTS) {
         setGameStatus("lost")
         handleGameComplete({
@@ -578,6 +642,7 @@ export default function Wordle({ wordData, onGameComplete }) {
           attempts: MAX_ATTEMPTS,
         })
         toast.error(`Game Over! The word was ${wordData.name.toUpperCase()}`)
+        setShowKeyboard(false); // Hide keyboard on game end
       }
 
       // Silently enable hints based on attempts
@@ -615,9 +680,18 @@ export default function Wordle({ wordData, onGameComplete }) {
       return;
     }
 
+    // Check if the word is valid before proceeding
+    if (!isValidWord(currentAttempt)) {
+      toast.error("Not in word list");
+      // Add shake animation or feedback
+      return;
+    }
+
     setIsRevealing(true);
     
-    // Prepare the new attempt with statuses but don't update state immediately
+    // ...existing handleEnter functionality...
+
+    // Original functionality continues
     const statuses = await checkWord(currentAttempt);
     const newAttempts = [...attempts, { word: currentAttempt, statuses }];
     
@@ -643,12 +717,14 @@ export default function Wordle({ wordData, onGameComplete }) {
         attempts: newAttempts.length,
       });
       toast.success("Congratulations! You won! 🎉");
+      setShowKeyboard(false); // Hide keyboard on game end
     } else if (isLoss) {
       handleGameComplete({
         won: false,
         attempts: MAX_ATTEMPTS,
       });
       toast.error(`Game Over! The word was ${wordData.name.toUpperCase()}`);
+      setShowKeyboard(false); // Hide keyboard on game end
     }
     
     // Silently enable hints based on attempts
@@ -688,14 +764,22 @@ export default function Wordle({ wordData, onGameComplete }) {
       )
     }
 
-    // Render current attempt
+    // Render current attempt with onClick handler
     if (attempts.length < MAX_ATTEMPTS) {
       rows.push(
-        <div key="current" className="flex gap-1 sm:gap-2 justify-center">
+        <div 
+          key="current" 
+          className="flex gap-1 sm:gap-2 justify-center"
+          onClick={handleGridClick}
+        >
           {Array(WORD_LENGTH)
             .fill(0)
             .map((_, i) => (
-              <LetterTile key={i} letter={currentAttempt[i] || ""} status={null} />
+              <LetterTile 
+                key={i} 
+                letter={currentAttempt[i] || ""} 
+                status={null} 
+              />
             ))}
         </div>,
       )
@@ -704,7 +788,11 @@ export default function Wordle({ wordData, onGameComplete }) {
     // Fill remaining rows
     for (let i = rows.length; i < MAX_ATTEMPTS; i++) {
       rows.push(
-        <div key={i} className="flex gap-1 sm:gap-2 justify-center">
+        <div 
+          key={i} 
+          className="flex gap-1 sm:gap-2 justify-center"
+          onClick={handleGridClick}
+        >
           {Array(WORD_LENGTH)
             .fill(0)
             .map((_, j) => (
@@ -753,7 +841,7 @@ export default function Wordle({ wordData, onGameComplete }) {
       category.split(' ').map(word => 
         word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
       ).join(' ');
-    
+
     // Create engaging descriptions for categories
     const categoryDescriptions = {
       "Prophet": "A divine messenger chosen to speak God's truth to the people",
@@ -877,15 +965,17 @@ export default function Wordle({ wordData, onGameComplete }) {
 
         <div className="flex flex-col gap-2 sm:gap-3 scale-100 sm:scale-110 mb-6 sm:mb-8 pb-32">{renderGameGrid()}</div>
 
-        {/* Add the on-screen keyboard */}
-        {gameStatus === "playing" && (
-          <Keyboard 
-            onKeyPress={handleKeyPress}
-            onDelete={handleDelete}
-            onEnter={handleEnter}
-            usedLetters={usedLetters}
-          />
-        )}
+        {/* Modified to show keyboard only on mobile and when showKeyboard is true */}
+        <AnimatePresence>
+          {isMobile && showKeyboard && gameStatus === "playing" && (
+            <Keyboard 
+              onKeyPress={handleKeyPress}
+              onDelete={handleDelete}
+              onEnter={handleEnter}
+              usedLetters={usedLetters}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )
