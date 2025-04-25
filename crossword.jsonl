@@ -1,0 +1,608 @@
+{"instruction": "What is the first book in the Bible?","response": "Genesis"}
+{"instruction": "What is the last book in the Bible?","response": "Revelation"}
+{"instruction": "Which book did Jesus directly write?","response": "None"}
+{"instruction": "What is the longest book in the Bible?","response": "Psalms"}
+{"instruction": "How many books are in the Bible?","response": "sixtysix"}
+{"instruction": "How many books in the Old Testament?","response": "thirtynine"}
+{"instruction": "How many books in the New Testament?","response": "twentyseven"}
+{"instruction": "Which NT book has Jesus' Sermon on the Mount?","response": "Matthew"}
+{"instruction": "In what language was most of the Old Testament given?","response": "Hebrew"}
+{"instruction": "In what language was most of the New Testament given?","response": "Greek"}
+{"instruction": "Which human author wrote the most books?","response": "Paul"}
+{"instruction": "How many days did God take to create the world?","response": "six"}
+{"instruction": "What day did God create man?","response": "sixth"}
+{"instruction": "Who was the first man?","response": "Adam"}
+{"instruction": "Who was the first woman?","response": "Eve"}
+{"instruction": "Where did they live at the beginning of the world?","response": "Eden"}
+{"instruction": "Who did God tell to build an ark?","response": "Noah"}
+{"instruction": "How many days and nights did it rain when Noah was on the ark?","response": "fourty"}
+{"instruction": "How many people were saved on the ark?","response": "eight"}
+{"instruction": "What was God's sign to Noah that he would never destroy the earth again?","response": "rainbow"}
+{"instruction": "Who did God call out of Ur to move to Canaan?","response": "Abram"}
+{"instruction": "Who was Abram's wife?","response": "Sarai"}
+{"instruction": "Who was Abram's handmaid?","response": "Hagar"}
+{"instruction": "Who was the first son he had?","response": "Ishmael"}
+{"instruction": "What was Abram's name changed to?","response": "Abraham"}
+{"instruction": "What was Sarai's name changed to?","response": "Sarah"}
+{"instruction": "What was the second son Abraham had?","response": "Isaac"}
+{"instruction": "Who did Abraham have his second son with?","response": "Sarah"}
+{"instruction": "Who did the servant choose?","response": "Rebekah"}
+{"instruction": "Who did Isaac favor of his two sons?","response": "Esau"}
+{"instruction": "As Isaac was dying and blind, who suggested that Jacob should steal the blessing?","response": "Rebekah"}
+{"instruction": "When Jacob met Laban, which daughter did he want to marry?","response": "Rachel"}
+{"instruction": "Who did Laban trick Jacob into marrying?","response": "Leah"}
+{"instruction": "Who was the first son Jacob had with Rachel?","response": "Joseph"}
+{"instruction": "What did God change Jacob's name to before his meeting with Esau?","response": "Israel"}
+{"instruction": "How many brothers did Joseph have?","response": "twelve"}
+{"instruction": "Where did the slave traders take Joseph?","response": "Egypt"}
+{"instruction": "Who was Jacob's second son with Rachel?","response": "Benjamin"}
+{"instruction": "Which brother volunteered to stay in Egypt instead of Benjamin?","response": "Judah"}
+{"instruction": "How many plagues did God send on Egypt?","response": "ten"}
+{"instruction": "What city did God make the walls fall so Joshua and the Israelites could conquer it?","response": "Jericho"}
+{"instruction": "After they took over the Promised Land and Joshua died, who ruled Israel?","response": "Judges"}
+{"instruction": "Who was the woman judge who led Israel to victory?","response": "Deborah"}
+{"instruction": "Who was the judge who defeated the Midianites with only 300 men using torches and horns?","response": "Gideon"}
+{"instruction": "Who was the judge who took a Nazarite vow from birth and fought against the Philistines?","response": "Samson"}
+{"instruction": "What Philistine woman asked Samson what his power came from?","response": "Delilah"}
+{"instruction": "Who was the first king of Israel?","response": "Saul"}
+{"instruction": "Who anointed him king?","response": "Samuel"}
+{"instruction": "Who was the enemy who took the Ark of the Covenant?","response": "Philistines"}
+{"instruction": "Who was the king of Israel anointed by Samuel after Saul?","response": "David"}
+{"instruction": "What did David work as for his father?","response": "shepherd"}
+{"instruction": "When the Philistines came to attack the Israelites, who mocked God and challenged them?","response": "Goliath"}
+{"instruction": "How many sling-throws did it take David to hit Goliath?","response": "One"}
+{"instruction": "Who was Saul's son that David befriended?","response": "Jonathan"}
+{"instruction": "Did Saul give up on chasing David when David went into the wilderness?","response": "No"}
+{"instruction": "How many times did David spare Saul's life?","response": "Twice"}
+{"instruction": "What last judge of Israel died after Saul made a temporary peace with David?","response": "Samuel"}
+{"instruction": "What prophet did he ask to speak to?","response": "Samuel"}
+{"instruction": "Did all of Israel immediately consider David their king?","response": "No"}
+{"instruction": "Who was David's captain of his army?","response": "Joab"}
+{"instruction": "When David stayed in Jerusalem, what woman did he see and commit adultery with?","response": "Bathsheba"}
+{"instruction": "Who was Bathsheba's husband?","response": "Uriah"}
+{"instruction": "What prophet came to rebuke David?","response": "Nathan"}
+{"instruction": "When Bathsheba had another child, what did they name him?","response": "Solomon"}
+{"instruction": "Who was David's son that started a rebellion against him?","response": "Absalom"}
+{"instruction": "What capital city did David abandon as Absalom came towards it?","response": "Jerusalem"}
+{"instruction": "Who killed Absalom?","response": "Joab"}
+{"instruction": "During his time as king, who was David's main enemy?","response": "Philistines"}
+{"instruction": "Which book did David write most of?","response": "Psalms"}
+{"instruction": "Who was David's son that became king?","response": "Solomon"}
+{"instruction": "What trait did Solomon pray for from God?","response": "Wisdom"}
+{"instruction": "How many wives did Solomon have?","response": "sevenhundred"}
+{"instruction": "How many kings of Judah were there?","response": "twenty"}
+{"instruction": "How many kings of Israel were there?","response": "nineteen"}
+{"instruction": "Who conquered Judah and took Daniel to their country?","response": "Babylonians"}
+{"instruction": "Who was the last king Daniel served under in the Bible?","response": "Darius"}
+{"instruction": "Who returned to Israel to build up the walls of Jerusalem?","response": "Nehemiah"}
+{"instruction": "What Israelite saved her people from being murdered and was a wife of the king?","response": "Esther"}
+{"instruction": "Who let the Israelites return to their homeland?","response": "Cyrus"}
+{"instruction": "Who eventually came from the lineage of David?","response": "Jesus"}
+{"instruction": "Who was Jesus' human mother?","response": "Mary"}
+{"instruction": "Who was Jesus' adoptive father on Earth?","response": "Joseph"}
+{"instruction": "Name the city where Jesus was born?","response": "Bethlehem"}
+{"instruction": "Where did Jesus' family go when Herod wanted to harm him as baby?","response": "Egypt"}
+{"instruction": "How many of Jesus' brothers are named in the Bible?","response": "Four"}
+{"instruction": "How many of Jesus' sisters are named in the Bible?","response": "None"}
+{"instruction": "Who spoke from the sky when Jesus was baptized?","response": "God"}
+{"instruction": "Before Jesus starting preaching, what was his normal job?","response": "Carpenter"}
+{"instruction": "Name Jesus' hometown","response": "Nazareth"}
+{"instruction": "Which member of the Jewish ruling counsel came to ask Jesus questions at night?","response": "Nicodemus"}
+{"instruction": "How many disciples did Jesus choose?","response": "twelve"}
+{"instruction": "Name the demon Jesus cast out in the region of the Gerasenes?","response": "Legion"}
+{"instruction": "What was Peter and Andrew doing when Jesus' called them to follow him?","response": "Fishing"}
+{"instruction": "How many lepers did Jesus heal when only 1 returned?","response": "ten"}
+{"instruction": "Name the Roman Governor who sat over Jesus trial?","response": "Pilate"}
+{"instruction": "Who cut off a soldier's ear when Jesus was being arrested?","response": "Peter"}
+{"instruction": "Which disciple denied Jesus three times?","response": "Peter"}
+{"instruction": "What was another name for the Apostle Paul?","response": "Saul"}
+{"instruction": "Who was the first Christian to die for his faith?","response": "Stephen"}
+{"instruction": "How many books have the name John in them?","response": "Four"}
+{"instruction": "Who preached at Pentecost?","response": "Peter"}
+{"instruction": "What was his name changed to?","response": "Paul"}
+{"instruction": "Who was exiled to an island?","response": "John"}
+{"instruction": "Who was crucified upside down?","response": "Peter"}
+{"instruction": "Who was the first martyr and was stoned?","response": "Stephen"}
+{"instruction": "True or False: Ananias and Sapphira died after lying to the Apostles about their offering","response": "True"}
+{"instruction": "How many deacons were chosen to help the apostles to distribute food to widows?","response": "Seven"}
+{"instruction": "Which Apostle took the Gospel to the city of Samaria?","response": "Philip"}
+{"instruction": "Which Apostle shared the Gospel with an Ethiopian official on the road to Gaza?","response": "Philip"}
+{"instruction": "In what city were Jesus' followers first called Christians?","response": "Antioch"}
+{"instruction": "True or False: Peter was rescued from prison by an Angel","response": "True"}
+{"instruction": "Who went with Paul on his early mission trips?","response": "Barnabas"}
+{"instruction": "Name the person who received the 10 Commandments from God?","response": "Moses"}
+{"instruction": "How many rules does Jesus use to summarize all the OT rules?","response": "Two"}
+{"instruction": "Which human author wrote Galatians?","response": "Paul"}
+{"instruction": "Who taught the Lord's Prayer?","response": "Jesus"}
+{"instruction": "How many requests are in the Lord's Prayer?","response": "Seven"}
+{"instruction": "What was the name of Jesus’ mother?","response": "Mary"}
+{"instruction": "From which part of Adam’s body did God create Eve?","response": "Rib"}
+{"instruction": "Who lied to God when he was asked where his brother was?","response": "Cain"}
+{"instruction": "Which Old Testament character showed his faith by being willing to offer his son on an altar to God?","response": "Abraham"}
+{"instruction": "What significant event is recorded in Genesis chapters 1 and 2?","response": "Creation"}
+{"instruction": "Whose mother placed him in an ark of bulrushes?","response": "Moses"}
+{"instruction": "For how many days and nights did it rain in the story of the flood?","response": "Forty"}
+{"instruction": "What was special about Jesus’ mother?","response": "virgin"}
+{"instruction": "Who gave gifts to Jesus when he was a young child?","response": "magi"}
+{"instruction": "What happened to Jonah after he was thrown overboard?","response": "swallowed"}
+{"instruction": "In whose image was man created?","response": "God’s"}
+{"instruction": "How many apostles did Jesus choose?","response": "Twelve"}
+{"instruction": "What are the wages of sin?","response": "Death"}
+{"instruction": "Who is the first mother mentioned in the Bible?","response": "Eve"}
+{"instruction": "Who else, other than the wise men, came to visit Jesus when he was a small child?","response": "Shepherds"}
+{"instruction": "Who lied when he was asked to reveal the source of his great strength?","response": "Samson"}
+{"instruction": "What was the name of the man Jesus’ mother was engaged to at the time she became pregnant?","response": "Joseph"}
+{"instruction": "Which book of the Bible records many of the hymns David wrote?","response": "Psalms"}
+{"instruction": "From what disaster did the Ark save Noah?","response": "Flood"}
+{"instruction": "What happened to Jesus forty days after his resurrection?","response": "ascended"}
+{"instruction": "What animals did Jesus cause to run into the sea and drown?","response": "Pigs"}
+{"instruction": "What did Jesus sleep in after he was born?","response": "Manger"}
+{"instruction": "What was man created from?","response": "Dust"}
+{"instruction": "To which city did God ask Jonah to take his message?","response": "Nineveh"}
+{"instruction": "Who was David’s father?","response": "Jesse"}
+{"instruction": "Which of the gospels appears last in the Bible?","response": "John"}
+{"instruction": "Who wrote the letter to Philemon?","response": "Paul"}
+{"instruction": "What was the name of Moses’ brother?","response": "Aaron"}
+{"instruction": "What sin is Cain remembered for?","response": "Murder"}
+{"instruction": "“The Lord is my Shepherd,” is the opening line to which Psalm?","response": "Psalm"}
+{"instruction": "What is the last book of the New Testament?","response": "Revelation"}
+{"instruction": "Who wrote the majority of the New Testament letters?","response": "Paul"}
+{"instruction": "What was David’s occupation before he became king?","response": "Shepherd"}
+{"instruction": "Who hid two spies but claimed not to know of their whereabouts when asked?","response": "Rahab"}
+{"instruction": "Whose prayer resulted in his being thrown into a den of lions?","response": "Daniel"}
+{"instruction": "What was the apparent source of Samson’s strength?","response": "hair"}
+{"instruction": "From which country did Moses help the Israelites escape from their lives of slavery?","response": "Egypt"}
+{"instruction": "Who was the fourth person in the fiery furnace along with Daniel’s friends?","response": "angel"}
+{"instruction": "What kind of leaves did Adam and Eve sew together to make clothes for themselves?","response": "Fig"}
+{"instruction": "Who did Jesus say was the “father of lies”?","response": "devil"}
+{"instruction": "What was the name of the tower that the people were building when God confused their language?","response": "Babel"}
+{"instruction": "Whose name means “father of a great multitude”?","response": "Abraham"}
+{"instruction": "Of what did Potiphar’s wife falsely accuse Joseph resulting in him being thrown into prison?","response": "Rape"}
+{"instruction": "Which sea did the Israelites cross through to escape the Egyptians?","response": "Red"}
+{"instruction": "For how many years did the Israelites wander in the wilderness?","response": "Forty"}
+{"instruction": "What does a “good tree” bring forth?","response": "fruit"}
+{"instruction": "Which small body part can “boast of great things”?","response": "Tongue"}
+{"instruction": "What was the name of Abraham’s first wife?","response": "Sarah"}
+{"instruction": "What did God do on the seventh day, after he had finished creating everything?","response": "Rested"}
+{"instruction": "On what day did the apostles receive the Holy Spirit?","response": "Pentecost"}
+{"instruction": "When Jesus was in the wilderness, what was he tempted to turn into loaves of bread?","response": "Stones"}
+{"instruction": "What miracle did Jesus do for Lazarus?","response": "Raised"}
+{"instruction": "On which mountain were the Israelites given the Ten Commandments?","response": "Sinai"}
+{"instruction": "Who was Solomon’s father?","response": "David"}
+{"instruction": "What job did Jesus’ earthly father, Joseph, do?","response": "Carpenter"}
+{"instruction": "How did Judas betray Christ?","response": "kiss"}
+{"instruction": "Whose father was prepared to sacrifice him on an altar?","response": "Isaac"}
+{"instruction": "When the disciples saw Jesus walking on water, what did they think he was?","response": "ghost"}
+{"instruction": "Which musical instrument did David play for Saul?","response": "Harp"}
+{"instruction": "What was Esau doing while Jacob stole his blessing?","response": "Hunting"}
+{"instruction": "Who was David’s great friend?","response": "Jonathan"}
+{"instruction": "Who said “thy God shall be my God”?","response": "Ruth"}
+{"instruction": "What does the name Emmanuel mean?","response": "God"}
+{"instruction": "Where did Jesus meet the woman of Samaria?","response": "well"}
+{"instruction": "Which disciple tried to walk on water, as Jesus did?","response": "Peter"}
+{"instruction": "With whom did David commit adultery?","response": "Bathsheba"}
+{"instruction": "When the Prodigal Son returned, his father gave him a robe, shoes and what other item?","response": "Ring"}
+{"instruction": "How many books are there in the Bible?","response": "Sixty-six"}
+{"instruction": "What are the names of Lazarus’ sisters?","response": "Mary"}
+{"instruction": "Where did Jonah go after being thrown overboard and reaching dry land?","response": "Nineveh"}
+{"instruction": "For what did Esau sell his birthright to Jacob? Answers on Page 26","response": "meal"}
+{"instruction": "What happened to Elimelech in Moab?","response": "died"}
+{"instruction": "What is the name of the disciple who betrayed Jesus?","response": "Judas"}
+{"instruction": "What golden animal did the Israelites make as an idol?","response": "Calf"}
+{"instruction": "Who did Jesus appear to first after his resurrection?","response": "Mary"}
+{"instruction": "What job did Peter and Andrew do?","response": "Fishermen"}
+{"instruction": "Which prophet tried to flee from God when asked to preach God’s message in Nineveh?","response": "Jonah"}
+{"instruction": "What is the collective name of the stories Jesus told to convey his message?","response": "Parables"}
+{"instruction": "What was noticeable about Jacob’s twin brother, Esau, at birth?","response": "hairy"}
+{"instruction": "Who wanted to kill Jesus when he was a baby?","response": "Herod"}
+{"instruction": "Which well known Psalm of David contains the line, “he maketh me to lie down in green pastures”?","response": "Psalm"}
+{"instruction": "Abraham’s wife, Sarah, bore a special son What was his name?","response": "Isaac"}
+{"instruction": "Which son did Jacob love more than all the others?","response": "Joseph"}
+{"instruction": "Who was Jacob’s grandfather?","response": "Abraham"}
+{"instruction": "To which city will all nations one day go to worship God?","response": "Jerusalem"}
+{"instruction": "Who said, “I am the true vine”?","response": "Jesus"}
+{"instruction": "To which tribe did Jesus belong?","response": "Judah"}
+{"instruction": "What affliction did Hannah suffer from, that allowed Peninnah to provoke her?","response": "barren"}
+{"instruction": "Which is the gate that “leads to life”?","response": "narrow"}
+{"instruction": "What was the relationship of Mary (mother of Jesus) to Elisabeth?","response": "Cousin"}
+{"instruction": "Who said, “Thou art my beloved Son, in thee I am well pleased”?","response": "God"}
+{"instruction": "Which son did Jacob not send to Egypt for grain during the famine?","response": "Benjamin"}
+{"instruction": "What does the word “gospel” mean?","response": "news"}
+{"instruction": "Who suggested that Jonah be thrown overboard?","response": "Jonah"}
+{"instruction": "As Esau grew, he was described as a what?","response": "hunter"}
+{"instruction": "What was Bathsheba doing when David first saw her?","response": "Washing"}
+{"instruction": "Who ran from Mount Carmel to Samaria faster than Ahab could drive his chariot?","response": "Elijah"}
+{"instruction": "How many sons did Jacob (Israel) have?","response": "Twelve"}
+{"instruction": "Which disciple wanted to see the imprint of the nails before he would believe?","response": "Thomas"}
+{"instruction": "Which king dreamed about a large statue of a man made from different metals?","response": "Nebuchadnezzar"}
+{"instruction": "What form did the Holy Spirit take at the baptism of Jesus?","response": "Dove"}
+{"instruction": "Complete the saying of Jesus: “for the tree is known by his ____”","response": "Fruit"}
+{"instruction": "What miracle did Jesus perform at the marriage in Cana?","response": "Water"}
+{"instruction": "What was the first thing Noah built when he came out of the ark?","response": "Altar"}
+{"instruction": "Who claimed that the golden calf simply came out of the fire?","response": "Aaron"}
+{"instruction": "Towards which city was Saul travelling when he encountered a light from heaven?","response": "Damascus"}
+{"instruction": "Who was Jacob’s mother?","response": "Rebekah"}
+{"instruction": "How long will the Kingdom of God last?","response": "Forever"}
+{"instruction": "Which is the longest Psalm?","response": "Psalm"}
+{"instruction": "In which town was Jesus born?","response": "Bethlehem"}
+{"instruction": "What happened to the city of Jericho after the priests blew their trumpets?","response": "fell"}
+{"instruction": "Which garden did Jesus go to, to pray in before his arrest?","response": "Gethsemane"}
+{"instruction": "Who was instructed by God to leave his home and family to travel to a country he did not know?","response": "Abraham"}
+{"instruction": "In the Lord’s Prayer, what follows the line, “Hallowed be thy name”?","response": "kingdom"}
+{"instruction": "What was Jonah found doing on the ship while the storm was raging?","response": "Sleeping"}
+{"instruction": "Five of the Ten Virgins did not take enough of what?","response": "Oil"}
+{"instruction": "What was the name of Joseph’s master in Egypt?","response": "Potiphar"}
+{"instruction": "To which country did Mary and Joseph escape when Herod killed all the babies in Bethlehem?","response": "Egypt"}
+{"instruction": "What is the name of the angel who appeared to Mary?","response": "Gabriel"}
+{"instruction": "Which land did the Lord promise to Abram?","response": "Canaan"}
+{"instruction": "What should we “seek first”?","response": "Kingdom"}
+{"instruction": "Which Psalm contains the line, “He leads me beside the still waters”?","response": "Psalm"}
+{"instruction": "In the parable of the ten virgins, what were they waiting for?","response": "Bridegroom"}
+{"instruction": "What event occurred to help release Paul and Silas from prison?","response": "Earthquake"}
+{"instruction": "Which prisoner did the crowd call for to be released when Pilate asked them?","response": "Barabbas"}
+{"instruction": "How many plagues did God send on Egypt?","response": "Ten"}
+{"instruction": "What did King Solomon ask for when God appeared to him in a dream?","response": "Wisdom"}
+{"instruction": "Who said, “Whosoever shall not receive the kingdom of God as a little child shall not enter therein”?","response": "Jesus"}
+{"instruction": "Which of David’s descendants will reign forever?","response": "Jesus"}
+{"instruction": "On what mountain did Moses receive the law from God?","response": "Sinai"}
+{"instruction": "Which of his wives did Jacob love the most?","response": "Rachel"}
+{"instruction": "What was the name of the ark where the commandments given to Moses were to be kept?","response": "Covenant"}
+{"instruction": "Where is the “best place to pray”?","response": "closet"}
+{"instruction": "Where was Jesus baptized?","response": "Jordan"}
+{"instruction": "Which plant is “the least of all seeds, but when it is grown, it is the greatest among herbs”?","response": "Mustard"}
+{"instruction": "What did God breathe into Adam’s nostrils?","response": "breath"}
+{"instruction": "To whom was the Revelation of Jesus Christ given?","response": "John"}
+{"instruction": "How long was Jonah stuck inside the great fish for?","response": "Three"}
+{"instruction": "When Jesus walked on water, which sea was it?","response": "Galilee"}
+{"instruction": "Who told Joseph that Jesus would save his people from their sins?","response": "Angel"}
+{"instruction": "To whom did Jesus say, “Why are ye fearful, O ye of little faith”?","response": "disciples"}
+{"instruction": "What was the name of Hagar’s son?","response": "Ishmael"}
+{"instruction": "Who was Jacob’s first wife?","response": "Leah"}
+{"instruction": "What was Jesus wrapped in when he was born?","response": "clothes"}
+{"instruction": "At what age did Jesus start his ministry?","response": "Thirty"}
+{"instruction": "What animal spoke to Balaam?","response": "Donkey"}
+{"instruction": "What is the last book of the Old Testament?","response": "Malachi"}
+{"instruction": "What was Jonah’s reaction to the way the people of the city of Nineveh responded to God’s message?","response": "angry"}
+{"instruction": "Zacharias and Elizabeth were told by an angel that they would have a son What was he to be called?","response": "John"}
+{"instruction": "How did Jesus say we should receive the Kingdom of God?","response": "child"}
+{"instruction": "In his Sermon on the Mount, what does Jesus say about tomorrow?","response": "thought"}
+{"instruction": "What did Joseph instruct to be put in Benjamin’s sack?","response": "cup"}
+{"instruction": "What was the name of the place where Jesus Christ was crucified?","response": "Golgotha"}
+{"instruction": "What object featured in Jacob’s dream at Bethel?","response": "Ladder"}
+{"instruction": "What are the names of Joseph’s parents?","response": "Jacob"}
+{"instruction": "What animal did Samson kill on his way to Timnah?","response": "Lion"}
+{"instruction": "What was the name of Ruth’s second husband?","response": "Boaz"}
+{"instruction": "Complete this common phrase of thanksgiving found in the Bible: “O give thanks unto the Lord; for he is good: for his _____ endureth for ever”","response": "Mercy"}
+{"instruction": "Who wrote the majority of the Psalms?","response": "David"}
+{"instruction": "Which prophet anointed David as king?","response": "Samuel"}
+{"instruction": "A “soft answer turneth away” what?","response": "Wrath"}
+{"instruction": "What job did the Prodigal Son end up taking after he had spent his inheritance?","response": "feeder"}
+{"instruction": "Why shouldn’t we give anyone the title of “Father”?","response": "father"}
+{"instruction": "How did Jesus heal the blind man?","response": "wash"}
+{"instruction": "Where did Jesus find Zacchaeus,the tax collector?","response": "tree"}
+{"instruction": "What is the name of Jesus’ cousin, born six months before him?","response": "John"}
+{"instruction": "Who was the first child born?","response": "Cain"}
+{"instruction": "Which apostle, who was described as “full of grace and power, and doing great wonders and signs among the people”, was stoned to death?","response": "Stephen"}
+{"instruction": "Who deceived Jacob by giving Leah as a wife instead of Rachel?","response": "Laban"}
+{"instruction": "In the parable of the lost sheep, how many sheep did the shepherd count safely into the fold?","response": "Ninety-nine"}
+{"instruction": "What type of coin did Judas accept as payment for betraying Jesus?","response": "Silver"}
+{"instruction": "What was the covenant between God and Noah?","response": "flood"}
+{"instruction": "Which prophet said, “Behold, a virgin shall be with child, and shall bring forth a son”?","response": "Isaiah"}
+{"instruction": "To what object does James compare the tongue?","response": "rudder"}
+{"instruction": "Which of David’s sons rebelled against him?","response": "Absalom"}
+{"instruction": "What did Naomi tell the people in Bethlehem to call her?","response": "Mara"}
+{"instruction": "How was Daniel protected from the lions in the den?","response": "angel"}
+{"instruction": "“Everyone that is proud in heart” is what to the Lord?","response": "abomination"}
+{"instruction": "What did John the Baptist say when he saw Jesus?","response": "Behold"}
+{"instruction": "How did the city that Jonah was sent to react to God’s message of destruction?","response": "repented"}
+{"instruction": "Who asked Jesus to remember him when he came into his kingdom?","response": "criminal"}
+{"instruction": "What was Solomon famous for building?","response": "Temple"}
+{"instruction": "Jesus asked: “Can the blind lead the?”","response": "Blind"}
+{"instruction": "Who told Peter to “watch and pray that he entered not into temptation”?","response": "Jesus"}
+{"instruction": "Which river was Naaman told to wash in to rid himself of leprosy?","response": "Jordan"}
+{"instruction": "Why did Solomon turn away from God when he was old?","response": "wives"}
+{"instruction": "What is the “chorus” in Psalm 136 which is repeated in every verse?","response": "forever"}
+{"instruction": "In what city was Jesus brought up as a child?","response": "Nazareth"}
+{"instruction": "Which female judge described herself as “a mother in Israel”?","response": "Deborah"}
+{"instruction": "According to Peter, what “covers a multitude of sins”?","response": "Love"}
+{"instruction": "To what preservative does the Lord compare his disciples?","response": "Salt"}
+{"instruction": "What was Jesus’ first miracle?","response": "wine"}
+{"instruction": "Who spotted Moses in the Nile placed in an ark of bulrushes?","response": "daughter"}
+{"instruction": "Who was Bathsheba’s first husband?","response": "Uriah"}
+{"instruction": "Out of the ten lepers who Jesus healed, how many came back to say thank you?","response": "One"}
+{"instruction": "How often was the year of the Lord’s release?","response": "seven"}
+{"instruction": "Which tribe of Israel looked after the religious aspects of life?","response": "Levi"}
+{"instruction": "Where was Paul when he wrote the letter to Philemon?","response": "prison"}
+{"instruction": "Who preached, “Repent ye: for the kingdom of heaven is at hand”?","response": "John"}
+{"instruction": "What was the name of James’ and John’s father?","response": "Zebedee"}
+{"instruction": "What bird did God provide to the Israelites for meat in the wilderness?","response": "Quail"}
+{"instruction": "Who closed the door of Noah’s ark?","response": "God"}
+{"instruction": "“Hate stirs up strife”, but what does love cover?","response": "sins"}
+{"instruction": "Who wrote the line: “The Lord is my Shepherd, I shall not want”?","response": "David"}
+{"instruction": "Which prisoners experienced an earthquake after their prayer?","response": "Paul"}
+{"instruction": "What was the name of Joseph’s youngest brother?","response": "Benjamin"}
+{"instruction": "Who did Jesus pray for that his faith failed not?","response": "Peter"}
+{"instruction": "What was the new name given to Daniel while in captivity?","response": "Belteshazzar"}
+{"instruction": "Which wise man wrote the majority of Proverbs?","response": "Solomon"}
+{"instruction": "Which king asked for the foreskins of 100 Philistines?","response": "Saul"}
+{"instruction": "Who rolled away the tomb stone?","response": "Angel"}
+{"instruction": "What is “friendship with the world”, according to James?","response": "Enmity"}
+{"instruction": "Who said “glory to God in the highest, and on earth peace, goodwill to men”?","response": "Angels"}
+{"instruction": "In which book of the Bible does the story of Noah’s ark appear?","response": "Genesis"}
+{"instruction": "When Samuel was called by the Lord as a child, who did he think was calling?","response": "Eli"}
+{"instruction": "To whom did Jesus say “Truly, truly, I say to you, unless one is born again he cannot see the kingdom of God”?","response": "Nicodemus"}
+{"instruction": "Who does Paul say is head of the woman?","response": "Man"}
+{"instruction": "What happens to “treasure laid up on earth”?","response": "corrupted"}
+{"instruction": "Whose mother was instructed to drink no wine or strong drink during her pregnancy?","response": "Samson’s"}
+{"instruction": "Who was the successor to Moses?","response": "Joshua"}
+{"instruction": "What should you not “throw before swine”?","response": "Pearls"}
+{"instruction": "What was the name of the woman who hid the spies at Jericho?","response": "Rahab"}
+{"instruction": "In the letter to the Corinthians, who does Paul say is a “new creature”?","response": "man"}
+{"instruction": "Which prophet is recorded as having an earnest prayer for no rain answered?","response": "Elijah"}
+{"instruction": "How did the Philistines discover the answer to Samson’s riddle?","response": "threatened"}
+{"instruction": "When he was approached by Jesus, who said, “What have you to do with me, Jesus, Son of the Most High God? I adjure you by God, do not torment me”?","response": "Legion"}
+{"instruction": "What was the reason that Jacob and his family began a new life in Egypt?","response": "Famine"}
+{"instruction": "Whose father was so pleased to see him that he gave him the best robe and killed the fatted calf?","response": "son"}
+{"instruction": "What was the name of Solomon’s son who succeeded him as king?","response": "Rehoboam"}
+{"instruction": "What does faith require to make it a living faith?","response": "Works"}
+{"instruction": "In the parable of the grain of mustard seed, when it becomes a tree birds come and do what?","response": "nests"}
+{"instruction": "Who did Jesus raise from the dead by a prayer of thanks to God?","response": "Lazarus"}
+{"instruction": "The king’s wrath is as “the roaring” of what?","response": "lion"}
+{"instruction": "What was the name of Ruth’s son?","response": "Obed"}
+{"instruction": "“Go to the ____, thou sluggard; consider her ways, and be wise” What animal should we take lessons from?","response": "Ant"}
+{"instruction": "What test did Elijah set the prophets of Baal, which failed, proving their god to be false?","response": "fire"}
+{"instruction": "Who was the tax collector that climbed up a tree so he could see Jesus?","response": "Zacchaeus"}
+{"instruction": "The Lord said that Jacob and Esau were two what in the womb?","response": "Nations"}
+{"instruction": "What happens to the man who “puts his hand to the plough and looks back”?","response": "fit"}
+{"instruction": "Who was Jesus talking to when he taught the Lord’s Prayer?","response": "Disciples"}
+{"instruction": "To the beauty of which plant did Jesus compare to King Solomon?","response": "Lilies"}
+{"instruction": "Who came to see Jesus by night?","response": "Nicodemus"}
+{"instruction": "For how long was the dragon bound in the bottomless pit?","response": "years"}
+{"instruction": "Complete the Beatitude: “Blessed are the pure in heart”","response": "God"}
+{"instruction": "For how many pieces of silver did Judas betray Christ?","response": "Thirty"}
+{"instruction": "Who did Abram marry?","response": "Sarai"}
+{"instruction": "What did Jesus say he would leave with the disciples?","response": "Peace"}
+{"instruction": "In Egypt, what did Joseph accuse his brothers of at their first meeting?","response": "spies"}
+{"instruction": "Where did Jesus first see Nathanael?","response": "tree"}
+{"instruction": "Which disciple was a tax collector?","response": "Matthew"}
+{"instruction": "Which city was the letter to Philemon written from?","response": "Rome"}
+{"instruction": "What does the name Abraham mean?","response": "multitude"}
+{"instruction": "When Philip and the Ethiopian eunuch arrive at some water, what does the eunuch say?","response": "baptized"}
+{"instruction": "Who said to Mary, “Blessed are you among women, and blessed is the fruit of your womb!”?","response": "Elisabeth"}
+{"instruction": "Seven fat and seven thin of what type of animal appeared to Pharaoh in a dream?","response": "Cattle"}
+{"instruction": "How old was Sarah when her son Isaac was born?","response": "Ninety"}
+{"instruction": "About what age was Jesus when he was baptized?","response": "Thirty"}
+{"instruction": "Which book comes after the book of Job?","response": "Psalms"}
+{"instruction": "How many horsemen are there in Revelation chapter 6?","response": "Four"}
+{"instruction": "What was the first temptation of Christ?","response": "bread"}
+{"instruction": "After the first king of Israel failed God, what was the name of the second man who was anointed king?","response": "David"}
+{"instruction": "What type of tree did Zacchaeus climb to see Jesus?","response": "Sycamore"}
+{"instruction": "What was the name of Abraham’s nephew?","response": "Lot"}
+{"instruction": "What was the name of the southern kingdom?","response": "Judah"}
+{"instruction": "What did the dove bring back to Noah?","response": "leaf"}
+{"instruction": "How many books are there in the New Testament?","response": "Twenty-seven"}
+{"instruction": "Who was appointed to replace Judas Iscariot as a disciple?","response": "Matthias"}
+{"instruction": "In which book of the Bible would we find Haman, the son of Hammedatha?","response": "Esther"}
+{"instruction": "Which book of the Bible precedes Philemon?","response": "Titus"}
+{"instruction": "What were the names of Elimelech’s two sons?","response": "Mahlon"}
+{"instruction": "In the parable of the sower, what does the seed represent?","response": "Word"}
+{"instruction": "What was the first plague the Lord sent upon Egypt?","response": "blood"}
+{"instruction": "Who does Jesus say are the two most important people to love?","response": "God"}
+{"instruction": "What happened to Jesus on the 8th day of his life?","response": "circumcised"}
+{"instruction": "Who looked after the coats of the men who stoned Stephen?","response": "Saul"}
+{"instruction": "What profession did Zebedee, father of James and John, have?","response": "Fisherman"}
+{"instruction": "Which two sisters married Jacob?","response": "Rachel"}
+{"instruction": "Into which land did God send Abraham to sacrifice his special son, Isaac?","response": "Moriah"}
+{"instruction": "Which Israelite woman had two Moabite daughters-in-law?","response": "Naomi"}
+{"instruction": "When Peter was asked if Jesus paid temple taxes, what animal concealed a coin with which to pay the taxes?","response": "Fish"}
+{"instruction": "What did God initially give man to eat?","response": "Plants"}
+{"instruction": "Which city did David pray for the peace of?","response": "Jerusalem"}
+{"instruction": "How many people were saved in the ark?","response": "Eight"}
+{"instruction": "What disease did the Lord send upon Miriam?","response": "Leprosy"}
+{"instruction": "The name of the Lord is like what place of safety?","response": "tower"}
+{"instruction": "With what was Jesus’ side pierced?","response": "Spear"}
+{"instruction": "Who wrote the book of Acts?","response": "Luke"}
+{"instruction": "Where was Jonah when he prayed to God with the voice of thanksgiving?","response": "belly"}
+{"instruction": "Who brought Elijah bread and meat to eat during the drought?","response": "Ravens"}
+{"instruction": "Whose mother-in-law did Jesus heal?","response": "Peter’s"}
+{"instruction": "Which bird does Jesus say we have more value than?","response": "Sparrow"}
+{"instruction": "In which city was David’s throne over Israel?","response": "Jerusalem"}
+{"instruction": "How old was Moses when he died?","response": "120"}
+{"instruction": "What event did Peter, James and John witness in a mountain with Jesus?","response": "Transfiguration"}
+{"instruction": "Which apostle was a Pharisee?","response": "Paul"}
+{"instruction": "The desolation of which city is described in Revelation chapter 18?","response": "Babylon"}
+{"instruction": "Which king in the Old Testament built the first temple in Jerusalem?","response": "Solomon"}
+{"instruction": "Why did Jesus say we should not “judge people”?","response": "judged"}
+{"instruction": "How is man “tempted”?","response": "lust"}
+{"instruction": "What natural disaster happened when Abram and Sarai arrived in the land of Canaan?","response": "famine"}
+{"instruction": "Which disciple did Paul commend for having “the same faith his mother had”?","response": "Timothy"}
+{"instruction": "Who went back to Jerusalem after the captivity to encourage the people to build the walls of the city again?","response": "Nehemiah"}
+{"instruction": "Who was the first of the apostles to perform a miracle in the name of Jesus?","response": "Peter"}
+{"instruction": "What was the name of Isaac’s wife?","response": "Rebekah"}
+{"instruction": "How does the Bible describe the location of the Garden of Eden?","response": "east"}
+{"instruction": "In the vision of Jesus in Revelation, what came out of Jesus’ mouth?","response": "sword"}
+{"instruction": "What was Paul’s home town?","response": "Tarsus"}
+{"instruction": "Which judge was betrayed to the Philistines by a woman?","response": "Samson"}
+{"instruction": "What came out of the fire Paul made on Malta and attacked him?","response": "Viper"}
+{"instruction": "In the Sermon on the Mount, what did Jesus say would happen to the meek?","response": "inherit"}
+{"instruction": "Out of the ten lepers Jesus healed, what nationality was the one who returned to thank him?","response": "Samaritan"}
+{"instruction": "Who did the men of Athens ignorantly worship?","response": "God"}
+{"instruction": "How long did Jonah say it would be before Nineveh was to be overthrown?","response": "Forty"}
+{"instruction": "What was the name of Samson’s father?","response": "Manoah"}
+{"instruction": "Who did Amnon love, and then hate even more than he had loved her?","response": "Tamar"}
+{"instruction": "Where were the Jews taken captive to when Jerusalem was destroyed?","response": "Babylon"}
+{"instruction": "What sin did Noah commit after he began to be a “man of the soil”?","response": "Drunkenness"}
+{"instruction": "What did the silversmith do with Micah’s silver?","response": "idol"}
+{"instruction": "What was Paul’s profession?","response": "Tentmaker"}
+{"instruction": "What was the name of Ahasuerus’ new queen?","response": "Esther"}
+{"instruction": "According to the words of Jesus in the Sermon on the Mount, “a city that is on a hill cannot be” what?","response": "Hidden"}
+{"instruction": "What book of the Bible follows Philemon?","response": "Hebrews"}
+{"instruction": "During Jacob’s struggle with the angel, the hollow of which part of Jacob’s body was touched and put out of joint?","response": "Hip"}
+{"instruction": "Which Christian doctrine did the Sadducees reject?","response": "Resurrection"}
+{"instruction": "For how many years had the woman with the issue of blood suffered before she was healed by Jesus?","response": "Twelve"}
+{"instruction": "What was the affliction of Bartimaeus?","response": "Blind"}
+{"instruction": "What was the color of the robe placed on Jesus by the soldiers?","response": "Scarlet"}
+{"instruction": "In the Sermon on the Mount, what does Jesus tell us the earth is?","response": "footstool"}
+{"instruction": "In which book of the Bible do we find “Nebuchadnezzar’s image”?","response": "Daniel"}
+{"instruction": "Where was Abraham born?","response": "Ur"}
+{"instruction": "Who was given a son following her prayer to God in the temple, during which the priest accused her of being drunk?","response": "Hannah"}
+{"instruction": "Who asked for an understanding heart to judge God’s people?","response": "Solomon"}
+{"instruction": "What is “sin”?","response": "transgression"}
+{"instruction": "For how long did David reign?","response": "Forty"}
+{"instruction": "How many Psalms are there in the Bible?","response": "150"}
+{"instruction": "Whose twelve year old daughter did Jesus raise from the dead?","response": "Jairus’"}
+{"instruction": "What was the name of Ruth’s great-grandson?","response": "David"}
+{"instruction": "On what island was John when he was given the vision of Revelation?","response": "Patmos"}
+{"instruction": "Where did Jonah try to run to instead of going to Nineveh as God had commanded?","response": "Tarshish"}
+{"instruction": "Who did Paul send to Rome, requesting that she was given a welcome worthy of the saints?","response": "Phoebe"}
+{"instruction": "Whose mother took him a little coat once a year?","response": "Samuel"}
+{"instruction": "Which judge killed Eglon, King of Moab?","response": "Ehud"}
+{"instruction": "In the parable of the leaven, what is leaven more commonly known as?","response": "Yeast"}
+{"instruction": "Which book of prophecy was the Ethiopian eunuch reading from?","response": "Isaiah"}
+{"instruction": "Who said, “When I was a child, I spake as a child, I understood as a child, I thought as a child: but when I became a man, I put away childish things”?","response": "Paul"}
+{"instruction": "What was Peter’s mother- in-law sick with?","response": "fever"}
+{"instruction": "Who instructed her daughter to ask for the head of John the Baptist?","response": "Herodias"}
+{"instruction": "Who decreed that a census of the entire Roman world should be taken at the time of Jesus’ birth?","response": "Augustus"}
+{"instruction": "Which woman, who was “full of good works and acts of charity”, was raised from the dead by Peter at Lydda?","response": "Tabitha"}
+{"instruction": "What was on the head of the woman “clothed with the sun”?","response": "crown"}
+{"instruction": "How did Uriah, Bathsheba’s husband, die?","response": "abandoned"}
+{"instruction": "When Paul was shipwrecked on Malta how many people on the ship drowned?","response": "None"}
+{"instruction": "Which profession does Jesus compare himself to spiritually?","response": "Shepherd"}
+{"instruction": "Under the Mosaic Law, what was the punishment for someone who hit their father?","response": "Death"}
+{"instruction": "What was taken off and handed over to signify the agreement between Boaz and the kinsman?","response": "Sandal"}
+{"instruction": "Peacocks were imported by which king of Israel?","response": "Solomon"}
+{"instruction": "Why did Boaz allow Ruth to glean in his field?","response": "Naomi"}
+{"instruction": "What punishment was Zacharias given for not believing the angel?","response": "dumb"}
+{"instruction": "Which direction did the scorching wind upon Jonah come from?","response": "East"}
+{"instruction": "Why did the kinsman not want to marry Ruth?","response": "inheritance"}
+{"instruction": "How many times did Samson lie about his source of strength to Delilah?","response": "Three"}
+{"instruction": "Which book of the Bible begins with “The book of the generation of Jesus Christ, the son of David, the son of Abraham”?","response": "Matthew"}
+{"instruction": "Who did Mary suppose Jesus to be at first after the resurrection?","response": "Gardener"}
+{"instruction": "Which two Old Testament characters appeared with Jesus at the transfiguration?","response": "Elijah"}
+{"instruction": "Who prayed for the fiery serpents to be taken away from Israel?","response": "Moses"}
+{"instruction": "Which married couple did Paul become friends with at Corinth?","response": "Aquila"}
+{"instruction": "Who persuaded Delilah to betray Samson?","response": "Lords"}
+{"instruction": "When Jesus died, for how long was there darkness over the land?","response": "Three"}
+{"instruction": "What service did Nehemiah perform for King Artaxerxes?","response": "Cupbearer"}
+{"instruction": "What did Abigail prevent David from doing to Nabal?","response": "Murdering"}
+{"instruction": "Who became nurse to Ruth’s son?","response": "Naomi"}
+{"instruction": "What relation was Jacob to Abraham?","response": "Grandson"}
+{"instruction": "What killed the plant that God had provided Jonah for shade?","response": "worm"}
+{"instruction": "What did the prophet Micah say about Jesus’ birth?","response": "Bethlehem"}
+{"instruction": "What did John do with the little book he took from the angel?","response": "ate"}
+{"instruction": "Who went up yearly to worship God in Shiloh, and one year prayed to God for a baby?","response": "Hannah"}
+{"instruction": "In which tribe was the city of Bethlehem?","response": "Judah"}
+{"instruction": "What did Jonah do while he waited to see Nineveh’s fate?","response": "shelter"}
+{"instruction": "Who carried the cross for Christ?","response": "Simon"}
+{"instruction": "On which mountain range did Noah’s ark come to rest?","response": "Ararat"}
+{"instruction": "What did the Queen of Sheba give to Solomon?","response": "gold"}
+{"instruction": "How many books are there in the Old Testament?","response": "Thirty-nine"}
+{"instruction": "What did Joseph want to do when he discovered Mary was pregnant?","response": "divorce"}
+{"instruction": "What did Boaz say Naomi was selling?","response": "land"}
+{"instruction": "Abram was rich in gold, silver and what else?","response": "Cattle"}
+{"instruction": "How much of Elijah’s spirit did Elisha receive?","response": "Double"}
+{"instruction": "What relation was Annas to Caiaphas?","response": "Father-in-law"}
+{"instruction": "When in prison at what time did Paul and Silas pray and sing to God?","response": "Midnight"}
+{"instruction": "What did Jesus say is the “greatest commandment in the law”?","response": "love"}
+{"instruction": "Who was afflicted with leprosy for speaking out against Moses?","response": "Miriam"}
+{"instruction": "What did God count Abram’s faith to him as?","response": "Righteousness"}
+{"instruction": "Whose hair when cut annually weighed two hundred shekels by the king’s weight?","response": "Absalom"}
+{"instruction": "During what traumatic event did the apostle Paul take bread and give thanks?","response": "voyage"}
+{"instruction": "Which man killed a lion with his bare hands?","response": "Samson"}
+{"instruction": "Who was to be named Zacharias, after the name of his father, until his mother intervened?","response": "John"}
+{"instruction": "In what town did Jesus turn water into wine?","response": "Cana"}
+{"instruction": "How long had the infirm man lain at the pool of Bethesda?","response": "Thirty-eight"}
+{"instruction": "What “doeth good like a medicine”?","response": "heart"}
+{"instruction": "What was God to give Abraham as an everlasting possession?","response": "land"}
+{"instruction": "Which supernatural being or beings does the Bible say the Sadducees did not believe in?","response": "Angels"}
+{"instruction": "Who won the hand of Caleb’s daughter, Achsah?","response": "Othniel"}
+{"instruction": "What is the “light of the body”?","response": "eye"}
+{"instruction": "The southern kingdom of divided Israel eventually fell, but to which great power?","response": "Babylon"}
+{"instruction": "You will be healed if you “pray for one another” and what else?","response": "faults"}
+{"instruction": "What is in the hypocrite’s eye?","response": "beam"}
+{"instruction": "Which book of the Bible follows Jonah?","response": "Micah"}
+{"instruction": "What inscription was on the altar in Athens?","response": "God"}
+{"instruction": "In which book of prophecy do we read about the valley of dry bones?","response": "Ezekiel"}
+{"instruction": "Which baby was named after his mother’s laughter?","response": "Isaac"}
+{"instruction": "Demetrius, of Ephesus was a?","response": "Silversmith"}
+{"instruction": "On which day of the year could the High Priest enter the Holiest Place, the inner most part of the temple where the covenant box was kept?","response": "Atonement"}
+{"instruction": "What was the name of the temple gate at which the lame man was laid daily?","response": "Beautiful"}
+{"instruction": "To which Jewish sect did Nicodemus belong?","response": "Pharisees"}
+{"instruction": "To which tribe did the apostle Paul belong?","response": "Benjamin"}
+{"instruction": "How does James say we should “wait for the coming of the Lord”?","response": "Patiently"}
+{"instruction": "“The blessed man will be like a tree planted by” what?","response": "Rivers"}
+{"instruction": "How old was Abraham when his son Isaac was born?","response": "100"}
+{"instruction": "How many times did Jesus say you should forgive your brother when he sins against you?","response": "seven"}
+{"instruction": "In which city did King Herod live at the time of Jesus’ birth?","response": "Jerusalem"}
+{"instruction": "What is the “root of all evil”?","response": "money"}
+{"instruction": "Which tribe of Israel received no inheritance of land?","response": "Levi"}
+{"instruction": "Which King took possession of Naboth’s vineyard?","response": "Ahab"}
+{"instruction": "For how many days did Jesus appear to his disciples after his resurrection?","response": "Forty"}
+{"instruction": "Who did Paul write a letter to concerning his slave Onesimus?","response": "Philemon"}
+{"instruction": "How many churches of Asia Minor were listed in Revelation?","response": "Seven"}
+{"instruction": "What object did Gideon place on the ground to receive a sign from God?","response": "Fleece"}
+{"instruction": "Why did Moses’ hand become leprous?","response": "sign"}
+{"instruction": "In which city in Judah did Cyrus tell the Israelites to build the temple?","response": "Jerusalem"}
+{"instruction": "Which missionary was described as having “known the holy scriptures from an early age”?","response": "Timothy"}
+{"instruction": "What affliction did Paul strike Elymas the sorcerer down with?","response": "Blindness"}
+{"instruction": "Who was Boaz a kinsman of?","response": "Elimelech"}
+{"instruction": "What animals were carved on Solomon’s throne?","response": "Lions"}
+{"instruction": "Which woman was a seller of purple goods?","response": "Lydia"}
+{"instruction": "Who said, “A light to lighten the Gentiles, and the glory of thy people Israel,” when he saw Jesus?","response": "Simeon"}
+{"instruction": "What was the occupation of Hosea’s wife?","response": "Harlot"}
+{"instruction": "Which church did Jesus accuse of being lukewarm?","response": "Laodicea"}
+{"instruction": "In the parable of the sower, what happened to the seed that fell on the path?","response": "birds"}
+{"instruction": "What was the name of the man who requested Jesus’ body for burial?","response": "Joseph"}
+{"instruction": "How many Philistines did Samson say he had killed with the jawbone of a donkey?","response": "thousand"}
+{"instruction": "Which book of the Bible precedes Jonah?","response": "Obadiah"}
+{"instruction": "Who did Samuel anoint as the first King of Israel?","response": "Saul"}
+{"instruction": "What was mankind’s first sin in the Bible?","response": "fruit"}
+{"instruction": "What was the first bird released from the ark?","response": "Raven"}
+{"instruction": "What nationality was Timothy’s father?","response": "Greek"}
+{"instruction": "In Revelation, what is the “number of a man”?","response": "666"}
+{"instruction": "How many elders sat around the throne of God?","response": "Twenty-four"}
+{"instruction": "How many years did the Lord add to Hezekiah’s life after being healed of his sickness?","response": "Fifteen"}
+{"instruction": "What was the second plague upon Egypt?","response": "Frogs"}
+{"instruction": "Which disciple looked after Mary, after the death of Jesus?","response": "John"}
+{"instruction": "Jesus was a high priest after the order of which ancient king, mentioned in Psalm 110?","response": "Melchizedek"}
+{"instruction": "Who was Noah’s father?","response": "Lamech"}
+{"instruction": "Who did Pilate send Jesus to after he had interrogated him?","response": "Herod"}
+{"instruction": "Daniel had a dream about four things What sort of things?","response": "Beasts"}
+{"instruction": "Who was the father of Jonah?","response": "Amittai"}
+{"instruction": "What relation to Abram was Lot?","response": "nephew"}
+{"instruction": "Who will the “least person in the Kingdom of God” be greater than?","response": "John"}
+{"instruction": "In what month of Elisabeth’s pregnancy did the angel appear to Mary?","response": "Sixth"}
+{"instruction": "“Hope deferred” maketh what sick?","response": "heart"}
+{"instruction": "Who laid their hands on Saul of Tarsus, curing him of the blindness he received on the road to Damascus?","response": "Ananias"}
+{"instruction": "Who was Paul with when he wrote the letter to Philemon?","response": "Timothy"}
+{"instruction": "In which town did Martha and Mary live?","response": "Bethany"}
+{"instruction": "Who stole her father’s household gods?","response": "Rachel"}
+{"instruction": "What was the fate of the man who had no wedding robe at the parable of the marriage feast?","response": "darkness"}
+{"instruction": "How long did Solomon reign over Israel?","response": "Forty"}
+{"instruction": "In Psalm 52, the psalmist describes himself as what kind of tree in the house of God?","response": "Olive"}
+{"instruction": "Who was compared unfavorably to the lilies of the field?","response": "Solomon"}
+{"instruction": "Of what did Peter and John heal the man at the temple gate called Beautiful?","response": "Lameness"}
+{"instruction": "Which region was specially noted for its balm?","response": "Gilead"}
+{"instruction": "Why should a father not “provoke a child to anger”?","response": "discouraged"}
+{"instruction": "While John was baptizing, what did he call the Pharisees and Sadducees?","response": "vipers"}
+{"instruction": "Whose son did Elijah raise from the dead?","response": "widow"}
+{"instruction": "What object did Elisha cause to float?","response": "head"}
+{"instruction": "By what name was the disciple Tabitha also known?","response": "Dorcas"}
+{"instruction": "From which land did Isaac tell Jacob not to take a wife?","response": "Canaan"}
+{"instruction": "How does Paul describe marriage in Hebrews?","response": "Honorable"}
+{"instruction": "To whom was Jesus referring when he said, “Go tell that fox, behold I cast out devils?”","response": "Herod"}
+{"instruction": "How old was Joseph when he began serving Pharaoh?","response": "Thirty"}
+{"instruction": "What did Naboth refuse to sell?","response": "Vineyard"}
+{"instruction": "What was the name of the father of Caleb the spy?","response": "Jephunneh"}
+{"instruction": "Which apostle baptized the Ethiopian eunuch?","response": "Philip"}
+{"instruction": "Who promised the “gift of power to tread on serpents and scorpions”?","response": "Jesus"}
+{"instruction": "Which king was saved from death by Abraham’s prayer?","response": "Abimelech"}
+{"instruction": "Who sang, “My soul doth magnify the Lord”?","response": "Mary"}
+{"instruction": "At what place did the Israelites arrive only to find the water was too bitter to drink, where upon God caused it to become sweet?","response": "Marah"}
+{"instruction": "When Moses blessed the tribes before his death, to what animal did he compare Gad?","response": "Lion"}
+{"instruction": "When Saul defeated the Amalekites he disobeyed God and took possessions from the land What was the name of the king he also spared?","response": "Agag"}
+{"instruction": "Which king had a feast using the gold and silver vessels taken from the temple in Jerusalem?","response": "Belshazzar"}
+{"instruction": "What sacrifice did Mary and Joseph offer when the days of purification were complete after Jesus’ birth?","response": "pigeons"}
+{"instruction": "Who sat down under a tree and asked the Lord to take away his life?","response": "Elijah"}
+{"instruction": "What god did the Philistines offer sacrifices to?","response": "Dagon"}
+{"instruction": "Which judge unknowingly vowed his daughter to the Lord as a burnt offering?","response": "Jephthah"}
