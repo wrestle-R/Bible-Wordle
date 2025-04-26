@@ -47,6 +47,19 @@ export default function CrosswordPage() {
           });
         }
         
+        // Load saved state from session storage
+        const savedTimeElapsed = sessionStorage.getItem('crosswordTimeElapsed');
+        const savedUserInput = sessionStorage.getItem('crosswordUserInput');
+        const savedGameCompleted = sessionStorage.getItem('crosswordGameCompleted');
+        
+        if (savedTimeElapsed) {
+          setTimeElapsed(parseInt(savedTimeElapsed, 10));
+        }
+        
+        if (savedGameCompleted === 'true') {
+          setGameCompleted(true);
+        }
+        
         // Get today's crossword words
         const words = await getTodayCrosswordData();
         if (!words || words.length === 0) {
@@ -64,19 +77,37 @@ export default function CrosswordPage() {
         const crossword = createSimpleCrosswordData(words);
         setCrosswordData(crossword);
         
-        // Initialize user input grid
+        // Initialize user input grid - from session storage if available
         const maxRow = crossword.dimensions.rows;
         const maxCol = crossword.dimensions.cols;
-        const initialInput = Array(maxRow).fill(null).map(() => Array(maxCol).fill(""));
+        let initialInput;
+        
+        if (savedUserInput) {
+          initialInput = JSON.parse(savedUserInput);
+          
+          // Ensure the grid has correct dimensions (in case of changes)
+          if (initialInput.length !== maxRow || initialInput[0].length !== maxCol) {
+            initialInput = Array(maxRow).fill(null).map(() => Array(maxCol).fill(""));
+          }
+        } else {
+          initialInput = Array(maxRow).fill(null).map(() => Array(maxCol).fill(""));
+        }
+        
         setUserInput(initialInput);
         
-        // Start timer
-        const timerInterval = setInterval(() => {
-          setTimeElapsed(prev => prev + 1);
-        }, 1000);
-        
-        // Clean up timer
-        return () => clearInterval(timerInterval);
+        // Start timer only if game not completed
+        if (savedGameCompleted !== 'true') {
+          const timerInterval = setInterval(() => {
+            setTimeElapsed(prev => {
+              const newTime = prev + 1;
+              sessionStorage.setItem('crosswordTimeElapsed', newTime.toString());
+              return newTime;
+            });
+          }, 1000);
+          
+          // Clean up timer
+          return () => clearInterval(timerInterval);
+        }
         
       } catch (error) {
         console.error("Error initializing crossword:", error);
@@ -95,6 +126,20 @@ export default function CrosswordPage() {
     initCrossword();
   }, []);
   
+  // Save user input to session storage whenever it changes
+  useEffect(() => {
+    if (userInput.length > 0) {
+      sessionStorage.setItem('crosswordUserInput', JSON.stringify(userInput));
+    }
+  }, [userInput]);
+  
+  // Save game completed state to session storage
+  useEffect(() => {
+    if (gameCompleted) {
+      sessionStorage.setItem('crosswordGameCompleted', 'true');
+    }
+  }, [gameCompleted]);
+
   // Handle key press
   const handleKeyDown = (e) => {
     if (!selectedCell || !selectedWord) return;
@@ -266,11 +311,17 @@ export default function CrosswordPage() {
   const getCellNumber = (row, col) => {
     if (!crosswordData) return null;
     
-    const entry = crosswordData.entries.find(e => 
-      e.position.x === col && e.position.y === row
+    // Find any entry that starts at this position
+    const entriesAtPosition = crosswordData.entries.filter(entry => 
+      entry.position.x === col && entry.position.y === row
     );
     
-    return entry ? entry.number : null;
+    if (entriesAtPosition.length > 0) {
+      // Return the smallest number if multiple entries start at this position
+      return Math.min(...entriesAtPosition.map(entry => entry.number));
+    }
+    
+    return null;
   };
   
   // Check answers button functionality fix
@@ -360,6 +411,7 @@ export default function CrosswordPage() {
     if (gameCompleted) return;
     
     setGameCompleted(true);
+    sessionStorage.setItem('crosswordGameCompleted', 'true');
     
     // Save stats if not in practice mode
     if (!isPracticeMode) {
@@ -390,6 +442,13 @@ export default function CrosswordPage() {
     const maxCol = crosswordData.dimensions.cols;
     const emptyInput = Array(maxRow).fill(null).map(() => Array(maxCol).fill(""));
     setUserInput(emptyInput);
+    setTimeElapsed(0);
+    setGameCompleted(false);
+    
+    // Clear session storage
+    sessionStorage.removeItem('crosswordUserInput');
+    sessionStorage.removeItem('crosswordTimeElapsed');
+    sessionStorage.removeItem('crosswordGameCompleted');
     
     toast("Crossword has been reset", {
       icon: '🔄',
@@ -399,7 +458,7 @@ export default function CrosswordPage() {
       },
     });
   };
-  
+
   // Format time for display (mm:ss)
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -410,8 +469,7 @@ export default function CrosswordPage() {
   return (
     <div className="min-h-screen bg-black text-white" onKeyDown={handleKeyDown} tabIndex={0}>
       <Navbar />
-      
-      <div className="max-w-7xl mx-auto px-4 py-8"> {/* Increased max width */}
+      <div className="max-w-7xl mx-auto px-4 py-8 pt-24"> {/* Increased max width */}
         <div className="mb-8 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }} 
@@ -428,14 +486,13 @@ export default function CrosswordPage() {
             Test your biblical knowledge with today's crossword puzzle
           </motion.p>
         </div>
-        
+
         {/* Stats & Controls */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-2 text-purple-300">
             <FiClock className="w-5 h-5" />
             <span className="font-medium">{formatTime(timeElapsed)}</span>
           </div>
-          
           {isPracticeMode && (
             <div className="text-xs sm:text-sm text-purple-400 px-3 py-1 bg-purple-900/20 rounded-full">
               Practice Mode
@@ -449,16 +506,14 @@ export default function CrosswordPage() {
             >
               <FiHelpCircle className="w-5 h-5" />
             </button>
-            
-            <button 
+            <button
               onClick={resetCrossword} 
               className="p-2 rounded-full hover:bg-purple-900/30 text-purple-300"
               title="Reset Crossword"
             >
               <FiRefreshCw className="w-5 h-5" />
             </button>
-            
-            <button 
+            <button
               onClick={checkAnswers} 
               className="p-2 rounded-full hover:bg-purple-900/30 text-purple-300"
               title="Check Answers"
@@ -467,7 +522,7 @@ export default function CrosswordPage() {
             </button>
           </div>
         </div>
-        
+
         {/* Loading State */}
         {loading ? (
           <div className="flex justify-center items-center min-h-[300px]">
@@ -494,11 +549,10 @@ export default function CrosswordPage() {
                                             selectedCell.row === rowIndex && 
                                             selectedCell.col === colIndex;
                           const isInWord = isInSelectedWord(rowIndex, colIndex);
-                          
                           return (
                             <React.Fragment key={`cell-${rowIndex}-${colIndex}`}>
                               {isCell ? (
-                                <div
+                                <div 
                                   className={`
                                     w-8 h-8 sm:w-10 sm:h-10
                                     border-2
@@ -514,8 +568,8 @@ export default function CrosswordPage() {
                                   `}
                                   onClick={() => handleCellClick(rowIndex, colIndex)}
                                 >
-                                  {cellNumber && (
-                                    <span className="absolute text-[9px] top-0 left-0.5 text-gray-400 font-normal">
+                                  {cellNumber !== null && (
+                                    <span className="absolute text-[9px] top-0 left-0.5 text-gray-400 font-normal z-10">
                                       {cellNumber}
                                     </span>
                                   )}
@@ -535,7 +589,7 @@ export default function CrosswordPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Clues - Side by Side */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Across Clues */}
@@ -564,7 +618,7 @@ export default function CrosswordPage() {
                   ))
                 }
               </div>
-              
+
               {/* Down Clues */}
               <div className="bg-black/30 rounded-lg border border-purple-500/20 p-4">
                 <h3 className="text-lg font-semibold text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
@@ -598,200 +652,196 @@ export default function CrosswordPage() {
             Failed to load crossword data
           </div>
         )}
-        
-        {/* Success Message */}
-        {gameCompleted && (
-          <div className="fixed bottom-0 inset-x-0 p-4 bg-green-900/70 backdrop-blur-sm border-t border-green-500/30 z-40">
-            <div className="max-w-md mx-auto text-center">
-              <h3 className="text-xl font-bold text-green-300 mb-2">Crossword Complete!</h3>
-              <p className="text-white">You finished in {formatTime(timeElapsed)}</p>
-            </div>
-          </div>
-        )}
-        
-        {/* Validation Modal */}
-        {showValidationModal && (
-          <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            onClick={closeValidationModal}
-          >
-            <div
-              className="bg-black/90 p-6 rounded-xl border border-purple-500/30 max-w-3xl w-full max-h-[90vh] overflow-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between items-start mb-4">
-                <h2 className="text-2xl font-bold text-white">Crossword Results</h2>
-                <button 
-                  onClick={closeValidationModal} 
-                  className="text-gray-400 hover:text-white"
-                >
-                  ×
-                </button>
-              </div>
-              
-              {!validationResults.allFilled && (
-                <div className="p-4 mb-6 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
-                  <h3 className="text-lg font-semibold text-yellow-300 mb-2">
-                    Incomplete Puzzle
-                  </h3>
-                  <p className="text-gray-300">
-                    Please fill in all cells before checking. There are {validationResults.empty.length} incomplete words.
-                  </p>
-                </div>
-              )}
-              
-              {validationResults.allFilled && validationResults.allCorrect && (
-                <div className="p-4 mb-6 bg-green-900/20 border border-green-500/30 rounded-lg">
-                  <h3 className="text-lg font-semibold text-green-300 mb-2">
-                    Perfect!
-                  </h3>
-                  <p className="text-gray-300">
-                    Congratulations! All answers are correct.
-                  </p>
-                </div>
-              )}
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Correct Answers */}
-                {validationResults.correct.length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-semibold text-green-400 mb-2 border-b border-green-500/30 pb-1">
-                      Correct Answers ({validationResults.correct.length})
-                    </h3>
-                    <div className="space-y-2 mt-3">
-                      {validationResults.correct.map((result, idx) => (
-                        <div 
-                          key={`correct-${idx}`} 
-                          className="p-2 rounded bg-green-900/20 border border-green-500/20"
-                        >
-                          <div className="flex justify-between">
-                            <div className="font-medium text-green-300">
-                              {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
-                            </div>
-                            <div className="text-white font-mono">
-                              {result.expected}
-                            </div>
-                          </div>
-                          <div className="text-sm text-gray-400 mt-1">
-                            {result.entry.clue}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Incorrect Answers */}
-                {validationResults.incorrect.length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-semibold text-red-400 mb-2 border-b border-red-500/30 pb-1">
-                      Incorrect Answers ({validationResults.incorrect.length})
-                    </h3>
-                    <div className="space-y-2 mt-3">
-                      {validationResults.incorrect.map((result, idx) => (
-                        <div 
-                          key={`incorrect-${idx}`} 
-                          className="p-2 rounded bg-red-900/20 border border-red-500/20"
-                        >
-                          <div className="flex justify-between">
-                            <div className="font-medium text-red-300">
-                              {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
-                            </div>
-                            <div>
-                              <span className="text-red-400 font-mono">{result.userAnswer}</span>
-                              <span className="text-gray-500 mx-2">→</span>
-                              <span className="text-green-400 font-mono">{result.expected}</span>
-                            </div>
-                          </div>
-                          <div className="text-sm text-gray-400 mt-1">
-                            {result.entry.clue}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Empty Answers */}
-                {validationResults.empty.length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-semibold text-yellow-400 mb-2 border-b border-yellow-500/30 pb-1">
-                      Incomplete Answers ({validationResults.empty.length})
-                    </h3>
-                    <div className="space-y-2 mt-3">
-                      {validationResults.empty.map((result, idx) => (
-                        <div 
-                          key={`empty-${idx}`} 
-                          className="p-2 rounded bg-yellow-900/10 border border-yellow-500/20"
-                        >
-                          <div className="flex justify-between">
-                            <div className="font-medium text-yellow-300">
-                              {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
-                            </div>
-                            <div className="text-gray-400 font-mono">
-                              {result.userAnswer || '____'} <span className="text-gray-500 mx-2">→</span> {result.expected.length} letters
-                            </div>
-                          </div>
-                          <div className="text-sm text-gray-400 mt-1">
-                            {result.entry.clue}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-              
-              <div className="mt-6 flex justify-end">
-                <button
-                  onClick={closeValidationModal}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                >
-                  Continue Solving
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Instructions Modal */}
-        {showInstructions && (
-          <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            onClick={() => setShowInstructions(false)}
-          >
-            <div
-              className="bg-black/80 p-6 rounded-xl border border-purple-500/30 max-w-lg w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between items-start mb-4">
-                <h2 className="text-2xl font-bold text-white">How to Play Crossword</h2>
-                <button 
-                  onClick={() => setShowInstructions(false)} 
-                  className="text-gray-400 hover:text-white"
-                >
-                  ×
-                </button>
-              </div>
-              <div className="space-y-4 text-gray-300">
-                <p>Fill in the crossword grid with Biblical words based on the clues provided.</p>
-                <ul className="list-disc list-inside space-y-2">
-                  <li>Click/tap on a square to select it</li>
-                  <li>Type letters to fill in the answers</li>
-                  <li>Click on clues to navigate to their position</li>
-                  <li>Use arrow keys to move between cells</li>
-                  <li>When finished, click "Check" to verify your answers</li>
-                </ul>
-                <div className="mt-4 bg-purple-900/20 p-4 rounded-lg">
-                  <p className="text-purple-200">
-                    Complete the puzzle to earn points and improve your stats!
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Success Message */}
+      {gameCompleted && (
+        <div className="fixed bottom-0 inset-x-0 p-4 bg-green-900/70 backdrop-blur-sm border-t border-green-500/30 z-40">
+          <div className="max-w-md mx-auto text-center">
+            <h3 className="text-xl font-bold text-green-300 mb-2">Crossword Complete!</h3>
+            <p className="text-white">You finished in {formatTime(timeElapsed)}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Validation Modal */}
+      {showValidationModal && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={closeValidationModal}
+        >
+          <div
+            className="bg-black/90 p-6 rounded-xl border border-purple-500/30 max-w-3xl w-full max-h-[90vh] overflow-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-start mb-4">
+              <h2 className="text-2xl font-bold text-white">Crossword Results</h2>
+              <button 
+                onClick={closeValidationModal} 
+                className="text-gray-400 hover:text-white"
+              >
+                ×
+              </button>
+            </div>
+            {!validationResults.allFilled && (
+              <div className="p-4 mb-6 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
+                <h3 className="text-lg font-semibold text-yellow-300 mb-2">
+                  Incomplete Puzzle
+                </h3>
+                <p className="text-gray-300">
+                  Please fill in all cells before checking. There are {validationResults.empty.length} incomplete words.
+                </p>
+              </div>
+            )}
+            {validationResults.allFilled && validationResults.allCorrect && (
+              <div className="p-4 mb-6 bg-green-900/20 border border-green-500/30 rounded-lg">
+                <h3 className="text-lg font-semibold text-green-300 mb-2">
+                  Perfect!
+                </h3>
+                <p className="text-gray-300">
+                  Congratulations! All answers are correct.
+                </p>
+              </div>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Correct Answers */}
+              {validationResults.correct.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-green-400 mb-2 border-b border-green-500/30 pb-1">
+                    Correct Answers ({validationResults.correct.length})
+                  </h3>
+                  <div className="space-y-2 mt-3">
+                    {validationResults.correct.map((result, idx) => (
+                      <div 
+                        key={`correct-${idx}`} 
+                        className="p-2 rounded bg-green-900/20 border border-green-500/20"
+                      >
+                        <div className="flex justify-between">
+                          <div className="font-medium text-green-300">
+                            {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
+                          </div>
+                          <div className="text-white font-mono">
+                            {result.expected}
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-400 mt-1">
+                          {result.entry.clue}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Incorrect Answers */}
+              {validationResults.incorrect.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-red-400 mb-2 border-b border-red-500/30 pb-1">
+                    Incorrect Answers ({validationResults.incorrect.length})
+                  </h3>
+                  <div className="space-y-2 mt-3">
+                    {validationResults.incorrect.map((result, idx) => (
+                      <div 
+                        key={`incorrect-${idx}`} 
+                        className="p-2 rounded bg-red-900/20 border border-red-500/20"
+                      >
+                        <div className="flex justify-between">
+                          <div className="font-medium text-red-300">
+                            {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
+                          </div>
+                          <div>
+                            <span className="text-red-400 font-mono">{result.userAnswer}</span>
+                            <span className="text-gray-500 mx-2">→</span>
+                            <span className="text-green-400 font-mono">{result.expected}</span>
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-400 mt-1">
+                          {result.entry.clue}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Empty Answers */}
+              {validationResults.empty.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-yellow-400 mb-2 border-b border-yellow-500/30 pb-1">
+                    Incomplete Answers ({validationResults.empty.length})
+                  </h3>
+                  <div className="space-y-2 mt-3">
+                    {validationResults.empty.map((result, idx) => (
+                      <div 
+                        key={`empty-${idx}`} 
+                        className="p-2 rounded bg-yellow-900/10 border border-yellow-500/20"
+                      >
+                        <div className="flex justify-between">
+                          <div className="font-medium text-yellow-300">
+                            {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
+                          </div>
+                          <div className="text-gray-400 font-mono">
+                            {result.userAnswer || '____'} <span className="text-gray-500 mx-2">→</span> {result.expected.length} letters
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-400 mt-1">
+                          {result.entry.clue}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={closeValidationModal}
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+              >
+                Continue Solving
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Instructions Modal */}
+      {showInstructions && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={() => setShowInstructions(false)}
+        >
+          <div
+            className="bg-black/80 p-6 rounded-xl border border-purple-500/30 max-w-lg w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-start mb-4">
+              <h2 className="text-2xl font-bold text-white">How to Play Crossword</h2>
+              <button 
+                onClick={() => setShowInstructions(false)} 
+                className="text-gray-400 hover:text-white"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4 text-gray-300">
+              <p>Fill in the crossword grid with Biblical words based on the clues provided.</p>
+              <ul className="list-disc list-inside space-y-2">
+                <li>Click/tap on a square to select it</li>
+                <li>Type letters to fill in the answers</li>
+                <li>Click on clues to navigate to their position</li>
+                <li>Use arrow keys to move between cells</li>
+                <li>When finished, click "Check" to verify your answers</li>
+              </ul>
+              <div className="mt-4 bg-purple-900/20 p-4 rounded-lg">
+                <p className="text-purple-200">
+                  Complete the puzzle to earn points and improve your stats!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
