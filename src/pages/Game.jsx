@@ -8,7 +8,7 @@ import { auth } from "../firebase.config"
 import Wordle from "../components/Wordle"
 import { Toaster } from "react-hot-toast"
 import { getDailyWord } from "../utils/wordUtils"
-import { FiLock } from "react-icons/fi"
+import { FiLock, FiGrid } from "react-icons/fi"  // Add FiGrid import
 import { updateGameStats } from "../services/statsService"
 import { getGameState } from "../services/gameStateService"
 import { db } from "../firebase.config"
@@ -189,6 +189,18 @@ export default function Game() {
       <Toaster />
       <div className="pt-20 md:pt-24 px-4">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
+          {/* Add Game Mode Switch */}
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={() => navigate('/crossword')}
+              className="flex items-center gap-2 px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 rounded-lg transition-colors border border-purple-500/30"
+            >
+              <FiGrid className="w-4 h-4" />
+              <span>Try Crossword</span>
+            </button>
+          </div>
+
+          {/* Rest of the profile section */}
           {userProfile ? (
             <div className="bg-black/50 backdrop-blur-md border border-gray-800 rounded-lg p-4">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

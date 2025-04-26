@@ -94,20 +94,66 @@ export const markCrosswordAsPlayed = () => {
 
 // Save crossword stats
 export const saveCrosswordStats = async (stats) => {
-  if (!auth.currentUser) return;
+  if (!auth.currentUser) return null;
   
   try {
     const userRef = doc(db, "users", auth.currentUser.uid);
     const userDoc = await getDoc(userRef);
     
     const currentStats = userDoc.exists() ? userDoc.data().crosswordStats || {} : {};
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    const wasCompleted = stats.completed === true;
+    
+    // Calculate streak
+    let currentStreak = currentStats.currentStreak || 0;
+    let maxStreak = currentStats.maxStreak || 0;
+    
+    const lastPlayed = currentStats.lastPlayed ? new Date(currentStats.lastPlayed) : null;
+    const isConsecutiveDay = lastPlayed ? 
+      (now.getTime() - lastPlayed.getTime() < 48 * 60 * 60 * 1000 && 
+      lastPlayed.toISOString().split('T')[0] !== today) : 
+      false;
+    
+    if (wasCompleted) {
+      if (isConsecutiveDay || !lastPlayed) {
+        currentStreak++;
+      } else if (!isConsecutiveDay && lastPlayed) {
+        currentStreak = 1;
+      }
+      
+      maxStreak = Math.max(currentStreak, maxStreak);
+    } else {
+      currentStreak = 0;
+    }
+    
+    // Calculate times
+    const completedGames = (currentStats.gamesCompleted || 0) + (wasCompleted ? 1 : 0);
+    const totalTime = (currentStats.totalTime || 0) + stats.timeElapsed;
+    const averageTime = completedGames > 0 ? Math.round(totalTime / completedGames) : 0;
+    const bestTime = wasCompleted ? 
+      (currentStats.bestTime ? Math.min(currentStats.bestTime, stats.timeElapsed) : stats.timeElapsed) : 
+      currentStats.bestTime || 0;
+
+    // Add historical entry
+    const historyRef = doc(db, "users", auth.currentUser.uid, "crosswordHistory", today);
+    await setDoc(historyRef, {
+      completed: wasCompleted,
+      timeElapsed: stats.timeElapsed,
+      dateCompleted: now.toISOString()
+    });
     
     const updatedStats = {
       ...currentStats,
       gamesPlayed: (currentStats.gamesPlayed || 0) + 1,
-      gamesCompleted: (currentStats.gamesCompleted || 0) + (stats.completed ? 1 : 0),
-      totalTime: (currentStats.totalTime || 0) + stats.timeElapsed,
-      lastPlayed: new Date().toISOString()
+      gamesCompleted: completedGames,
+      gamesWon: (currentStats.gamesWon || 0) + (wasCompleted ? 1 : 0),
+      totalTime,
+      averageTime,
+      bestTime,
+      currentStreak,
+      maxStreak,
+      lastPlayed: now.toISOString()
     };
     
     await setDoc(userRef, {
@@ -118,6 +164,7 @@ export const saveCrosswordStats = async (stats) => {
     return updatedStats;
   } catch (error) {
     console.error("Error saving crossword stats:", error);
+    return null;
   }
 };
 
