@@ -7,6 +7,7 @@ import { auth } from "../firebase.config"
 import { FiLogOut, FiUser, FiMenu, FiX } from "react-icons/fi"
 import Profile from "./Profile"
 import { initializeUserStats } from "../services/statsService"
+import { getCrosswordStats } from "../utils/crosswordUtils" // Add this import
 
 // Add crossword route to the navItems array
 const navItems = [
@@ -37,13 +38,17 @@ const Navbar = () => {
       const loadStats = async () => {
         try {
           console.log("Attempting to load stats for user:", user.uid)
-          const stats = await initializeUserStats(user.uid)
-          console.log("Received stats:", stats)
-          if (!stats) {
+          const gameStats = await initializeUserStats(user.uid)
+          const crossStats = await getCrosswordStats() // Add this line
+          console.log("Received stats:", gameStats, crossStats) // Debug log
+          if (!gameStats) {
             console.warn("No stats returned from initialization")
             return
           }
-          setUserStats(stats)
+          setUserStats({
+            ...gameStats,
+            crosswordStats: crossStats // Add crossword stats to user stats
+          })
         } catch (error) {
           console.error("Error loading stats:", error)
           setUserStats(null)
@@ -238,7 +243,13 @@ const Navbar = () => {
 
       {/* Profile Modal */}
       <AnimatePresence>
-        {showProfile && userStats && <Profile stats={userStats} onClose={() => setShowProfile(false)} />}
+        {showProfile && userStats && (
+          <Profile 
+            stats={userStats} 
+            crosswordStats={userStats.crosswordStats}
+            onClose={() => setShowProfile(false)} 
+          />
+        )}
       </AnimatePresence>
     </>
   )

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiAward, FiTrendingUp, FiZap, FiClock } from 'react-icons/fi';
+import { FiAward, FiTrendingUp, FiZap, FiClock, FiGrid, FiHash } from 'react-icons/fi';
 import { createPortal } from 'react-dom';
 
 const StatCard = ({ title, value, icon: Icon, description }) => (
@@ -20,7 +20,15 @@ const StatCard = ({ title, value, icon: Icon, description }) => (
   </div>
 );
 
-export default function Profile({ stats, onClose }) {
+const formatTime = (seconds) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
+
+export default function Profile({ stats, crosswordStats, onClose }) {
+  const [gameType, setGameType] = useState('wordle');
+
   const content = (
     <motion.div
       initial={{ opacity: 0 }}
@@ -46,52 +54,121 @@ export default function Profile({ stats, onClose }) {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              <StatCard
-                title="Win Rate"
-                value={`${stats.winPercentage.toFixed(1)}%`}
-                icon={FiTrendingUp}
-              />
-              <StatCard
-                title="Current Streak"
-                value={stats.currentStreak}
-                icon={FiZap}
-              />
-              <StatCard
-                title="Max Streak"
-                value={stats.maxStreak}
-                icon={FiAward}
-              />
-              <StatCard
-                title="Average Moves"
-                value={stats.averageMoves.toFixed(1)}
-                icon={FiClock}
-              />
+            {/* Game Type Toggle */}
+            <div className="flex gap-2 mb-6">
+              <button
+                onClick={() => setGameType('wordle')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                  gameType === 'wordle' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <FiHash /> Wordle
+              </button>
+              <button
+                onClick={() => setGameType('crossword')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                  gameType === 'crossword' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <FiGrid /> Crossword
+              </button>
             </div>
 
-            <div className="bg-purple-900/10 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-white mb-4">
-                Guess Distribution
-              </h3>
-              <div className="space-y-2">
-                {Object.entries(stats.distribution).map(([guess, count]) => (
-                  <div key={guess} className="flex items-center gap-2">
-                    <div className="w-4 text-sm text-gray-400">{guess}</div>
-                    <div className="flex-1 bg-purple-900/20 rounded">
-                      <div
-                        className="bg-purple-500/20 rounded py-1 px-2 text-xs text-purple-200"
-                        style={{
-                          width: `${(count / stats.gamesWon) * 100}%`,
-                          minWidth: count > 0 ? '2rem' : '0',
-                        }}
-                      >
-                        {count}
+            {gameType === 'wordle' ? (
+              // Wordle Stats
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                  <StatCard
+                    title="Win Rate"
+                    value={`${stats.winPercentage.toFixed(1)}%`}
+                    icon={FiTrendingUp}
+                  />
+                  <StatCard
+                    title="Current Streak"
+                    value={stats.currentStreak}
+                    icon={FiZap}
+                  />
+                  <StatCard
+                    title="Max Streak"
+                    value={stats.maxStreak}
+                    icon={FiAward}
+                  />
+                  <StatCard
+                    title="Average Moves"
+                    value={stats.averageMoves.toFixed(1)}
+                    icon={FiClock}
+                  />
+                </div>
+
+                <div className="bg-purple-900/10 rounded-lg p-4">
+                  <h3 className="text-lg font-semibold text-white mb-4">
+                    Guess Distribution
+                  </h3>
+                  <div className="space-y-2">
+                    {Object.entries(stats.distribution).map(([guess, count]) => (
+                      <div key={guess} className="flex items-center gap-2">
+                        <div className="w-4 text-sm text-gray-400">{guess}</div>
+                        <div className="flex-1 bg-purple-900/20 rounded">
+                          <div
+                            className="bg-purple-500/20 rounded py-1 px-2 text-xs text-purple-200"
+                            style={{
+                              width: `${(count / stats.gamesWon) * 100}%`,
+                              minWidth: count > 0 ? '2rem' : '0',
+                            }}
+                          >
+                            {count}
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              </motion.div>
+            ) : (
+              // Crossword Stats
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+              >
+                {crosswordStats ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <StatCard
+                      title="Puzzles Completed"
+                      value={crosswordStats.gamesCompleted || 0}
+                      icon={FiGrid}
+                    />
+                    <StatCard
+                      title="Average Time"
+                      value={formatTime(crosswordStats.averageTime || 0)}
+                      icon={FiClock}
+                    />
+                    <StatCard
+                      title="Best Time"
+                      value={formatTime(crosswordStats.bestTime || 0)}
+                      icon={FiAward}
+                    />
+                    <StatCard
+                      title="Current Streak"
+                      value={crosswordStats.currentStreak || 0}
+                      icon={FiZap}
+                    />
+                  </div>
+                ) : (
+                  <div className="text-gray-400 text-center py-8">
+                    No crossword stats available yet. Complete a crossword to see your progress!
+                  </div>
+                )}
+              </motion.div>
+            )}
           </div>
         </motion.div>
       </div>
