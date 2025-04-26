@@ -3,6 +3,7 @@
   "devCommand": "vite dev",
   "framework": "vite",
   "outputDirectory": "dist",
+  "installCommand": "npm install --force",
   "rewrites": [
     {
       "source": "/5letter.jsonl",
@@ -30,7 +31,15 @@
         },
         {
           "key": "Cache-Control",
-          "value": "s-maxage=1, stale-while-revalidate"
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
         }
       ]
     }

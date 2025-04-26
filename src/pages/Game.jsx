@@ -79,11 +79,11 @@ export default function Game() {
         console.error("Error loading word list:", error);
         // Fallback to a default word if needed
         setCurrentWord({
-          name: "JESUS",
-          verse_location: "Matthew 1:21",
-          description: "The Messiah",
-          category: "prophets",
-          special_moment: "Born to save people from their sins."
+          name: "FAITH",  // Changed from "JESUS"
+          verse_location: "Hebrews 11:1",
+          description: "The assurance of things hoped for",
+          category: "Symbol",
+          special_moment: "The foundation of our relationship with God."
         });
       }
     };
