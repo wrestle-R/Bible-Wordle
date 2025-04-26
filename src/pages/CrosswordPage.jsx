@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
-import { FiClock, FiHelpCircle, FiCheck, FiRefreshCw } from "react-icons/fi";
+import { FiClock, FiHelpCircle, FiCheck, FiRefreshCw, FiAward, FiTrendingUp, FiTarget, FiCalendar, FiBarChart2 } from "react-icons/fi";
+import { auth } from "../firebase.config";
 import Navbar from "../components/Navbar";
 import { 
   getTodayCrosswordData, 
@@ -13,6 +14,8 @@ import {
 } from "../utils/crosswordUtils";
 
 export default function CrosswordPage() {
+  // Add timer ref
+  const timerInterval = useRef(null);
   const [loading, setLoading] = useState(true);
   const [crosswordData, setCrosswordData] = useState(null);
   const [userInput, setUserInput] = useState([]);
@@ -27,6 +30,16 @@ export default function CrosswordPage() {
     correct: [],
     incorrect: [],
     empty: []
+  });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userStats, setUserStats] = useState({
+    currentStreak: 0,
+    maxStreak: 0,
+    bestTime: null,
+    averageTime: 0,
+    gamesWon: 0,
+    gamesPlayed: 0,
+    lastPlayed: null
   });
   
   // Initialize crossword data
@@ -95,18 +108,15 @@ export default function CrosswordPage() {
         
         setUserInput(initialInput);
         
-        // Start timer only if game not completed
-        if (savedGameCompleted !== 'true') {
-          const timerInterval = setInterval(() => {
+        // Start timer only if game not completed and not already played
+        if (savedGameCompleted !== 'true' && !alreadyPlayed) {
+          timerInterval.current = setInterval(() => {
             setTimeElapsed(prev => {
               const newTime = prev + 1;
               sessionStorage.setItem('crosswordTimeElapsed', newTime.toString());
               return newTime;
             });
           }, 1000);
-          
-          // Clean up timer
-          return () => clearInterval(timerInterval);
         }
         
       } catch (error) {
@@ -124,6 +134,14 @@ export default function CrosswordPage() {
     };
     
     initCrossword();
+    
+    // Clean up timer
+    return () => {
+      if (timerInterval.current) {
+        clearInterval(timerInterval.current);
+        timerInterval.current = null;
+      }
+    };
   }, []);
   
   // Save user input to session storage whenever it changes
@@ -139,6 +157,38 @@ export default function CrosswordPage() {
       sessionStorage.setItem('crosswordGameCompleted', 'true');
     }
   }, [gameCompleted]);
+
+  // Add auth listener
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsLoggedIn(!!user);
+      if (user) {
+        loadUserStats();
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Modify loadUserStats to fetch all stats
+  const loadUserStats = async () => {
+    try {
+      const stats = await getCrosswordStats();
+      if (stats) {
+        setUserStats({
+          currentStreak: stats.currentStreak || 0,
+          maxStreak: stats.maxStreak || 0,
+          bestTime: stats.bestTime || null,
+          averageTime: stats.averageTime || 0,
+          gamesWon: stats.gamesWon || 0,
+          gamesPlayed: stats.gamesPlayed || 0,
+          lastPlayed: stats.lastPlayed || null
+        });
+      }
+    } catch (error) {
+      console.error("Error loading stats:", error);
+      toast.error("Failed to load statistics");
+    }
+  };
 
   // Handle key press
   const handleKeyDown = (e) => {
@@ -325,8 +375,8 @@ export default function CrosswordPage() {
   };
   
   // Check answers button functionality fix
-  const checkAnswers = () => {
-    if (!crosswordData) return;
+  const checkAnswers = async () => {
+    if (!crosswordData || !auth.currentUser) return;
     
     let allCorrect = true;
     let allFilled = true;
@@ -397,7 +447,7 @@ export default function CrosswordPage() {
     setShowValidationModal(true);
     
     if (allFilled && allCorrect) {
-      handleGameComplete(true);
+      await handleGameComplete(true);
     }
   };
 
@@ -407,19 +457,50 @@ export default function CrosswordPage() {
   };
   
   // Handle game completion
-  const handleGameComplete = (completed) => {
-    if (gameCompleted) return;
+  const handleGameComplete = async (completed) => {
+    if (gameCompleted || !auth.currentUser) return;
+    
+    // Stop the timer immediately
+    if (timerInterval.current) {
+      clearInterval(timerInterval.current);
+      timerInterval.current = null;
+    }
     
     setGameCompleted(true);
     sessionStorage.setItem('crosswordGameCompleted', 'true');
     
     // Save stats if not in practice mode
     if (!isPracticeMode) {
-      saveCrosswordStats({ 
-        completed, 
-        timeElapsed 
-      });
-      markCrosswordAsPlayed();
+      const today = new Date().toISOString().split('T')[0];
+      const stats = await getCrosswordStats();
+      
+      // Check if already played today
+      const lastPlayed = stats?.lastPlayed ? new Date(stats.lastPlayed).toISOString().split('T')[0] : null;
+      
+      // Only update stats if not already played today
+      if (lastPlayed !== today) {
+        const updatedStats = await saveCrosswordStats({ 
+          completed, 
+          timeElapsed,
+          date: today
+        });
+        
+        if (updatedStats) {
+          setUserStats({
+            currentStreak: updatedStats.currentStreak || 0,
+            maxStreak: updatedStats.maxStreak || 0,
+            bestTime: updatedStats.bestTime || null,
+            averageTime: updatedStats.averageTime || 0,
+            gamesWon: updatedStats.gamesWon || 0,
+            gamesPlayed: updatedStats.gamesPlayed || 0,
+            lastPlayed: updatedStats.lastPlayed || null
+          });
+        }
+        
+        markCrosswordAsPlayed();
+      } else {
+        console.log('Already played today - stats not updated');
+      }
     }
     
     // Show toast
@@ -437,6 +518,21 @@ export default function CrosswordPage() {
   // Reset the crossword
   const resetCrossword = () => {
     if (!crosswordData) return;
+    
+    // Stop existing timer
+    if (timerInterval.current) {
+      clearInterval(timerInterval.current);
+      timerInterval.current = null;
+    }
+    
+    // Start new timer
+    timerInterval.current = setInterval(() => {
+      setTimeElapsed(prev => {
+        const newTime = prev + 1;
+        sessionStorage.setItem('crosswordTimeElapsed', newTime.toString());
+        return newTime;
+      });
+    }, 1000);
     
     const maxRow = crosswordData.dimensions.rows;
     const maxCol = crosswordData.dimensions.cols;
@@ -486,6 +582,53 @@ export default function CrosswordPage() {
             Test your biblical knowledge with today's crossword puzzle
           </motion.p>
         </div>
+
+        {/* Stats Dashboard */}
+        {isLoggedIn ? (
+          <div className="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="bg-purple-900/20 rounded-lg p-4 border border-purple-500/30">
+              <div className="flex items-center gap-2 mb-1">
+                <FiTrendingUp className="text-purple-400" />
+                <span className="text-sm text-purple-300">Current Streak</span>
+              </div>
+              <div className="text-2xl font-bold text-white">{userStats.currentStreak}</div>
+            </div>
+
+            <div className="bg-blue-900/20 rounded-lg p-4 border border-blue-500/30">
+              <div className="flex items-center gap-2 mb-1">
+                <FiAward className="text-blue-400" />
+                <span className="text-sm text-blue-300">Best Streak</span>
+              </div>
+              <div className="text-2xl font-bold text-white">{userStats.maxStreak}</div>
+            </div>
+
+            <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/30">
+              <div className="flex items-center gap-2 mb-1">
+                <FiTarget className="text-green-400" />
+                <span className="text-sm text-green-300">Success Rate</span>
+              </div>
+              <div className="text-2xl font-bold text-white">
+                {userStats.gamesPlayed > 0 
+                  ? `${Math.round((userStats.gamesWon / userStats.gamesPlayed) * 100)}%` 
+                  : '0%'}
+              </div>
+            </div>
+
+            <div className="bg-amber-900/20 rounded-lg p-4 border border-amber-500/30">
+              <div className="flex items-center gap-2 mb-1">
+                <FiClock className="text-amber-400" />
+                <span className="text-sm text-amber-300">Best Time</span>
+              </div>
+              <div className="text-2xl font-bold text-white">{formatTime(userStats.bestTime)}</div>
+            </div>
+          </div>
+        ) : (
+          <div className="mb-6 p-4 bg-purple-900/20 rounded-lg border border-purple-500/30">
+            <div className="text-center text-purple-300">
+              Sign in to track your stats and compete with others!
+            </div>
+          </div>
+        )}
 
         {/* Stats & Controls */}
         <div className="flex justify-between items-center mb-6">
@@ -675,7 +818,7 @@ export default function CrosswordPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-start mb-4">
-              <h2 className="text-2xl font-bold text-white">Crossword Results</h2>
+              <h2 className="text-2xl font-bold text-white">Puzzle Progress</h2>
               <button 
                 onClick={closeValidationModal} 
                 className="text-gray-400 hover:text-white"
@@ -683,67 +826,48 @@ export default function CrosswordPage() {
                 ×
               </button>
             </div>
-            {!validationResults.allFilled && (
-              <div className="p-4 mb-6 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
-                <h3 className="text-lg font-semibold text-yellow-300 mb-2">
-                  Incomplete Puzzle
-                </h3>
-                <p className="text-gray-300">
-                  Please fill in all cells before checking. There are {validationResults.empty.length} incomplete words.
-                </p>
-              </div>
-            )}
-            {validationResults.allFilled && validationResults.allCorrect && (
-              <div className="p-4 mb-6 bg-green-900/20 border border-green-500/30 rounded-lg">
-                <h3 className="text-lg font-semibold text-green-300 mb-2">
-                  Perfect!
-                </h3>
-                <p className="text-gray-300">
-                  Congratulations! All answers are correct.
-                </p>
-              </div>
-            )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Correct Answers */}
-              {validationResults.correct.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-2 border-b border-green-500/30 pb-1">
-                    Correct Answers ({validationResults.correct.length})
+
+            {/* Summary Section */}
+            <div className="mb-6">
+              {validationResults.allCorrect && validationResults.allFilled ? (
+                <div className="p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
+                  <h3 className="text-lg font-semibold text-green-300 mb-2">
+                    Perfect! 🎉
                   </h3>
-                  <div className="space-y-2 mt-3">
-                    {validationResults.correct.map((result, idx) => (
-                      <div 
-                        key={`correct-${idx}`} 
-                        className="p-2 rounded bg-green-900/20 border border-green-500/20"
-                      >
-                        <div className="flex justify-between">
-                          <div className="font-medium text-green-300">
-                            {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
-                          </div>
-                          <div className="text-white font-mono">
-                            {result.expected}
-                          </div>
-                        </div>
-                        <div className="text-sm text-gray-400 mt-1">
-                          {result.entry.clue}
-                        </div>
-                      </div>
-                    ))}
+                  <p className="text-gray-300">
+                    Congratulations! You've completed the crossword successfully.
+                  </p>
+                </div>
+              ) : (
+                <div className="text-lg text-gray-200 mb-4">
+                  <div className="flex gap-8">
+                    <div>
+                      <span className="text-green-400">{validationResults.correct.length}</span> correct
+                    </div>
+                    <div>
+                      <span className="text-red-400">{validationResults.incorrect.length}</span> incorrect
+                    </div>
+                    <div>
+                      <span className="text-yellow-400">{validationResults.empty.length}</span> incomplete
+                    </div>
                   </div>
                 </div>
               )}
+            </div>
 
+            {/* Only show sections that need attention */}
+            <div className="space-y-6">
               {/* Incorrect Answers */}
               {validationResults.incorrect.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-semibold text-red-400 mb-2 border-b border-red-500/30 pb-1">
-                    Incorrect Answers ({validationResults.incorrect.length})
+                  <h3 className="text-lg font-semibold text-red-400 mb-3 border-b border-red-500/30 pb-1">
+                    Need Correction
                   </h3>
-                  <div className="space-y-2 mt-3">
+                  <div className="space-y-2">
                     {validationResults.incorrect.map((result, idx) => (
                       <div 
                         key={`incorrect-${idx}`} 
-                        className="p-2 rounded bg-red-900/20 border border-red-500/20"
+                        className="p-3 rounded bg-red-900/20 border border-red-500/20"
                       >
                         <div className="flex justify-between">
                           <div className="font-medium text-red-300">
@@ -751,8 +875,6 @@ export default function CrosswordPage() {
                           </div>
                           <div>
                             <span className="text-red-400 font-mono">{result.userAnswer}</span>
-                            <span className="text-gray-500 mx-2">→</span>
-                            <span className="text-green-400 font-mono">{result.expected}</span>
                           </div>
                         </div>
                         <div className="text-sm text-gray-400 mt-1">
@@ -767,21 +889,21 @@ export default function CrosswordPage() {
               {/* Empty Answers */}
               {validationResults.empty.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-2 border-b border-yellow-500/30 pb-1">
-                    Incomplete Answers ({validationResults.empty.length})
+                  <h3 className="text-lg font-semibold text-yellow-400 mb-3 border-b border-yellow-500/30 pb-1">
+                    Still Incomplete
                   </h3>
-                  <div className="space-y-2 mt-3">
+                  <div className="space-y-2">
                     {validationResults.empty.map((result, idx) => (
                       <div 
                         key={`empty-${idx}`} 
-                        className="p-2 rounded bg-yellow-900/10 border border-yellow-500/20"
+                        className="p-3 rounded bg-yellow-900/10 border border-yellow-500/20"
                       >
                         <div className="flex justify-between">
                           <div className="font-medium text-yellow-300">
                             {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
                           </div>
-                          <div className="text-gray-400 font-mono">
-                            {result.userAnswer || '____'} <span className="text-gray-500 mx-2">→</span> {result.expected.length} letters
+                          <div className="text-gray-400">
+                            {result.expected.length} letters
                           </div>
                         </div>
                         <div className="text-sm text-gray-400 mt-1">
@@ -793,13 +915,25 @@ export default function CrosswordPage() {
                 </div>
               )}
             </div>
-            <div className="mt-6 flex justify-end">
-              <button
-                onClick={closeValidationModal}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-              >
-                Continue Solving
-              </button>
+
+            {/* Action Buttons */}
+            <div className="mt-6 flex justify-end gap-3">
+              {!validationResults.allCorrect && (
+                <button
+                  onClick={closeValidationModal}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+                >
+                  {validationResults.empty.length > 0 ? "Keep Going" : "Try Again"}
+                </button>
+              )}
+              {validationResults.allCorrect && validationResults.allFilled && (
+                <button
+                  onClick={closeValidationModal}
+                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+                >
+                  Finish
+                </button>
+              )}
             </div>
           </div>
         </div>

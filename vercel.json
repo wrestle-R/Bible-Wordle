@@ -1,6 +1,7 @@
 {
-  "buildCommand": "vite build",
-  "devCommand": "vite dev",
+  "version": 2,
+  "installCommand": "npm install --force",
+  "buildCommand": "npm run build",
   "framework": "vite",
   "outputDirectory": "dist",
   "rewrites": [
