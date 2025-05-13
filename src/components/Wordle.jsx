@@ -338,10 +338,12 @@ export default function Wordle({ wordData, onGameComplete }) {
   const [isMobile, setIsMobile] = useState(false)
   const [hasPlayedToday, setHasPlayedToday] = useState(false)
   const [dailyGameCompleted, setDailyGameCompleted] = useState(false)
-  const [localAttempts, setLocalAttempts] = useState(() => {
-    const saved = localStorage.getItem('currentAttempts');
-    return saved ? JSON.parse(saved) : [];
-  });
+  
+  // Remove redundant localAttempts state that's not being used properly
+  // const [localAttempts, setLocalAttempts] = useState(() => {
+  //   const saved = localStorage.getItem('currentAttempts');
+  //   return saved ? JSON.parse(saved) : [];
+  // });
 
   // Add new state for saved game
   const [savedGame, setSavedGame] = useState(null);
@@ -358,57 +360,191 @@ export default function Wordle({ wordData, onGameComplete }) {
   // Add new states for animations
   const [isValidating, setIsValidating] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  
+  // Add loading state to prevent flashing
+  const [isLoading, setIsLoading] = useState(true);
 
   // Add grid ref for click handling
   const gridRef = useRef(null);
 
-  // Load saved game state on mount
+  // Improved function to get and format the current date consistently
+  const getCurrentDate = () => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  };
+
+  // Check for existing game in Firebase first, then load from local storage as fallback
   useEffect(() => {
-    const loadSavedGame = () => {
+    const checkAndLoadGameState = async () => {
+      setIsLoading(true);
+      const today = getCurrentDate();
+      
+      // Try loading from Firebase first (if authenticated)
+      if (auth.currentUser) {
+        try {
+          const dailyPlayRef = doc(db, 'dailyPlays', auth.currentUser.uid);
+          const docSnap = await getDoc(dailyPlayRef);
+          
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            
+            // Check if today's data exists
+            if (data.lastPlayed === today) {
+              console.log("Found today's game in Firebase");
+              
+              if (data.attempts && Array.isArray(data.attempts)) {
+                setAttempts(data.attempts);
+                
+                // Set game status based on the loaded attempts
+                const lastAttempt = data.attempts[data.attempts.length - 1];
+                if (lastAttempt && lastAttempt.statuses) {
+                  const isWon = lastAttempt.statuses.every(s => s === "correct");
+                  const isLost = data.attempts.length >= MAX_ATTEMPTS && !isWon;
+                  
+                  setGameStatus(isWon ? "won" : isLost ? "lost" : "playing");
+                  setHasPlayedToday(true);
+                  setDailyGameCompleted(isWon || isLost);
+                  
+                  // Rebuild used letters for keyboard
+                  const newUsedLetters = {};
+                  data.attempts.forEach(attempt => {
+                    attempt.word.split('').forEach((letter, i) => {
+                      const status = attempt.statuses[i];
+                      const upperLetter = letter.toUpperCase();
+                      
+                      if (!newUsedLetters[upperLetter] || 
+                          (newUsedLetters[upperLetter] === 'absent' && (status === 'present' || status === 'correct')) ||
+                          (newUsedLetters[upperLetter] === 'present' && status === 'correct')) {
+                        newUsedLetters[upperLetter] = status;
+                      }
+                    });
+                  });
+                  setUsedLetters(newUsedLetters);
+                }
+                
+                // Save to local storage as backup
+                const gameState = {
+                  date: today,
+                  attempts: data.attempts,
+                  status: gameStatus,
+                  word: wordData.name
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+                
+                // No need to check local storage if we loaded from Firebase
+                setIsLoading(false);
+                return;
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error loading game from Firebase:", error);
+        }
+      }
+      
+      // Fallback to local storage if no Firebase data or not authenticated
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        const gameState = JSON.parse(saved);
-        const today = getCurrentDate();
-        
-        // Only restore if it's from today
-        if (gameState.date === today) {
-          console.log("Loading saved game from today:", gameState);
-          setAttempts(gameState.attempts || []);
-          setGameStatus(gameState.status || 'playing');
-          setSavedGame(gameState);
+        try {
+          const gameState = JSON.parse(saved);
           
-          // If game was completed, set appropriate flags
-          if (gameState.status !== 'playing') {
-            setDailyGameCompleted(true);
-            setHasPlayedToday(true);
+          // Only restore if it's from today
+          if (gameState.date === today) {
+            console.log("Loading saved game from local storage:", gameState);
+            setAttempts(gameState.attempts || []);
+            setGameStatus(gameState.status || 'playing');
+            setSavedGame(gameState);
+            
+            // If game was completed, set appropriate flags
+            if (gameState.status === 'won' || gameState.status === 'lost') {
+              setDailyGameCompleted(true);
+              setHasPlayedToday(true);
+            }
+            
+            // Rebuild used letters for keyboard from local storage
+            if (gameState.attempts && Array.isArray(gameState.attempts)) {
+              const newUsedLetters = {};
+              gameState.attempts.forEach(attempt => {
+                attempt.word.split('').forEach((letter, i) => {
+                  const status = attempt.statuses[i];
+                  const upperLetter = letter.toUpperCase();
+                  
+                  if (!newUsedLetters[upperLetter] || 
+                      (newUsedLetters[upperLetter] === 'absent' && (status === 'present' || status === 'correct')) ||
+                      (newUsedLetters[upperLetter] === 'present' && status === 'correct')) {
+                    newUsedLetters[upperLetter] = status;
+                  }
+                });
+              });
+              setUsedLetters(newUsedLetters);
+            }
+          } else {
+            console.log("Found old saved game, clearing...");
+            localStorage.removeItem(STORAGE_KEY);
           }
-        } else {
-          console.log("Found old saved game, clearing...");
+        } catch (error) {
+          console.error("Error parsing saved game:", error);
           localStorage.removeItem(STORAGE_KEY);
         }
       }
+      
+      setIsLoading(false);
     };
 
-    loadSavedGame();
-  }, []);
+    if (wordData) {
+      checkAndLoadGameState();
+    }
+  }, [wordData]);
 
-  // Save game state after each attempt
+  // Save game state after each attempt to both localStorage and Firebase if authenticated
   useEffect(() => {
-    const saveGameState = () => {
+    if (attempts.length === 0 || isLoading) return;
+    
+    const saveGameState = async () => {
+      const today = getCurrentDate();
       const gameState = {
-        date: getCurrentDate(),
+        date: today,
         attempts,
         status: gameStatus,
         word: wordData.name
       };
+      
+      // Always save to localStorage as a backup
       localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
-      console.log("Saved game state:", gameState);
+      console.log("Saved game state to localStorage:", gameState);
+      
+      // If authenticated and game state changed, save to Firebase too
+      if (auth.currentUser && !hasPlayedToday) {
+        try {
+          const dailyPlayRef = doc(db, 'dailyPlays', auth.currentUser.uid);
+          
+          // Check if already played today to prevent overwriting
+          const docSnap = await getDoc(dailyPlayRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.lastPlayed === today) {
+              console.log("Already have today's game in Firebase, not overwriting");
+              return;
+            }
+          }
+          
+          // Save game state to Firebase
+          await setDoc(dailyPlayRef, {
+            lastPlayed: today,
+            attempts,
+            result: gameStatus === "won" ? { won: true, attempts: attempts.length } : 
+                   gameStatus === "lost" ? { won: false, attempts: MAX_ATTEMPTS } : null,
+            timestamp: new Date().toISOString()
+          });
+          console.log("Saved game state to Firebase");
+        } catch (error) {
+          console.error("Error saving game state to Firebase:", error);
+        }
+      }
     };
-
-    if (attempts.length > 0) {
-      saveGameState();
-    }
-  }, [attempts, gameStatus, wordData.name]);
+    
+    saveGameState();
+  }, [attempts, gameStatus, wordData?.name, hasPlayedToday, isLoading]);
 
   useEffect(() => {
     // Check if mobile
@@ -497,7 +633,7 @@ export default function Wordle({ wordData, onGameComplete }) {
     localStorage.setItem('currentAttempts', JSON.stringify(attempts));
   }, [attempts]);
 
-  // Modify updateDailyPlay to check dates properly
+  // Completely replace the updateDailyPlay function with a more reliable version
   const updateDailyPlay = async (gameResult) => {
     if (!auth.currentUser) {
       console.log("No auth user - skipping Firebase update");
@@ -511,13 +647,14 @@ export default function Wordle({ wordData, onGameComplete }) {
       const docSnap = await getDoc(dailyPlayRef);
       const existingData = docSnap.exists() ? docSnap.data() : null;
 
-      // Check if already played today
-      if (existingData && existingData.lastPlayed === today) {
-        console.log("Already played today - preventing update");
+      // Check if already played today AND completed
+      if (existingData && existingData.lastPlayed === today && 
+         (existingData.result?.won === true || existingData.result?.won === false)) {
+        console.log("Already completed today's game - preventing update");
         return false;
       }
 
-      // Update with new game result
+      // Update with new game result and all attempts
       await setDoc(dailyPlayRef, {
         lastPlayed: today,
         result: gameResult,
@@ -890,14 +1027,23 @@ export default function Wordle({ wordData, onGameComplete }) {
     console.log("Daily game completed:", dailyGameCompleted)
     console.log("Has played today:", hasPlayedToday)
 
-    if (!hasPlayedToday && auth.currentUser) {
-      const updated = await updateDailyPlay(result)
+    // Check for authentication first
+    if (!auth.currentUser) {
+      console.log("User not authenticated - stats won't be updated");
+      return;
+    }
+    
+    // Only update if this is the first completion for today
+    if (!dailyGameCompleted) {
+      const updated = await updateDailyPlay(result);
       if (updated) {
-        console.log("Stats will be updated - first play of the day")
-        onGameComplete?.(result)
+        console.log("Stats will be updated - first play completion of the day");
+        onGameComplete?.(result);
+      } else {
+        console.log("Failed to update stats in Firebase");
       }
     } else {
-      console.log("Practice mode - stats won't be updated")
+      console.log("Practice mode or already completed - stats won't be updated");
     }
   }
 
