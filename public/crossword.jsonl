@@ -26,7 +26,7 @@
 {"instruction": "What was Sarai's name changed to?","response": "Sarah"}
 {"instruction": "What was the second son Abraham had?","response": "Isaac"}
 {"instruction": "Who did Abraham have his second son with?","response": "Sarah"}
-{"instruction": "Who did the servant choose?","response": "Rebekah"}
+{"instruction": "Who did Abraham's servant choose as a wife for Isaac?","response": "Rebekah"}
 {"instruction": "Who did Isaac favor of his two sons?","response": "Esau"}
 {"instruction": "As Isaac was dying and blind, who suggested that Jacob should steal the blessing?","response": "Rebekah"}
 {"instruction": "When Jacob met Laban, which daughter did he want to marry?","response": "Rachel"}
@@ -55,7 +55,7 @@
 {"instruction": "Did Saul give up on chasing David when David went into the wilderness?","response": "No"}
 {"instruction": "How many times did David spare Saul's life?","response": "Twice"}
 {"instruction": "What last judge of Israel died after Saul made a temporary peace with David?","response": "Samuel"}
-{"instruction": "What prophet did he ask to speak to?","response": "Samuel"}
+{"instruction": "What prophet did Saul ask the witch of Endor to summon?","response": "Samuel"}
 {"instruction": "Did all of Israel immediately consider David their king?","response": "No"}
 {"instruction": "Who was David's captain of his army?","response": "Joab"}
 {"instruction": "When David stayed in Jerusalem, what woman did he see and commit adultery with?","response": "Bathsheba"}
@@ -99,7 +99,7 @@
 {"instruction": "Who was the first Christian to die for his faith?","response": "Stephen"}
 {"instruction": "How many books have the name John in them?","response": "Four"}
 {"instruction": "Who preached at Pentecost?","response": "Peter"}
-{"instruction": "What was his name changed to?","response": "Paul"}
+{"instruction": "What was Saul's name changed to after his conversion?","response": "Paul"}
 {"instruction": "Who was exiled to an island?","response": "John"}
 {"instruction": "Who was crucified upside down?","response": "Peter"}
 {"instruction": "Who was the first martyr and was stoned?","response": "Stephen"}
@@ -122,10 +122,10 @@
 {"instruction": "What significant event is recorded in Genesis chapters 1 and 2?","response": "Creation"}
 {"instruction": "Whose mother placed him in an ark of bulrushes?","response": "Moses"}
 {"instruction": "For how many days and nights did it rain in the story of the flood?","response": "Forty"}
-{"instruction": "What was special about Jesus’ mother?","response": "virgin"}
-{"instruction": "Who gave gifts to Jesus when he was a young child?","response": "magi"}
+{"instruction": "What was special about Jesus' mother when she conceived?","response": "virgin"}
+{"instruction": "Who gave gifts to Jesus when he was a young child?","response": "wisemen"}
 {"instruction": "What happened to Jonah after he was thrown overboard?","response": "swallowed"}
-{"instruction": "In whose image was man created?","response": "God’s"}
+{"instruction": "In whose image was man created?","response": "Gods"}
 {"instruction": "How many apostles did Jesus choose?","response": "Twelve"}
 {"instruction": "What are the wages of sin?","response": "Death"}
 {"instruction": "Who is the first mother mentioned in the Bible?","response": "Eve"}
@@ -177,7 +177,7 @@
 {"instruction": "What was Esau doing while Jacob stole his blessing?","response": "Hunting"}
 {"instruction": "Who was David’s great friend?","response": "Jonathan"}
 {"instruction": "Who said “thy God shall be my God”?","response": "Ruth"}
-{"instruction": "What does the name Emmanuel mean?","response": "God"}
+{"instruction": "What does the name Emmanuel mean?","response": "withus"}
 {"instruction": "Where did Jesus meet the woman of Samaria?","response": "well"}
 {"instruction": "Which disciple tried to walk on water, as Jesus did?","response": "Peter"}
 {"instruction": "With whom did David commit adultery?","response": "Bathsheba"}
@@ -185,7 +185,7 @@
 {"instruction": "How many books are there in the Bible?","response": "Sixty-six"}
 {"instruction": "What are the names of Lazarus’ sisters?","response": "Mary"}
 {"instruction": "Where did Jonah go after being thrown overboard and reaching dry land?","response": "Nineveh"}
-{"instruction": "For what did Esau sell his birthright to Jacob? Answers on Page 26","response": "meal"}
+{"instruction": "For what did Esau sell his birthright to Jacob?","response": "stew"}
 {"instruction": "What happened to Elimelech in Moab?","response": "died"}
 {"instruction": "What is the name of the disciple who betrayed Jesus?","response": "Judas"}
 {"instruction": "What golden animal did the Israelites make as an idol?","response": "Calf"}
@@ -195,21 +195,21 @@
 {"instruction": "What is the collective name of the stories Jesus told to convey his message?","response": "Parables"}
 {"instruction": "What was noticeable about Jacob’s twin brother, Esau, at birth?","response": "hairy"}
 {"instruction": "Who wanted to kill Jesus when he was a baby?","response": "Herod"}
-{"instruction": "Which well known Psalm of David contains the line, “he maketh me to lie down in green pastures”?","response": "Psalm"}
-{"instruction": "Abraham’s wife, Sarah, bore a special son What was his name?","response": "Isaac"}
+{"instruction": "Which well known Psalm of David contains the line, he maketh me to lie down in green pastures?","response": "twentythree"}
+{"instruction": "What was the name of Abraham's wife Sarah's special son?","response": "Isaac"}
 {"instruction": "Which son did Jacob love more than all the others?","response": "Joseph"}
-{"instruction": "Who was Jacob’s grandfather?","response": "Abraham"}
+{"instruction": "Who was Jacob's grandfather?","response": "Abraham"}
 {"instruction": "To which city will all nations one day go to worship God?","response": "Jerusalem"}
-{"instruction": "Who said, “I am the true vine”?","response": "Jesus"}
+{"instruction": "Who said, I am the true vine?","response": "Jesus"}
 {"instruction": "To which tribe did Jesus belong?","response": "Judah"}
-{"instruction": "What affliction did Hannah suffer from, that allowed Peninnah to provoke her?","response": "barren"}
+{"instruction": "What affliction did Hannah suffer from that allowed Peninnah to provoke her?","response": "barren"}
 {"instruction": "Which is the gate that “leads to life”?","response": "narrow"}
 {"instruction": "What was the relationship of Mary (mother of Jesus) to Elisabeth?","response": "Cousin"}
 {"instruction": "Who said, “Thou art my beloved Son, in thee I am well pleased”?","response": "God"}
 {"instruction": "Which son did Jacob not send to Egypt for grain during the famine?","response": "Benjamin"}
-{"instruction": "What does the word “gospel” mean?","response": "news"}
+{"instruction": "What does the word gospel mean?","response": "goodnews"}
 {"instruction": "Who suggested that Jonah be thrown overboard?","response": "Jonah"}
-{"instruction": "As Esau grew, he was described as a what?","response": "hunter"}
+{"instruction": "As Esau grew, he became a skilled what?","response": "hunter"}
 {"instruction": "What was Bathsheba doing when David first saw her?","response": "Washing"}
 {"instruction": "Who ran from Mount Carmel to Samaria faster than Ahab could drive his chariot?","response": "Elijah"}
 {"instruction": "How many sons did Jacob (Israel) have?","response": "Twelve"}
@@ -250,44 +250,44 @@
 {"instruction": "Where is the “best place to pray”?","response": "closet"}
 {"instruction": "Where was Jesus baptized?","response": "Jordan"}
 {"instruction": "Which plant is “the least of all seeds, but when it is grown, it is the greatest among herbs”?","response": "Mustard"}
-{"instruction": "What did God breathe into Adam’s nostrils?","response": "breath"}
+{"instruction": "What did God breathe into Adam's nostrils to give him life?","response": "life"}
 {"instruction": "To whom was the Revelation of Jesus Christ given?","response": "John"}
-{"instruction": "How long was Jonah stuck inside the great fish for?","response": "Three"}
+{"instruction": "How many days was Jonah stuck inside the great fish?","response": "Three"}
 {"instruction": "When Jesus walked on water, which sea was it?","response": "Galilee"}
 {"instruction": "Who told Joseph that Jesus would save his people from their sins?","response": "Angel"}
 {"instruction": "To whom did Jesus say, “Why are ye fearful, O ye of little faith”?","response": "disciples"}
 {"instruction": "What was the name of Hagar’s son?","response": "Ishmael"}
 {"instruction": "Who was Jacob’s first wife?","response": "Leah"}
-{"instruction": "What was Jesus wrapped in when he was born?","response": "clothes"}
+{"instruction": "What was Jesus wrapped in when he was born?","response": "swaddling"}
 {"instruction": "At what age did Jesus start his ministry?","response": "Thirty"}
 {"instruction": "What animal spoke to Balaam?","response": "Donkey"}
 {"instruction": "What is the last book of the Old Testament?","response": "Malachi"}
-{"instruction": "What was Jonah’s reaction to the way the people of the city of Nineveh responded to God’s message?","response": "angry"}
-{"instruction": "Zacharias and Elizabeth were told by an angel that they would have a son What was he to be called?","response": "John"}
+{"instruction": "What was Jonah's reaction to the way the people of the city of Nineveh responded to God's message?","response": "angry"}
+{"instruction": "What was Zacharias and Elizabeth's son to be called according to the angel?","response": "John"}
 {"instruction": "How did Jesus say we should receive the Kingdom of God?","response": "child"}
 {"instruction": "In his Sermon on the Mount, what does Jesus say about tomorrow?","response": "thought"}
 {"instruction": "What did Joseph instruct to be put in Benjamin’s sack?","response": "cup"}
 {"instruction": "What was the name of the place where Jesus Christ was crucified?","response": "Golgotha"}
-{"instruction": "What object featured in Jacob’s dream at Bethel?","response": "Ladder"}
-{"instruction": "What are the names of Joseph’s parents?","response": "Jacob"}
+{"instruction": "What object featured in Jacob's dream at Bethel?","response": "Ladder"}
+{"instruction": "Who were Joseph's parents?","response": "Jacob"}
 {"instruction": "What animal did Samson kill on his way to Timnah?","response": "Lion"}
 {"instruction": "What was the name of Ruth’s second husband?","response": "Boaz"}
 {"instruction": "Complete this common phrase of thanksgiving found in the Bible: “O give thanks unto the Lord; for he is good: for his _____ endureth for ever”","response": "Mercy"}
 {"instruction": "Who wrote the majority of the Psalms?","response": "David"}
 {"instruction": "Which prophet anointed David as king?","response": "Samuel"}
 {"instruction": "A “soft answer turneth away” what?","response": "Wrath"}
-{"instruction": "What job did the Prodigal Son end up taking after he had spent his inheritance?","response": "feeder"}
-{"instruction": "Why shouldn’t we give anyone the title of “Father”?","response": "father"}
-{"instruction": "How did Jesus heal the blind man?","response": "wash"}
-{"instruction": "Where did Jesus find Zacchaeus,the tax collector?","response": "tree"}
-{"instruction": "What is the name of Jesus’ cousin, born six months before him?","response": "John"}
+{"instruction": "What job did the Prodigal Son end up taking after he had spent his inheritance?","response": "pigfeeder"}
+{"instruction": "According to Jesus, why shouldn't we call anyone Father on earth?","response": "heavenly"}
+{"instruction": "How did Jesus heal the blind man at the Pool of Siloam?","response": "wash"}
+{"instruction": "Where did Jesus find Zacchaeus, the tax collector?","response": "tree"}
+{"instruction": "What is the name of Jesus' cousin, born six months before him?","response": "John"}
 {"instruction": "Who was the first child born?","response": "Cain"}
 {"instruction": "Which apostle, who was described as “full of grace and power, and doing great wonders and signs among the people”, was stoned to death?","response": "Stephen"}
 {"instruction": "Who deceived Jacob by giving Leah as a wife instead of Rachel?","response": "Laban"}
 {"instruction": "In the parable of the lost sheep, how many sheep did the shepherd count safely into the fold?","response": "Ninetynine"}
 {"instruction": "What type of coin did Judas accept as payment for betraying Jesus?","response": "Silver"}
-{"instruction": "What was the covenant between God and Noah?","response": "flood"}
-{"instruction": "Which prophet said, “Behold, a virgin shall be with child, and shall bring forth a son”?","response": "Isaiah"}
+{"instruction": "What was the covenant between God and Noah that he would never flood the earth again?","response": "rainbow"}
+{"instruction": "Which prophet said, 'Behold, a virgin shall be with child, and shall bring forth a son'?","response": "Isaiah"}
 {"instruction": "To what object does James compare the tongue?","response": "rudder"}
 {"instruction": "Which of David’s sons rebelled against him?","response": "Absalom"}
 {"instruction": "What did Naomi tell the people in Bethlehem to call her?","response": "Mara"}
@@ -342,8 +342,8 @@
 {"instruction": "How did the Philistines discover the answer to Samson’s riddle?","response": "threatened"}
 {"instruction": "When he was approached by Jesus, who said, “What have you to do with me, Jesus, Son of the Most High God? I adjure you by God, do not torment me”?","response": "Legion"}
 {"instruction": "What was the reason that Jacob and his family began a new life in Egypt?","response": "Famine"}
-{"instruction": "Whose father was so pleased to see him that he gave him the best robe and killed the fatted calf?","response": "son"}
-{"instruction": "What was the name of Solomon’s son who succeeded him as king?","response": "Rehoboam"}
+{"instruction": "Whose father was so pleased to see him return that he gave him the best robe and killed the fatted calf?","response": "Prodigal"}
+{"instruction": "What was the name of Solomon's son who succeeded him as king?","response": "Rehoboam"}
 {"instruction": "What does faith require to make it a living faith?","response": "Works"}
 {"instruction": "In the parable of the grain of mustard seed, when it becomes a tree birds come and do what?","response": "nests"}
 {"instruction": "Who did Jesus raise from the dead by a prayer of thanks to God?","response": "Lazarus"}
@@ -488,8 +488,8 @@
 {"instruction": "Who became nurse to Ruth’s son?","response": "Naomi"}
 {"instruction": "What relation was Jacob to Abraham?","response": "Grandson"}
 {"instruction": "What killed the plant that God had provided Jonah for shade?","response": "worm"}
-{"instruction": "What did the prophet Micah say about Jesus’ birth?","response": "Bethlehem"}
-{"instruction": "What did John do with the little book he took from the angel?","response": "ate"}
+{"instruction": "What did the prophet Micah say about where Jesus would be born?","response": "Bethlehem"}
+{"instruction": "What did John do with the little book he took from the angel in Revelation?","response": "ate"}
 {"instruction": "Who went up yearly to worship God in Shiloh, and one year prayed to God for a baby?","response": "Hannah"}
 {"instruction": "In which tribe was the city of Bethlehem?","response": "Judah"}
 {"instruction": "What did Jonah do while he waited to see Nineveh’s fate?","response": "shelter"}
@@ -521,10 +521,10 @@
 {"instruction": "You will be healed if you “pray for one another” and what else?","response": "faults"}
 {"instruction": "What is in the hypocrite’s eye?","response": "beam"}
 {"instruction": "Which book of the Bible follows Jonah?","response": "Micah"}
-{"instruction": "What inscription was on the altar in Athens?","response": "God"}
+{"instruction": "What inscription was on the altar Paul found in Athens?","response": "Unknown"}
 {"instruction": "In which book of prophecy do we read about the valley of dry bones?","response": "Ezekiel"}
-{"instruction": "Which baby was named after his mother’s laughter?","response": "Isaac"}
-{"instruction": "Demetrius, of Ephesus was a?","response": "Silversmith"}
+{"instruction": "Which baby was named after his mother's laughter?","response": "Isaac"}
+{"instruction": "What was the profession of Demetrius of Ephesus?","response": "Silversmith"}
 {"instruction": "On which day of the year could the High Priest enter the Holiest Place, the inner most part of the temple where the covenant box was kept?","response": "Atonement"}
 {"instruction": "What was the name of the temple gate at which the lame man was laid daily?","response": "Beautiful"}
 {"instruction": "To which Jewish sect did Nicodemus belong?","response": "Pharisees"}
@@ -567,7 +567,7 @@
 {"instruction": "Jesus was a high priest after the order of which ancient king, mentioned in Psalm 110?","response": "Melchizedek"}
 {"instruction": "Who was Noah’s father?","response": "Lamech"}
 {"instruction": "Who did Pilate send Jesus to after he had interrogated him?","response": "Herod"}
-{"instruction": "Daniel had a dream about four things What sort of things?","response": "Beasts"}
+{"instruction": "In Daniel's dream, what sort of four things did he see?","response": "Beasts"}
 {"instruction": "Who was the father of Jonah?","response": "Amittai"}
 {"instruction": "What relation to Abram was Lot?","response": "nephew"}
 {"instruction": "Who will the “least person in the Kingdom of God” be greater than?","response": "John"}
@@ -600,7 +600,7 @@
 {"instruction": "Who sang, “My soul doth magnify the Lord”?","response": "Mary"}
 {"instruction": "At what place did the Israelites arrive only to find the water was too bitter to drink, where upon God caused it to become sweet?","response": "Marah"}
 {"instruction": "When Moses blessed the tribes before his death, to what animal did he compare Gad?","response": "Lion"}
-{"instruction": "When Saul defeated the Amalekites he disobeyed God and took possessions from the land What was the name of the king he also spared?","response": "Agag"}
+{"instruction": "When Saul defeated the Amalekites he disobeyed God by sparing what king?","response": "Agag"}
 {"instruction": "Which king had a feast using the gold and silver vessels taken from the temple in Jerusalem?","response": "Belshazzar"}
 {"instruction": "What sacrifice did Mary and Joseph offer when the days of purification were complete after Jesus’ birth?","response": "pigeons"}
 {"instruction": "Who sat down under a tree and asked the Lord to take away his life?","response": "Elijah"}

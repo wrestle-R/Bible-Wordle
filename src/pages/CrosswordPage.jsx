@@ -565,7 +565,7 @@ export default function CrosswordPage() {
   return (
     <div className="min-h-screen bg-black text-white" onKeyDown={handleKeyDown} tabIndex={0}>
       <Navbar />
-      <div className="max-w-7xl mx-auto px-4 py-8 pt-24"> {/* Increased max width */}
+      <div className="max-w-4xl mx-auto px-4 py-8 pt-24">
         <div className="mb-8 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }} 
@@ -675,8 +675,8 @@ export default function CrosswordPage() {
           <div className="flex flex-col gap-6">
             {/* Crossword Grid - Full Width */}
             <div className="w-full">
-              <div className="bg-black/30 rounded-lg border border-purple-500/20 p-4">
-                <div className="overflow-auto flex justify-center pb-4">
+              <div className="bg-black/30 rounded-lg border border-purple-500/20 p-2">
+                <div className="overflow-auto flex justify-center pb-2">
                   <div className="grid gap-0.5" 
                     style={{ 
                       gridTemplateRows: `repeat(${crosswordData.dimensions.rows}, minmax(0, 1fr))`,
