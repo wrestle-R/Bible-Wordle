@@ -339,11 +339,6 @@ export default function Wordle({ wordData, onGameComplete }) {
   const [hasPlayedToday, setHasPlayedToday] = useState(false)
   const [dailyGameCompleted, setDailyGameCompleted] = useState(false)
   
-  // Remove redundant localAttempts state that's not being used properly
-  // const [localAttempts, setLocalAttempts] = useState(() => {
-  //   const saved = localStorage.getItem('currentAttempts');
-  //   return saved ? JSON.parse(saved) : [];
-  // });
 
   // Add new state for saved game
   const [savedGame, setSavedGame] = useState(null);
