@@ -107,6 +107,14 @@ export default function Landing() {
     >
       {!verseLoading && dailyVerse && (
         <div className="flex flex-col gap-2 text-center">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.4 }}
+            className="text-xs md:text-sm text-purple-300 font-semibold tracking-wide uppercase"
+          >
+            Today's Daily Verse
+          </motion.p>
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
