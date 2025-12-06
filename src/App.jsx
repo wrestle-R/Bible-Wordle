@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Game from './pages/Game'
 import HowToPlay from './pages/HowToPlay'
-import SignUp from './pages/SignUp'
+import SignUp from './pages/Signup'
 import CrosswordPage from './pages/CrosswordPage'
 
 const App = () => {

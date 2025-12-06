@@ -108,13 +108,14 @@ const letterVariants = {
       damping: 20,
     },
   },
-  flip: {
-    scale: [1, 0, 1],
+  flip: (index) => ({
     rotateX: [0, 90, 0],
     transition: {
       duration: 0.5,
+      delay: index * 0.3,
+      ease: "easeInOut",
     },
-  },
+  }),
   validate: (index) => ({
     scale: [1, 1.2, 0.95, 1],
     opacity: [1, 0.8, 0.9, 1],
@@ -141,23 +142,40 @@ const LetterTile = ({ letter, status, delay = 0, isRevealing, isValidating, isSu
                   window.innerWidth < 640 ? "w-12 h-12 text-xl" : 
                   "w-14 h-14 text-2xl";
 
+  const [shouldShowColor, setShouldShowColor] = useState(!isRevealing);
+
+  useEffect(() => {
+    if (isRevealing) {
+      setShouldShowColor(false);
+      const timer = setTimeout(() => {
+        setShouldShowColor(true);
+      }, index * 300 + 250); // index * 300ms delay + 250ms (half of 500ms duration)
+      return () => clearTimeout(timer);
+    } else {
+      setShouldShowColor(true);
+    }
+  }, [isRevealing, index]);
+
   let animationState = "animate";
   if (isValidating) animationState = "validate";
   else if (isSubmitting) animationState = "submit";
   else if (isRevealing) animationState = "flip";
 
+  const statusClass = shouldShowColor ? (
+    status === "correct" ? "bg-green-500/20 border-green-500" :
+    status === "present" ? "bg-yellow-500/20 border-yellow-500" :
+    status === "absent" ? "bg-gray-800/50 border-gray-600" :
+    "border-gray-600"
+  ) : "border-gray-600";
+
   return (
     <motion.div
       variants={letterVariants}
-      initial="initial"
-      animate={typeof animationState === "string" ? animationState : letterVariants[animationState](index)}
-      transition={{ delay: isRevealing ? delay : 0 }}
-      className={`${tileSize} border-2 flex items-center justify-center font-bold rounded transform-gpu
-        ${!status && "border-gray-600"}
-        ${status === "correct" && "bg-green-500/20 border-green-500"}
-        ${status === "present" && "bg-yellow-500/20 border-yellow-500"}
-        ${status === "absent" && "bg-gray-800/50 border-gray-600"}
-      `}
+      initial={isRevealing ? "animate" : "initial"}
+      animate={animationState}
+      custom={index}
+      transition={isRevealing ? undefined : { delay }}
+      className={`${tileSize} border-2 flex items-center justify-center font-bold rounded transform-gpu text-white ${statusClass}`}
     >
       {letter}
     </motion.div>
@@ -814,7 +832,7 @@ export default function Wordle({ wordData, onGameComplete }) {
         setTestamentHintAvailable(true)
       }
 
-      setTimeout(() => setIsRevealing(false), 1500)
+      setTimeout(() => setIsRevealing(false), 2000)
     } else if (/^[A-Za-z]$/.test(e.key) && currentAttempt.length < WORD_LENGTH) {
       setCurrentAttempt((prev) => prev + e.key.toUpperCase())
     }
@@ -870,7 +888,7 @@ export default function Wordle({ wordData, onGameComplete }) {
       if (newAttempts.length === 4) setCategoryHintAvailable(true);
       if (newAttempts.length === 5) setTestamentHintAvailable(true);
       
-      setTimeout(() => setIsRevealing(false), 1500);
+      setTimeout(() => setIsRevealing(false), 2000);
     }, 600); // Duration for validation animation
   };
 
@@ -894,6 +912,7 @@ export default function Wordle({ wordData, onGameComplete }) {
               status={attempt.statuses[j]}
               delay={j * 0.2}
               isRevealing={isRevealing && i === attempts.length - 1}
+              index={j}
             />
           ))}
         </div>,
@@ -933,7 +952,7 @@ export default function Wordle({ wordData, onGameComplete }) {
           {Array(WORD_LENGTH)
             .fill(0)
             .map((_, j) => (
-              <LetterTile key={j} letter="" status={null} />
+              <LetterTile key={j} letter="" status={null} index={j} />
             ))}
         </div>,
       )
