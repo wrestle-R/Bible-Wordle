@@ -43,7 +43,6 @@ export default function Landing() {
           throw new Error('Invalid API response')
         }
       } catch (error) {
-        console.log('Falling back to local verses:', error)
         // Fallback to local JSON
         try {
           const response = await fetch('/daily-verses.json')

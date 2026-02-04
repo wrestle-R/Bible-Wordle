@@ -34,13 +34,10 @@ const Navbar = () => {
 
   useEffect(() => {
     if (user) {
-      console.log("Loading stats for user:", user.uid)
       const loadStats = async () => {
         try {
-          console.log("Attempting to load stats for user:", user.uid)
           const gameStats = await initializeUserStats(user.uid)
           const crossStats = await getCrosswordStats() // Add this line
-          console.log("Received stats:", gameStats, crossStats) // Debug log
           if (!gameStats) {
             console.warn("No stats returned from initialization")
             return
@@ -56,7 +53,6 @@ const Navbar = () => {
       }
       loadStats()
     } else {
-      console.log("No user, clearing stats")
       setUserStats(null)
     }
   }, [user, showProfile])

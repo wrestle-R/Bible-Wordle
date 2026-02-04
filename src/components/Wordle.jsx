@@ -403,7 +403,7 @@ export default function Wordle({ wordData, onGameComplete }) {
             
             // Check if today's data exists
             if (data.lastPlayed === today) {
-              console.log("Found today's game in Firebase");
+              
               
               if (data.attempts && Array.isArray(data.attempts)) {
                 setAttempts(data.attempts);
@@ -463,7 +463,7 @@ export default function Wordle({ wordData, onGameComplete }) {
           
           // Only restore if it's from today
           if (gameState.date === today) {
-            console.log("Loading saved game from local storage:", gameState);
+            
             setAttempts(gameState.attempts || []);
             setGameStatus(gameState.status || 'playing');
             setSavedGame(gameState);
@@ -492,7 +492,7 @@ export default function Wordle({ wordData, onGameComplete }) {
               setUsedLetters(newUsedLetters);
             }
           } else {
-            console.log("Found old saved game, clearing...");
+            
             localStorage.removeItem(STORAGE_KEY);
           }
         } catch (error) {
@@ -524,7 +524,7 @@ export default function Wordle({ wordData, onGameComplete }) {
       
       // Always save to localStorage as a backup
       localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
-      console.log("Saved game state to localStorage:", gameState);
+      
       
       // If authenticated and game state changed, save to Firebase too
       if (auth.currentUser && !hasPlayedToday) {
@@ -536,7 +536,7 @@ export default function Wordle({ wordData, onGameComplete }) {
           if (docSnap.exists()) {
             const data = docSnap.data();
             if (data.lastPlayed === today) {
-              console.log("Already have today's game in Firebase, not overwriting");
+              
               return;
             }
           }
@@ -549,7 +549,7 @@ export default function Wordle({ wordData, onGameComplete }) {
                    gameStatus === "lost" ? { won: false, attempts: MAX_ATTEMPTS } : null,
             timestamp: new Date().toISOString()
           });
-          console.log("Saved game state to Firebase");
+          
         } catch (error) {
           console.error("Error saving game state to Firebase:", error);
         }
@@ -594,7 +594,6 @@ export default function Wordle({ wordData, onGameComplete }) {
 
   useEffect(() => {
     // Log the daily word for development
-    console.log("Today's word:", wordData.name)
   }, [wordData])
 
   useEffect(() => {
@@ -617,7 +616,7 @@ export default function Wordle({ wordData, onGameComplete }) {
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.lastPlayed === today) {
-            console.log("Found today's play in Firebase");
+            
             setHasPlayedToday(true);
             setDailyGameCompleted(true);
             
@@ -626,7 +625,7 @@ export default function Wordle({ wordData, onGameComplete }) {
             if (savedState) {
               const state = JSON.parse(savedState);
               if (state.date === today) {
-                console.log("Restoring saved game state");
+                
                 setAttempts(state.attempts);
                 setGameStatus(state.status);
               }
@@ -649,7 +648,7 @@ export default function Wordle({ wordData, onGameComplete }) {
   // Completely replace the updateDailyPlay function with a more reliable version
   const updateDailyPlay = async (gameResult) => {
     if (!auth.currentUser) {
-      console.log("No auth user - skipping Firebase update");
+      
       return false;
     }
 
@@ -663,7 +662,7 @@ export default function Wordle({ wordData, onGameComplete }) {
       // Check if already played today AND completed
       if (existingData && existingData.lastPlayed === today && 
          (existingData.result?.won === true || existingData.result?.won === false)) {
-        console.log("Already completed today's game - preventing update");
+        
         return false;
       }
 
@@ -675,7 +674,7 @@ export default function Wordle({ wordData, onGameComplete }) {
         timestamp: new Date().toISOString()
       });
       
-      console.log("Daily play updated in Firebase:", gameResult);
+      
       setHasPlayedToday(true);
       setDailyGameCompleted(true);
       return true;
@@ -796,7 +795,6 @@ export default function Wordle({ wordData, onGameComplete }) {
       // ... existing handleKeydown functionality ...
       // Check if max attempts reached or already completed
       if (hasPlayedToday && attempts.length >= MAX_ATTEMPTS) {
-        console.log("Max attempts reached or already played today")
         return
       }
 
@@ -1037,13 +1035,9 @@ export default function Wordle({ wordData, onGameComplete }) {
   }
 
   const handleGameComplete = async (result) => {
-    console.log("Game completed:", result)
-    console.log("Daily game completed:", dailyGameCompleted)
-    console.log("Has played today:", hasPlayedToday)
-
     // Check for authentication first
     if (!auth.currentUser) {
-      console.log("User not authenticated - stats won't be updated");
+      
       return;
     }
     
@@ -1051,13 +1045,13 @@ export default function Wordle({ wordData, onGameComplete }) {
     if (!dailyGameCompleted) {
       const updated = await updateDailyPlay(result);
       if (updated) {
-        console.log("Stats will be updated - first play completion of the day");
+        
         onGameComplete?.(result);
       } else {
-        console.log("Failed to update stats in Firebase");
+        
       }
     } else {
-      console.log("Practice mode or already completed - stats won't be updated");
+      
     }
   }
 

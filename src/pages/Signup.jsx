@@ -25,13 +25,6 @@ export default function SignUp() {
     try {
         const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log('User Data:', {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-        uid: user.uid,
-        token: await user.getIdToken()
-      });
       
       // Store user data in localStorage
       localStorage.setItem('userProfile', JSON.stringify({

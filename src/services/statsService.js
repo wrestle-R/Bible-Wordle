@@ -20,17 +20,17 @@ export const initializeUserStats = async (userId) => {
 
   const userRef = doc(db, 'users', userId);
   try {
-    console.log('Fetching stats for user:', userId);
+    
     const docSnap = await getDoc(userRef);
     
     if (!docSnap.exists()) {
-      console.log('No stats found, creating default stats');
+      
       await setDoc(userRef, defaultStats);
       return defaultStats;
     }
     
     const stats = docSnap.data();
-    console.log('Retrieved stats:', stats);
+    
     return stats;
   } catch (error) {
     console.error('Error fetching stats:', error);
@@ -43,13 +43,13 @@ export const updateGameStats = async (userId, gameResult) => {
 
   const userRef = doc(db, 'users', userId);
   try {
-    console.log('Updating stats for user:', userId);
-    console.log('Game result:', gameResult);
+    
+    
     
     const docSnap = await getDoc(userRef);
     const currentStats = docSnap.exists() ? docSnap.data() : defaultStats;
     
-    console.log('Current stats:', currentStats);
+    
     
     const today = new Date().toDateString();
     const isNewDay = currentStats.lastPlayed !== today;
@@ -72,7 +72,7 @@ export const updateGameStats = async (userId, gameResult) => {
     newStats.averageMoves = Math.round((newStats.totalMoves / newStats.gamesPlayed) * 10) / 10;
     newStats.maxStreak = Math.max(currentStats.maxStreak || 0, newStats.currentStreak);
 
-    console.log('New stats to be saved:', newStats);
+    
     await setDoc(userRef, newStats);
     return newStats;
   } catch (error) {

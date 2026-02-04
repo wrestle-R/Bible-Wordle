@@ -119,7 +119,7 @@ export default function Game() {
     // Use the day of year to select a word (ensures word changes at midnight)
     const index = dayOfYear % bibleWords.length;
     
-    console.log(`Today is day ${dayOfYear} of the year, showing word: ${bibleWords[index].name}`);
+    
     return bibleWords[index];
   };
 
@@ -176,10 +176,8 @@ export default function Game() {
 
   const handleGameComplete = async (gameResult) => {
     if (userProfile && auth.currentUser) {
-      console.log("Game completed with result:", gameResult)
       try {
         const updatedStats = await updateGameStats(auth.currentUser.uid, gameResult)
-        console.log("Updated stats:", updatedStats)
         if (updatedStats) {
           setUserStats(updatedStats)
         }
@@ -187,7 +185,6 @@ export default function Game() {
         console.error("Error updating stats:", error)
       }
     } else {
-      console.log("No user profile or not authenticated")
       setShowLoginPrompt(true)
     }
   }

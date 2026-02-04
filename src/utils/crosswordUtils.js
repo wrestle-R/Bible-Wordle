@@ -36,7 +36,7 @@ export const getTodayCrosswordData = async () => {
     
     // Use date-based seed for deterministic shuffle
     const dateSeed = getDateSeed();
-    console.log("Using date seed:", dateSeed);
+    
     
     // Deterministic shuffle based on date - same worldwide for a given day
     const shuffledWords = deterministicShuffle(words, dateSeed);
@@ -432,9 +432,9 @@ export const createSimpleCrosswordData = (words) => {
   });
   
   // Log all answers for debugging
-  console.log("=== CROSSWORD ANSWERS ===");
+  
   entries.forEach(entry => {
-    console.log(`${entry.number} ${entry.direction}: ${entry.solution} - ${entry.clue}`);
+    
   });
 
   return {

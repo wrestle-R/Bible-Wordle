@@ -10,7 +10,7 @@ export default function CrosswordKeyboard({ onKeyPress }) {
   ];
 
   const handleKeyPress = (key) => {
-    console.log("Key pressed:", key); // Add debugging
+     // Add debugging
     if (key === 'SPACE') {
       onKeyPress('SPACE');
     } else if (key === 'BACKSPACE') {

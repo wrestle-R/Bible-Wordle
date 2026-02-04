@@ -5,8 +5,8 @@ export const getDailyWord = (words) => {
   const index = day % words.length;
 
   // For debugging
-  console.log(`Days since start: ${day}`);
-  console.log(`Word index: ${index}`);
+  
+  
   
   return words[index];
 };

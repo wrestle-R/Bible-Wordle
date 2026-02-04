@@ -386,7 +386,7 @@ export default function CrosswordPage() {
     const empty = [];
     
     // Debug log
-    console.log("Checking answers...");
+    
     
     for (const entry of crosswordData.entries) {
       let entryCorrect = true;
@@ -408,7 +408,7 @@ export default function CrosswordPage() {
         userAnswer.push(userLetter);
         
         // Debug log cell contents
-        console.log(`Cell ${row},${col}: expected ${expectedLetter}, got ${userLetter || 'empty'}`);
+        
         
         if (!userLetter) {
           allFilled = false;
@@ -434,7 +434,7 @@ export default function CrosswordPage() {
       }
     }
     
-    console.log(`All filled: ${allFilled}, All correct: ${allCorrect}`);
+    
     
     // Set validation results and show modal
     setValidationResults({
@@ -499,7 +499,7 @@ export default function CrosswordPage() {
         
         markCrosswordAsPlayed();
       } else {
-        console.log('Already played today - stats not updated');
+        
       }
     }
     

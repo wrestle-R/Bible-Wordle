@@ -5,7 +5,7 @@ export const checkAndClearDailyStorage = () => {
   
   // Either no timestamp exists or it's been more than 6 hours
   if (!lastPlayed || (now - parseInt(lastPlayed)) > sixHoursInMs) {
-    console.log('Clearing storage - 6 hour window expired');
+    
     
     // Clear ALL game-related storage
     localStorage.removeItem('hasSeenInstructions');
