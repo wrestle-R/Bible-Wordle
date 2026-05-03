@@ -22,27 +22,27 @@ export default function CrosswordClues({ words, selectedClue, onClueClick }) {
         whileHover={{ x: 4 }}
         className={`
           px-3 py-2 rounded cursor-pointer mb-1
-          ${isSelected ? 'bg-purple-500/20 border-l-4 border-purple-400' : 'hover:bg-purple-900/20'}
+          ${isSelected ? 'bg-purple-500/20 border-l-4 border-purple-400' : 'hover:bg-purple-200/50 dark:hover:bg-purple-900/20'}
         `}
         onClick={() => onClueClick(clue)}
       >
-        <span className="font-medium text-purple-300 mr-2">{clue.number}.</span>
-        <span className="text-gray-100">{clue.clue}</span>
+        <span className="font-medium text-purple-700 dark:text-purple-300 mr-2">{clue.number}.</span>
+        <span className="text-slate-700 dark:text-gray-100">{clue.clue}</span>
       </motion.div>
     );
   };
 
   return (
-    <div className="bg-black/30 rounded-lg border border-purple-500/20 p-4 h-full overflow-auto">
+    <div className="bg-white/80 dark:bg-black/30 rounded-lg border border-purple-500/20 p-4 h-full overflow-auto">
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
+        <h3 className="text-lg font-semibold text-purple-700 dark:text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
           Across
         </h3>
         {acrossClues.map((clue, index) => renderClue(clue, index))}
       </div>
       
       <div>
-        <h3 className="text-lg font-semibold text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
+        <h3 className="text-lg font-semibold text-purple-700 dark:text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
           Down
         </h3>
         {downClues.map((clue, index) => renderClue(clue, index))}

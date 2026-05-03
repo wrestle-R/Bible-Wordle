@@ -42,7 +42,7 @@ const Letter = ({ children, color }) => {
   const tileSize = isMobile ? "w-8 h-8 text-sm" : "w-12 h-12 text-xl"
 
   return (
-    <div className={`${tileSize} ${color} border-2 flex items-center justify-center font-bold rounded m-1`}>
+    <div className={`${tileSize} ${color} border-2 flex items-center justify-center font-bold rounded m-1 text-slate-900 dark:text-white`}>
       {children}
     </div>
   )
@@ -52,7 +52,7 @@ export default function HowToPlay() {
   const [gameMode, setGameMode] = useState('wordle'); // Add this state
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-slate-100 dark:bg-black">
       <Navbar />
       <motion.div
         variants={containerVariants}
@@ -62,13 +62,13 @@ export default function HowToPlay() {
       >
         {/* Game Mode Toggle */}
         <motion.div variants={itemVariants} className="flex justify-center mb-6">
-          <div className="bg-black/30 border border-gray-800 rounded-lg p-1 inline-flex">
+          <div className="bg-white/80 dark:bg-black/30 border border-slate-300 dark:border-gray-800 rounded-lg p-1 inline-flex">
             <button
               onClick={() => setGameMode('wordle')}
               className={`px-4 py-2 rounded-md flex items-center gap-2 transition-colors ${
                 gameMode === 'wordle' 
                   ? 'bg-purple-600 text-white' 
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white'
               }`}
             >
               <FiHash /> Wordle
@@ -78,7 +78,7 @@ export default function HowToPlay() {
               className={`px-4 py-2 rounded-md flex items-center gap-2 transition-colors ${
                 gameMode === 'crossword' 
                   ? 'bg-purple-600 text-white' 
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white'
               }`}
             >
               <FiGrid /> Crossword
@@ -89,12 +89,12 @@ export default function HowToPlay() {
         {/* About Section */}
         <motion.section
           variants={itemVariants}
-          className="bg-black/30 backdrop-blur-md border border-gray-800 rounded-lg p-4 sm:p-8 mb-6 sm:mb-8"
+          className="bg-white/80 dark:bg-black/30 backdrop-blur-md border border-slate-300 dark:border-gray-800 rounded-lg p-4 sm:p-8 mb-6 sm:mb-8"
         >
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">
             About Bible {gameMode === 'wordle' ? 'Wordle' : 'Crossword'}
           </h2>
-          <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-700 dark:text-gray-300 leading-relaxed">
             {gameMode === 'wordle' ? (
               "Bible Wordle is where scripture meets strategy. It's a fresh, fast-paced word game that dives into the people, places, and moments of the Bible—without feeling like a Sunday school quiz. Built for everyone from curious minds to committed believers, it's a fun way to level up your Bible knowledge while keeping it real. Every word has a story. Ready to play yours?"
             ) : (
@@ -105,10 +105,10 @@ export default function HowToPlay() {
 
         {/* How to Play Section */}
         {gameMode === 'wordle' ? (
-          <motion.section variants={itemVariants} className="bg-black/30 backdrop-blur-md border border-gray-800 rounded-lg p-4 sm:p-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">How to Play</h2>
+          <motion.section variants={itemVariants} className="bg-white/80 dark:bg-black/30 backdrop-blur-md border border-slate-300 dark:border-gray-800 rounded-lg p-4 sm:p-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-6">How to Play</h2>
 
-            <div className="space-y-4 sm:space-y-6 text-gray-300 text-sm sm:text-base">
+            <div className="space-y-4 sm:space-y-6 text-slate-700 dark:text-gray-300 text-sm sm:text-base">
               <p>Guess the biblical word in 6 tries:</p>
 
               <div className="space-y-4">
@@ -121,7 +121,7 @@ export default function HowToPlay() {
                     <Letter color="border-gray-600">E</Letter>
                     <Letter color="border-gray-600">R</Letter>
                   </div>
-                  <span className="ml-1 sm:ml-4 text-gray-300">Green = Correct letter, correct spot</span>
+                  <span className="ml-1 sm:ml-4 text-slate-700 dark:text-gray-300">Green = Correct letter, correct spot</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row sm:items-center">
@@ -132,7 +132,7 @@ export default function HowToPlay() {
                     <Letter color="border-gray-600">E</Letter>
                     <Letter color="border-gray-600">S</Letter>
                   </div>
-                  <span className="ml-1 sm:ml-4 text-gray-300">Yellow = Correct letter, wrong spot</span>
+                  <span className="ml-1 sm:ml-4 text-slate-700 dark:text-gray-300">Yellow = Correct letter, wrong spot</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row sm:items-center">
@@ -143,12 +143,12 @@ export default function HowToPlay() {
                     <Letter color="bg-gray-800/50 border-gray-600">A</Letter>
                     <Letter color="bg-gray-800/50 border-gray-600">S</Letter>
                   </div>
-                  <span className="ml-1 sm:ml-4 text-gray-300">Gray = Letter not in word</span>
+                  <span className="ml-1 sm:ml-4 text-slate-700 dark:text-gray-300">Gray = Letter not in word</span>
                 </div>
               </div>
 
               <div className="space-y-2 mt-6 sm:mt-8">
-                <h3 className="text-lg sm:text-xl font-semibold text-white">Special Hints</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">Special Hints</h3>
                 <ul className="list-disc list-inside space-y-1 sm:space-y-2 pl-1">
                   <li>After 4 attempts: Reveals Testament (Old/New)</li>
                   <li>After 5 attempts: Reveals Category (Person/Place/Event)</li>
@@ -164,9 +164,9 @@ export default function HowToPlay() {
             </div>
           </motion.section>
         ) : (
-          <motion.section variants={itemVariants} className="bg-black/30 backdrop-blur-md border border-gray-800 rounded-lg p-4 sm:p-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">How to Play</h2>
-            <div className="space-y-4 sm:space-y-6 text-gray-300 text-sm sm:text-base">
+          <motion.section variants={itemVariants} className="bg-white/80 dark:bg-black/30 backdrop-blur-md border border-slate-300 dark:border-gray-800 rounded-lg p-4 sm:p-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-6">How to Play</h2>
+            <div className="space-y-4 sm:space-y-6 text-slate-700 dark:text-gray-300 text-sm sm:text-base">
               <p>Complete the biblical crossword puzzle:</p>
               <ul className="list-disc list-inside space-y-2">
                 <li>Click on a square or clue to start typing</li>

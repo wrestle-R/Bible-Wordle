@@ -44,14 +44,14 @@ export default function SignUp() {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="bg-black w-[400px] rounded-lg shadow-xl border border-gray-800 overflow-hidden"
+      className="bg-white dark:bg-black w-[400px] rounded-lg shadow-xl border border-slate-300 dark:border-gray-800 overflow-hidden"
     >
       <div className="flex flex-col items-center justify-center p-8 space-y-6">
         <motion.h1
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-3xl font-bold text-white"
+          className="text-3xl font-bold text-slate-900 dark:text-white"
         >
           Welcome
         </motion.h1>
@@ -59,7 +59,7 @@ export default function SignUp() {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-gray-400 text-center"
+          className="text-slate-600 dark:text-gray-400 text-center"
         >
           Sign in to track your progress and compete with others
         </motion.p>
@@ -77,7 +77,7 @@ export default function SignUp() {
   );
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-slate-100 dark:bg-black min-h-screen">
       <Navbar />
       {isMobile ? (
         <div className="min-h-screen flex items-center justify-center">

@@ -24,7 +24,7 @@ export default function CrosswordKeyboard({ onKeyPress }) {
 
   const renderKey = (key) => {
     let content = key;
-    let className = 'text-sm sm:text-base font-medium rounded-md px-2 py-3 sm:px-3 sm:py-4 min-w-[30px] sm:min-w-[36px] bg-gray-600 text-white active:bg-gray-700 touch-manipulation';
+    let className = 'text-sm sm:text-base font-medium rounded-md px-2 py-3 sm:px-3 sm:py-4 min-w-[30px] sm:min-w-[36px] bg-slate-300 text-slate-900 dark:bg-gray-600 dark:text-white active:bg-slate-400 dark:active:bg-gray-700 touch-manipulation';
 
     // Special keys
     if (key === 'BACKSPACE') {
@@ -54,7 +54,7 @@ export default function CrosswordKeyboard({ onKeyPress }) {
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
-      className="fixed bottom-0 left-0 right-0 w-full bg-black/80 backdrop-filter backdrop-blur-sm pt-4 pb-5 px-1 border-t border-gray-800 z-40"
+      className="fixed bottom-0 left-0 right-0 w-full bg-white/90 dark:bg-black/80 backdrop-filter backdrop-blur-sm pt-4 pb-5 px-1 border-t border-slate-300 dark:border-gray-800 z-40"
     >
       <div className="w-full max-w-md mx-auto flex flex-col gap-1.5">
         <div className="flex justify-center mb-1.5">

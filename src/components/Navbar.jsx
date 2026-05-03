@@ -8,6 +8,8 @@ import { FiLogOut, FiUser, FiMenu, FiX } from "react-icons/fi"
 import Profile from "./Profile"
 import { initializeUserStats } from "../services/statsService"
 import { getCrosswordStats } from "../utils/crosswordUtils" // Add this import
+import { useTheme } from "../hooks/useTheme"
+import ThemeToggle from "./ThemeToggle"
 
 // Add crossword route to the navItems array
 const navItems = [
@@ -24,6 +26,7 @@ const Navbar = () => {
   const [showProfile, setShowProfile] = useState(false)
   const [userStats, setUserStats] = useState(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { isDark, toggleTheme } = useTheme()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -86,19 +89,19 @@ const Navbar = () => {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-3xl bg-black/30 backdrop-blur-md border border-gray-800/50 rounded-2xl z-50"
+        className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-3xl rounded-2xl border border-slate-300/70 bg-white/75 backdrop-blur-md z-50 dark:border-gray-800/50 dark:bg-black/30"
       >
         <div className="px-4 py-3 md:px-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Link to="/" className="text-white text-xl font-bold hover:text-purple-400 transition-colors">
+              <Link to="/" className="text-slate-900 text-xl font-bold hover:text-purple-600 transition-colors dark:text-white dark:hover:text-purple-400">
                 Bible Wordle
               </Link>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
-              <Link to="/how-to-play" className="text-gray-300 hover:text-purple-400 transition-colors">
+              <Link to="/how-to-play" className="text-slate-700 hover:text-purple-600 transition-colors dark:text-gray-300 dark:hover:text-purple-400">
                 How to Play
               </Link>
 
@@ -109,11 +112,13 @@ const Navbar = () => {
                 Play Now
               </button>
 
+              <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
+
               {user ? (
                 <div className="relative">
                   <button
                     onClick={() => setShowDropdown(!showDropdown)}
-                    className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors"
+                    className="flex items-center gap-2 text-slate-700 hover:text-purple-600 transition-colors dark:text-gray-300 dark:hover:text-purple-400"
                   >
                     {user.photoURL ? (
                       <img
@@ -130,18 +135,18 @@ const Navbar = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-48 py-2 bg-black border border-gray-800 rounded-lg shadow-xl"
+                      className="absolute right-0 mt-2 w-48 py-2 bg-white border border-slate-200 rounded-lg shadow-xl dark:bg-black dark:border-gray-800"
                     >
                       <button
                         onClick={handleProfileClick}
-                        className="flex items-center gap-2 w-full px-4 py-2 text-gray-300 hover:text-purple-400 hover:bg-gray-900 transition-colors"
+                        className="flex items-center gap-2 w-full px-4 py-2 text-slate-700 hover:text-purple-600 hover:bg-slate-100 transition-colors dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-gray-900"
                       >
                         <FiUser className="w-4 h-4" />
                         Profile
                       </button>
                       <button
                         onClick={handleSignOut}
-                        className="flex items-center gap-2 w-full px-4 py-2 text-gray-300 hover:text-purple-400 hover:bg-gray-900 transition-colors"
+                        className="flex items-center gap-2 w-full px-4 py-2 text-slate-700 hover:text-purple-600 hover:bg-slate-100 transition-colors dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-gray-900"
                       >
                         <FiLogOut className="w-4 h-4" />
                         Sign Out
@@ -150,16 +155,19 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                <Link to="/signup" className="text-gray-300 hover:text-purple-400 transition-colors">
+                <Link to="/signup" className="text-slate-700 hover:text-purple-600 transition-colors dark:text-gray-300 dark:hover:text-purple-400">
                   Sign In
                 </Link>
               )}
             </div>
 
             {/* Mobile Menu Button */}
-            <button className="md:hidden text-gray-300 hover:text-purple-400" onClick={toggleMobileMenu}>
+            <div className="md:hidden flex items-center gap-3">
+              <ThemeToggle isDark={isDark} onToggle={toggleTheme} className="h-9 w-9" />
+              <button className="text-slate-700 hover:text-purple-600 dark:text-gray-300 dark:hover:text-purple-400" onClick={toggleMobileMenu} aria-label="Toggle navigation menu">
               {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-            </button>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -170,16 +178,21 @@ const Navbar = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-gray-800/50"
+              className="md:hidden border-t border-slate-300/70 dark:border-gray-800/50"
             >
               <div className="px-4 py-3 flex flex-col gap-4">
                 <Link
                   to="/how-to-play"
-                  className="text-gray-300 hover:text-purple-400 transition-colors py-2"
+                  className="text-slate-700 hover:text-purple-600 transition-colors py-2 dark:text-gray-300 dark:hover:text-purple-400"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   How to Play
                 </Link>
+
+                <div className="flex items-center justify-between rounded-lg border border-slate-300 bg-white/70 px-3 py-2 dark:border-gray-800 dark:bg-black/30">
+                  <span className="text-sm text-slate-700 dark:text-gray-300">Theme</span>
+                  <ThemeToggle isDark={isDark} onToggle={toggleTheme} className="h-9 w-9" />
+                </div>
 
                 <div className="flex">
                   <button
@@ -194,8 +207,8 @@ const Navbar = () => {
                 </div>
 
                 {user ? (
-                  <div className="flex flex-col gap-2 border-t border-gray-800/50 pt-3">
-                    <div className="flex items-center gap-2 text-gray-300">
+                  <div className="flex flex-col gap-2 border-t border-slate-300/70 pt-3 dark:border-gray-800/50">
+                    <div className="flex items-center gap-2 text-slate-700 dark:text-gray-300">
                       {user.photoURL ? (
                         <img
                           src={user.photoURL || "/placeholder.svg"}
@@ -209,14 +222,14 @@ const Navbar = () => {
                     </div>
                     <button
                       onClick={handleProfileClick}
-                      className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors py-2"
+                      className="flex items-center gap-2 text-slate-700 hover:text-purple-600 transition-colors py-2 dark:text-gray-300 dark:hover:text-purple-400"
                     >
                       <FiUser className="w-4 h-4" />
                       Profile
                     </button>
                     <button
                       onClick={handleSignOut}
-                      className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors py-2"
+                      className="flex items-center gap-2 text-slate-700 hover:text-purple-600 transition-colors py-2 dark:text-gray-300 dark:hover:text-purple-400"
                     >
                       <FiLogOut className="w-4 h-4" />
                       Sign Out
@@ -225,7 +238,7 @@ const Navbar = () => {
                 ) : (
                   <Link
                     to="/signup"
-                    className="text-gray-300 hover:text-purple-400 transition-colors py-2"
+                    className="text-slate-700 hover:text-purple-600 transition-colors py-2 dark:text-gray-300 dark:hover:text-purple-400"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Sign In

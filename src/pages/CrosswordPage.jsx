@@ -563,21 +563,21 @@ export default function CrosswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white" onKeyDown={handleKeyDown} tabIndex={0}>
+    <div className="min-h-screen bg-slate-100 dark:bg-black text-slate-900 dark:text-white" onKeyDown={handleKeyDown} tabIndex={0}>
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-8 pt-24">
         <div className="mb-8 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }} 
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl font-bold text-white mb-2"
+            className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-2"
           >
             Bible Crossword
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }} 
             animate={{ opacity: 1, transition: { delay: 0.2 } }}
-            className="text-purple-300"
+            className="text-purple-700 dark:text-purple-300"
           >
             Test your biblical knowledge with today's crossword puzzle
           </motion.p>
@@ -589,25 +589,25 @@ export default function CrosswordPage() {
             <div className="bg-purple-900/20 rounded-lg p-4 border border-purple-500/30">
               <div className="flex items-center gap-2 mb-1">
                 <FiTrendingUp className="text-purple-400" />
-                <span className="text-sm text-purple-300">Current Streak</span>
+                <span className="text-sm text-purple-700 dark:text-purple-300">Current Streak</span>
               </div>
-              <div className="text-2xl font-bold text-white">{userStats.currentStreak}</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{userStats.currentStreak}</div>
             </div>
 
             <div className="bg-blue-900/20 rounded-lg p-4 border border-blue-500/30">
               <div className="flex items-center gap-2 mb-1">
                 <FiAward className="text-blue-400" />
-                <span className="text-sm text-blue-300">Best Streak</span>
+                <span className="text-sm text-blue-700 dark:text-blue-300">Best Streak</span>
               </div>
-              <div className="text-2xl font-bold text-white">{userStats.maxStreak}</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{userStats.maxStreak}</div>
             </div>
 
             <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/30">
               <div className="flex items-center gap-2 mb-1">
                 <FiTarget className="text-green-400" />
-                <span className="text-sm text-green-300">Success Rate</span>
+                <span className="text-sm text-green-700 dark:text-green-300">Success Rate</span>
               </div>
-              <div className="text-2xl font-bold text-white">
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">
                 {userStats.gamesPlayed > 0 
                   ? `${Math.round((userStats.gamesWon / userStats.gamesPlayed) * 100)}%` 
                   : '0%'}
@@ -617,14 +617,14 @@ export default function CrosswordPage() {
             <div className="bg-amber-900/20 rounded-lg p-4 border border-amber-500/30">
               <div className="flex items-center gap-2 mb-1">
                 <FiClock className="text-amber-400" />
-                <span className="text-sm text-amber-300">Best Time</span>
+                <span className="text-sm text-amber-700 dark:text-amber-300">Best Time</span>
               </div>
-              <div className="text-2xl font-bold text-white">{formatTime(userStats.bestTime)}</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{formatTime(userStats.bestTime)}</div>
             </div>
           </div>
         ) : (
           <div className="mb-6 p-4 bg-purple-900/20 rounded-lg border border-purple-500/30">
-            <div className="text-center text-purple-300">
+            <div className="text-center text-purple-700 dark:text-purple-300">
               Sign in to track your stats and compete with others!
             </div>
           </div>
@@ -632,12 +632,12 @@ export default function CrosswordPage() {
 
         {/* Stats & Controls */}
         <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-2 text-purple-300">
+          <div className="flex items-center gap-2 text-purple-700 dark:text-purple-300">
             <FiClock className="w-5 h-5" />
             <span className="font-medium">{formatTime(timeElapsed)}</span>
           </div>
           {isPracticeMode && (
-            <div className="text-xs sm:text-sm text-purple-400 px-3 py-1 bg-purple-900/20 rounded-full">
+            <div className="text-xs sm:text-sm text-purple-700 dark:text-purple-400 px-3 py-1 bg-purple-100 dark:bg-purple-900/20 rounded-full">
               Practice Mode
             </div>
           )}
@@ -645,20 +645,20 @@ export default function CrosswordPage() {
           <div className="flex gap-2">
             <button
               onClick={() => setShowInstructions(true)}
-              className="flex items-center gap-1 text-purple-300 hover:text-purple-100 transition-colors"
+              className="flex items-center gap-1 text-purple-700 hover:text-purple-900 transition-colors dark:text-purple-300 dark:hover:text-purple-100"
             >
               <FiHelpCircle className="w-5 h-5" />
             </button>
             <button
               onClick={resetCrossword} 
-              className="p-2 rounded-full hover:bg-purple-900/30 text-purple-300"
+              className="p-2 rounded-full hover:bg-purple-200/70 text-purple-700 dark:hover:bg-purple-900/30 dark:text-purple-300"
               title="Reset Crossword"
             >
               <FiRefreshCw className="w-5 h-5" />
             </button>
             <button
               onClick={checkAnswers} 
-              className="p-2 rounded-full hover:bg-purple-900/30 text-purple-300"
+              className="p-2 rounded-full hover:bg-purple-200/70 text-purple-700 dark:hover:bg-purple-900/30 dark:text-purple-300"
               title="Check Answers"
             >
               <FiCheck className="w-5 h-5" />
@@ -675,7 +675,7 @@ export default function CrosswordPage() {
           <div className="flex flex-col gap-6">
             {/* Crossword Grid - Full Width */}
             <div className="w-full">
-              <div className="bg-black/30 rounded-lg border border-purple-500/20 p-2">
+              <div className="bg-white/80 dark:bg-black/30 rounded-lg border border-purple-500/20 p-2">
                 <div className="overflow-auto flex justify-center pb-2">
                   <div className="grid gap-0.5" 
                     style={{ 
@@ -705,18 +705,18 @@ export default function CrosswordPage() {
                                       ? 'bg-purple-500/50 border-purple-400'
                                       : isInWord
                                         ? 'bg-purple-500/20 border-purple-400/50'
-                                        : 'bg-white/5 border-gray-700'
+                                        : 'bg-white/80 border-slate-400 dark:bg-white/5 dark:border-gray-700'
                                     }
                                     transition-colors duration-200
                                   `}
                                   onClick={() => handleCellClick(rowIndex, colIndex)}
                                 >
                                   {cellNumber !== null && (
-                                    <span className="absolute text-[9px] top-0 left-0.5 text-gray-400 font-normal z-10">
+                                    <span className="absolute text-[9px] top-0 left-0.5 text-slate-500 dark:text-gray-400 font-normal z-10">
                                       {cellNumber}
                                     </span>
                                   )}
-                                  <span className="text-white">
+                                  <span className="text-slate-900 dark:text-white">
                                     {userInput[rowIndex]?.[colIndex] || ''}
                                   </span>
                                 </div>
@@ -736,8 +736,8 @@ export default function CrosswordPage() {
             {/* Clues - Side by Side */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Across Clues */}
-              <div className="bg-black/30 rounded-lg border border-purple-500/20 p-4">
-                <h3 className="text-lg font-semibold text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
+              <div className="bg-white/80 dark:bg-black/30 rounded-lg border border-purple-500/20 p-4">
+                <h3 className="text-lg font-semibold text-purple-700 dark:text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
                   Across
                 </h3>
                 {crosswordData.entries
@@ -750,21 +750,21 @@ export default function CrosswordPage() {
                         px-3 py-2 rounded cursor-pointer mb-1
                         ${selectedWord && selectedWord.id === entry.id 
                           ? 'bg-purple-500/20 border-l-4 border-purple-400' 
-                          : 'hover:bg-purple-900/20'
+                          : 'hover:bg-purple-200/50 dark:hover:bg-purple-900/20'
                         }
                       `}
                       onClick={() => handleClueClick(entry)}
                     >
-                      <span className="font-medium text-purple-300 mr-2">{entry.number}.</span>
-                      <span className="text-gray-100">{entry.clue}</span>
+                      <span className="font-medium text-purple-700 dark:text-purple-300 mr-2">{entry.number}.</span>
+                      <span className="text-slate-700 dark:text-gray-100">{entry.clue}</span>
                     </div>
                   ))
                 }
               </div>
 
               {/* Down Clues */}
-              <div className="bg-black/30 rounded-lg border border-purple-500/20 p-4">
-                <h3 className="text-lg font-semibold text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
+              <div className="bg-white/80 dark:bg-black/30 rounded-lg border border-purple-500/20 p-4">
+                <h3 className="text-lg font-semibold text-purple-700 dark:text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
                   Down
                 </h3>
                 {crosswordData.entries
@@ -777,13 +777,13 @@ export default function CrosswordPage() {
                         px-3 py-2 rounded cursor-pointer mb-1
                         ${selectedWord && selectedWord.id === entry.id 
                           ? 'bg-purple-500/20 border-l-4 border-purple-400' 
-                          : 'hover:bg-purple-900/20'
+                          : 'hover:bg-purple-200/50 dark:hover:bg-purple-900/20'
                         }
                       `}
                       onClick={() => handleClueClick(entry)}
                     >
-                      <span className="font-medium text-purple-300 mr-2">{entry.number}.</span>
-                      <span className="text-gray-100">{entry.clue}</span>
+                      <span className="font-medium text-purple-700 dark:text-purple-300 mr-2">{entry.number}.</span>
+                      <span className="text-slate-700 dark:text-gray-100">{entry.clue}</span>
                     </div>
                   ))
                 }
@@ -802,7 +802,7 @@ export default function CrosswordPage() {
         <div className="fixed bottom-0 inset-x-0 p-4 bg-green-900/70 backdrop-blur-sm border-t border-green-500/30 z-40">
           <div className="max-w-md mx-auto text-center">
             <h3 className="text-xl font-bold text-green-300 mb-2">Crossword Complete!</h3>
-            <p className="text-white">You finished in {formatTime(timeElapsed)}</p>
+            <p className="text-slate-100">You finished in {formatTime(timeElapsed)}</p>
           </div>
         </div>
       )}
@@ -814,14 +814,14 @@ export default function CrosswordPage() {
           onClick={closeValidationModal}
         >
           <div
-            className="bg-black/90 p-6 rounded-xl border border-purple-500/30 max-w-3xl w-full max-h-[90vh] overflow-auto"
+            className="bg-white/95 dark:bg-black/90 p-6 rounded-xl border border-purple-500/30 max-w-3xl w-full max-h-[90vh] overflow-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-start mb-4">
-              <h2 className="text-2xl font-bold text-white">Puzzle Progress</h2>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Puzzle Progress</h2>
               <button 
                 onClick={closeValidationModal} 
-                className="text-gray-400 hover:text-white"
+                className="text-slate-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white"
               >
                 ×
               </button>
@@ -831,24 +831,24 @@ export default function CrosswordPage() {
             <div className="mb-6">
               {validationResults.allCorrect && validationResults.allFilled ? (
                 <div className="p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
-                  <h3 className="text-lg font-semibold text-green-300 mb-2">
-                    Perfect! 🎉
+                  <h3 className="text-lg font-semibold text-green-700 dark:text-green-300 mb-2">
+                    Perfect!
                   </h3>
-                  <p className="text-gray-300">
+                  <p className="text-slate-700 dark:text-gray-300">
                     Congratulations! You've completed the crossword successfully.
                   </p>
                 </div>
               ) : (
-                <div className="text-lg text-gray-200 mb-4">
+                <div className="text-lg text-slate-700 dark:text-gray-200 mb-4">
                   <div className="flex gap-8">
                     <div>
-                      <span className="text-green-400">{validationResults.correct.length}</span> correct
+                      <span className="text-green-700 dark:text-green-400">{validationResults.correct.length}</span> correct
                     </div>
                     <div>
-                      <span className="text-red-400">{validationResults.incorrect.length}</span> incorrect
+                      <span className="text-red-700 dark:text-red-400">{validationResults.incorrect.length}</span> incorrect
                     </div>
                     <div>
-                      <span className="text-yellow-400">{validationResults.empty.length}</span> incomplete
+                      <span className="text-yellow-700 dark:text-yellow-400">{validationResults.empty.length}</span> incomplete
                     </div>
                   </div>
                 </div>
@@ -860,7 +860,7 @@ export default function CrosswordPage() {
               {/* Incorrect Answers */}
               {validationResults.incorrect.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-semibold text-red-400 mb-3 border-b border-red-500/30 pb-1">
+                  <h3 className="text-lg font-semibold text-red-700 dark:text-red-400 mb-3 border-b border-red-500/30 pb-1">
                     Need Correction
                   </h3>
                   <div className="space-y-2">
@@ -870,14 +870,14 @@ export default function CrosswordPage() {
                         className="p-3 rounded bg-red-900/20 border border-red-500/20"
                       >
                         <div className="flex justify-between">
-                          <div className="font-medium text-red-300">
+                          <div className="font-medium text-red-700 dark:text-red-300">
                             {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
                           </div>
                           <div>
-                            <span className="text-red-400 font-mono">{result.userAnswer}</span>
+                            <span className="text-red-700 dark:text-red-400 font-mono">{result.userAnswer}</span>
                           </div>
                         </div>
-                        <div className="text-sm text-gray-400 mt-1">
+                        <div className="text-sm text-slate-500 dark:text-gray-400 mt-1">
                           {result.entry.clue}
                         </div>
                       </div>
@@ -889,7 +889,7 @@ export default function CrosswordPage() {
               {/* Empty Answers */}
               {validationResults.empty.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-semibold text-yellow-400 mb-3 border-b border-yellow-500/30 pb-1">
+                  <h3 className="text-lg font-semibold text-yellow-700 dark:text-yellow-400 mb-3 border-b border-yellow-500/30 pb-1">
                     Still Incomplete
                   </h3>
                   <div className="space-y-2">
@@ -899,14 +899,14 @@ export default function CrosswordPage() {
                         className="p-3 rounded bg-yellow-900/10 border border-yellow-500/20"
                       >
                         <div className="flex justify-between">
-                          <div className="font-medium text-yellow-300">
+                          <div className="font-medium text-yellow-700 dark:text-yellow-300">
                             {result.entry.number} {result.entry.direction.charAt(0).toUpperCase() + result.entry.direction.slice(1)}
                           </div>
-                          <div className="text-gray-400">
+                          <div className="text-slate-500 dark:text-gray-400">
                             {result.expected.length} letters
                           </div>
                         </div>
-                        <div className="text-sm text-gray-400 mt-1">
+                        <div className="text-sm text-slate-500 dark:text-gray-400 mt-1">
                           {result.entry.clue}
                         </div>
                       </div>
@@ -946,19 +946,19 @@ export default function CrosswordPage() {
           onClick={() => setShowInstructions(false)}
         >
           <div
-            className="bg-black/80 p-6 rounded-xl border border-purple-500/30 max-w-lg w-full"
+            className="bg-white/95 dark:bg-black/80 p-6 rounded-xl border border-purple-500/30 max-w-lg w-full"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-start mb-4">
-              <h2 className="text-2xl font-bold text-white">How to Play Crossword</h2>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">How to Play Crossword</h2>
               <button 
                 onClick={() => setShowInstructions(false)} 
-                className="text-gray-400 hover:text-white"
+                className="text-slate-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white"
               >
                 ×
               </button>
             </div>
-            <div className="space-y-4 text-gray-300">
+            <div className="space-y-4 text-slate-700 dark:text-gray-300">
               <p>Fill in the crossword grid with Biblical words based on the clues provided.</p>
               <ul className="list-disc list-inside space-y-2">
                 <li>Click/tap on a square to select it</li>
@@ -967,8 +967,8 @@ export default function CrosswordPage() {
                 <li>Use arrow keys to move between cells</li>
                 <li>When finished, click "Check" to verify your answers</li>
               </ul>
-              <div className="mt-4 bg-purple-900/20 p-4 rounded-lg">
-                <p className="text-purple-200">
+              <div className="mt-4 bg-purple-100 dark:bg-purple-900/20 p-4 rounded-lg">
+                <p className="text-purple-800 dark:text-purple-200">
                   Complete the puzzle to earn points and improve your stats!
                 </p>
               </div>

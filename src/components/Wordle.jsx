@@ -162,11 +162,13 @@ const LetterTile = ({ letter, status, delay = 0, isRevealing, isValidating, isSu
   else if (isRevealing) animationState = "flip";
 
   const statusClass = shouldShowColor ? (
-    status === "correct" ? "bg-green-500/20 border-green-500" :
-    status === "present" ? "bg-yellow-500/20 border-yellow-500" :
-    status === "absent" ? "bg-gray-800/50 border-gray-600" :
-    "border-gray-600"
-  ) : "border-gray-600";
+    status === "correct" ? "bg-green-500/30 border-green-500" :
+    status === "present" ? "bg-yellow-500/30 border-yellow-500" :
+    status === "absent" ? "bg-slate-300/70 border-slate-500 dark:bg-gray-800/60 dark:border-gray-600" :
+    "bg-white/70 border-slate-400 dark:bg-transparent dark:border-gray-600"
+  ) : "bg-white/70 border-slate-400 dark:bg-transparent dark:border-gray-600";
+
+  const textClass = status ? "text-white" : "text-slate-900 dark:text-white";
 
   return (
     <motion.div
@@ -175,7 +177,7 @@ const LetterTile = ({ letter, status, delay = 0, isRevealing, isValidating, isSu
       animate={animationState}
       custom={index}
       transition={isRevealing ? undefined : { delay }}
-      className={`${tileSize} border-2 flex items-center justify-center font-bold rounded transform-gpu text-white ${statusClass}`}
+      className={`${tileSize} border-2 flex items-center justify-center font-bold rounded transform-gpu ${textClass} ${statusClass}`}
     >
       {letter}
     </motion.div>
@@ -191,10 +193,10 @@ const HintButton = ({ onClick, disabled, type, available }) => (
     className={`px-3 py-2 rounded-lg text-xs sm:text-sm font-medium flex items-center gap-1 sm:gap-2
       ${
         disabled
-          ? "bg-gray-800/50 text-gray-500 cursor-not-allowed border border-gray-700"
+          ? "bg-slate-200 text-slate-500 cursor-not-allowed border border-slate-300 dark:bg-gray-800/50 dark:text-gray-500 dark:border-gray-700"
           : available
-            ? "bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500 animate-pulse"
-            : "bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500"
+            ? "bg-purple-100 hover:bg-purple-200 text-purple-700 border border-purple-500 animate-pulse dark:bg-purple-600/20 dark:hover:bg-purple-600/30 dark:text-purple-300"
+            : "bg-purple-100 hover:bg-purple-200 text-purple-700 border border-purple-500 dark:bg-purple-600/20 dark:hover:bg-purple-600/30 dark:text-purple-300"
       }
     `}
   >
@@ -208,15 +210,15 @@ const HintCard = ({ title, content, onClose }) => (
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
-    className="fixed top-20 inset-x-4 sm:top-20 sm:right-4 sm:left-auto sm:w-72 bg-purple-900/20 backdrop-blur-md p-4 rounded-lg border border-purple-500/30 shadow-xl z-50"
+    className="fixed top-20 inset-x-4 sm:top-20 sm:right-4 sm:left-auto sm:w-72 bg-white/90 dark:bg-purple-900/20 backdrop-blur-md p-4 rounded-lg border border-purple-500/30 shadow-xl z-50"
   >
     <div className="flex justify-between items-start mb-2">
-      <h3 className="text-purple-300 font-semibold">{title}</h3>
-      <button onClick={onClose} className="text-purple-400 hover:text-purple-300 p-1">
+      <h3 className="text-purple-700 dark:text-purple-300 font-semibold">{title}</h3>
+      <button onClick={onClose} className="text-purple-500 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 p-1">
         ×
       </button>
     </div>
-    <p className="text-purple-200">{content}</p>
+    <p className="text-purple-800 dark:text-purple-200">{content}</p>
   </motion.div>
 )
 
@@ -233,15 +235,15 @@ const InstructionModal = ({ isOpen, onClose }) => (
           initial={{ scale: 0.95 }}
           animate={{ scale: 1 }}
           exit={{ scale: 0.95 }}
-          className="bg-black/80 p-4 sm:p-6 rounded-xl border border-purple-500/30 max-w-lg w-full"
+          className="bg-white/95 dark:bg-black/80 p-4 sm:p-6 rounded-xl border border-purple-500/30 max-w-lg w-full"
         >
           <div className="flex justify-between items-start mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">How to Play</h2>
-            <button onClick={onClose} className="text-gray-400 hover:text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">How to Play</h2>
+            <button onClick={onClose} className="text-slate-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white">
               ×
             </button>
           </div>
-          <div className="space-y-4 text-gray-300 text-sm sm:text-base">
+          <div className="space-y-4 text-slate-700 dark:text-gray-300 text-sm sm:text-base">
             <p>Guess the 5-letter biblical word in 6 tries!</p>
             <div className="space-y-2">
               <p>After each guess, the tiles will show:</p>
@@ -258,15 +260,15 @@ const InstructionModal = ({ isOpen, onClose }) => (
                 <span>- Correct letter, wrong spot</span>
               </div>
               <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800/50 border-2 border-gray-600 rounded flex items-center justify-center">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-slate-300/70 border-2 border-slate-500 rounded flex items-center justify-center dark:bg-gray-800/50 dark:border-gray-600">
                   C
                 </div>
                 <span>- Letter not in word</span>
               </div>
             </div>
             <div className="mt-4 bg-purple-900/20 p-3 sm:p-4 rounded-lg">
-              <p className="text-purple-200">Special Hints:</p>
-              <ul className="list-disc list-inside text-purple-300 space-y-1 mt-2">
+              <p className="text-purple-800 dark:text-purple-200">Special Hints:</p>
+              <ul className="list-disc list-inside text-purple-700 dark:text-purple-300 space-y-1 mt-2">
                 <li>After 4 attempts - Testament revealed</li>
                 <li>After 5 attempts - Category revealed</li>
               </ul>
@@ -302,7 +304,7 @@ const Keyboard = ({ onKeyPress, onDelete, onEnter, usedLetters }) => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 50 }}
-      className="fixed bottom-0 left-0 right-0 w-full bg-black/80 backdrop-filter backdrop-blur-sm pt-4 pb-5 px-1 border-t border-gray-800 z-50"
+      className="fixed bottom-0 left-0 right-0 w-full bg-white/90 dark:bg-black/80 backdrop-filter backdrop-blur-sm pt-4 pb-5 px-1 border-t border-slate-300 dark:border-gray-800 z-50"
     >
       <div className="w-full max-w-md mx-auto">
         {rows.map((row, i) => (
@@ -320,11 +322,11 @@ const Keyboard = ({ onKeyPress, onDelete, onEnter, usedLetters }) => {
                     else onKeyPress(key);
                   }}
                   className={`text-sm sm:text-base font-medium rounded-md px-2 py-3 sm:px-3 sm:py-4
-                    ${isSpecialKey ? 'px-1.5 sm:px-3 text-xs sm:text-sm bg-gray-700 text-white min-w-[50px]' : 'min-w-[30px] sm:min-w-[36px]'}
-                    ${!keyStatus && !isSpecialKey && 'bg-gray-600 text-white'}
+                    ${isSpecialKey ? 'px-1.5 sm:px-3 text-xs sm:text-sm bg-slate-700 text-white dark:bg-gray-700 min-w-[50px]' : 'min-w-[30px] sm:min-w-[36px]'}
+                    ${!keyStatus && !isSpecialKey && 'bg-slate-300 text-slate-900 dark:bg-gray-600 dark:text-white'}
                     ${keyStatus === 'correct' && 'bg-green-600/60 text-white border-green-500'}
                     ${keyStatus === 'present' && 'bg-yellow-600/60 text-white border-yellow-500'}
-                    ${keyStatus === 'absent' && 'bg-gray-800/80 text-gray-400'}
+                    ${keyStatus === 'absent' && 'bg-slate-500/60 text-white dark:bg-gray-800/80 dark:text-gray-400'}
                     active:bg-opacity-70 touch-manipulation
                   `}
                 >
@@ -1024,10 +1026,10 @@ export default function Wordle({ wordData, onGameComplete }) {
     
     return (
       <div className="space-y-2">
-        <div className="text-lg font-bold text-purple-300 uppercase tracking-wider">
+        <div className="text-lg font-bold text-purple-700 dark:text-purple-300 uppercase tracking-wider">
           {formattedCategory}
         </div>
-        <div className="text-gray-300 italic">
+        <div className="text-slate-700 dark:text-gray-300 italic">
           {description}
         </div>
       </div>
@@ -1065,24 +1067,24 @@ export default function Wordle({ wordData, onGameComplete }) {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-purple-900/10 backdrop-blur-sm p-4 sm:p-6 rounded-lg border border-purple-500/30 max-w-2xl w-full"
+            className="bg-white/85 dark:bg-purple-900/10 backdrop-blur-sm p-4 sm:p-6 rounded-lg border border-purple-500/30 max-w-2xl w-full"
           >
-            <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
               {gameStatus === "won" ? "🎉 Excellent Work!" : "📖 Learning Opportunity"}
             </h3>
-            <p className="text-purple-200 mb-4">
+            <p className="text-purple-800 dark:text-purple-200 mb-4">
               The word was <span className="text-purple-400 font-bold">{wordData.name.toUpperCase()}</span>
             </p>
-            <div className="space-y-3 text-gray-300 text-sm sm:text-base">
+            <div className="space-y-3 text-slate-700 dark:text-gray-300 text-sm sm:text-base">
               <p className="flex gap-2 items-start">
                 <FiBook className="mt-1 text-purple-400" />
                 <span>
-                  <strong className="text-purple-300">Scripture:</strong> {wordData.verse_location}
+                  <strong className="text-purple-700 dark:text-purple-300">Scripture:</strong> {wordData.verse_location}
                 </span>
               </p>
-              <p className="text-purple-200">{wordData.description}</p>
-              <p className="text-purple-100 bg-purple-500/10 p-3 rounded border border-purple-500/20">
-                <strong className="text-purple-300">Biblical Moment:</strong> {wordData.special_moment}
+              <p className="text-purple-800 dark:text-purple-200">{wordData.description}</p>
+              <p className="text-purple-800 dark:text-purple-100 bg-purple-500/10 p-3 rounded border border-purple-500/20">
+                <strong className="text-purple-700 dark:text-purple-300">Biblical Moment:</strong> {wordData.special_moment}
               </p>
             </div>
           </motion.div>
@@ -1117,7 +1119,7 @@ export default function Wordle({ wordData, onGameComplete }) {
         </AnimatePresence>
 
         {(hasPlayedToday || !auth.currentUser) && (
-          <div className="bg-purple-900/20 px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-purple-300 text-xs sm:text-sm">
+          <div className="bg-purple-100 dark:bg-purple-900/20 px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-purple-700 dark:text-purple-300 text-xs sm:text-sm border border-purple-300/60 dark:border-purple-500/30">
             <span>Practice Mode - Progress won't be saved</span>
           </div>
         )}

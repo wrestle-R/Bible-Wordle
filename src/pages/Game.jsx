@@ -194,18 +194,18 @@ export default function Game() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/50 dark:bg-black/50 bg-slate-900/30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
     >
       <motion.div
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
-        className="bg-black/80 p-6 rounded-xl border border-purple-500/30 max-w-md w-full"
+        className="bg-white/95 dark:bg-black/80 p-6 rounded-xl border border-purple-500/30 max-w-md w-full"
       >
         <div className="flex flex-col items-center gap-4 text-center">
           <FiLock className="w-12 h-12 text-purple-400" />
-          <h2 className="text-xl md:text-2xl font-bold text-white">Sign In to Track Progress</h2>
-          <p className="text-gray-300">Create an account to:</p>
-          <ul className="text-left text-gray-300 space-y-2">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Sign In to Track Progress</h2>
+          <p className="text-slate-700 dark:text-gray-300">Create an account to:</p>
+          <ul className="text-left text-slate-700 dark:text-gray-300 space-y-2">
             <li className="flex items-center gap-2">
               <span className="text-purple-400">•</span> Track your win streak
             </li>
@@ -225,7 +225,7 @@ export default function Game() {
             </button>
             <button
               onClick={() => setShowLoginPrompt(false)}
-              className="px-6 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
+              className="px-6 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
             >
               Maybe Later
             </button>
@@ -236,7 +236,7 @@ export default function Game() {
   )
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-slate-100 dark:bg-black">
       <Navbar />
       <Toaster />
       <div className="pt-20 md:pt-24 px-4">
@@ -245,7 +245,7 @@ export default function Game() {
           <div className="flex justify-end mb-4">
             <button
               onClick={() => navigate('/crossword')}
-              className="flex items-center gap-2 px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 rounded-lg transition-colors border border-purple-500/30"
+              className="flex items-center gap-2 px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg transition-colors border border-purple-500/30 dark:bg-purple-600/20 dark:hover:bg-purple-600/30 dark:text-purple-300"
             >
               <FiGrid className="w-4 h-4" />
               <span>Try Crossword</span>
@@ -254,7 +254,7 @@ export default function Game() {
 
           {/* Rest of the profile section */}
           {userProfile ? (
-            <div className="bg-black/50 backdrop-blur-md border border-gray-800 rounded-lg p-4">
+            <div className="bg-white/80 dark:bg-black/50 backdrop-blur-md border border-slate-300 dark:border-gray-800 rounded-lg p-4">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   {userProfile.photo && (
@@ -265,33 +265,33 @@ export default function Game() {
                     />
                   )}
                   <div>
-                    <h2 className="text-lg font-semibold text-white">{userProfile.name}</h2>
-                    <p className="text-sm text-gray-400">{userProfile.email}</p>
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{userProfile.name}</h2>
+                    <p className="text-sm text-slate-600 dark:text-gray-400">{userProfile.email}</p>
                   </div>
                 </div>
                 <div className="flex gap-4 justify-center md:justify-end">
                   <div className="text-center">
                     <p className="text-xs text-purple-400 font-medium">Games</p>
-                    <p className="text-xl text-white">{userStats?.gamesPlayed || 0}</p>
+                    <p className="text-xl text-slate-900 dark:text-white">{userStats?.gamesPlayed || 0}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-xs text-purple-400 font-medium">Win Rate</p>
-                    <p className="text-xl text-white">{Math.round(userStats?.winPercentage || 0)}%</p>
+                    <p className="text-xl text-slate-900 dark:text-white">{Math.round(userStats?.winPercentage || 0)}%</p>
                   </div>
                   <div className="text-center">
                     <p className="text-xs text-purple-400 font-medium">Streak</p>
-                    <p className="text-xl text-white">{userStats?.currentStreak || 0}</p>
+                    <p className="text-xl text-slate-900 dark:text-white">{userStats?.currentStreak || 0}</p>
                   </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="bg-black/50 backdrop-blur-md border border-gray-800 rounded-lg p-4 mb-8">
+            <div className="bg-white/80 dark:bg-black/50 backdrop-blur-md border border-slate-300 dark:border-gray-800 rounded-lg p-4 mb-8">
               <div className="flex flex-col md:flex-row items-center justify-between gap-2">
-                <p className="text-gray-400">Playing as Guest</p>
+                <p className="text-slate-600 dark:text-gray-400">Playing as Guest</p>
                 <button
                   onClick={() => setShowLoginPrompt(true)}
-                  className="text-purple-400 hover:text-purple-300 text-sm"
+                  className="text-purple-700 hover:text-purple-900 text-sm dark:text-purple-400 dark:hover:text-purple-300"
                 >
                   Sign in to track progress
                 </button>

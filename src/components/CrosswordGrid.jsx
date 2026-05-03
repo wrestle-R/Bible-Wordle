@@ -90,18 +90,18 @@ export default function CrosswordGrid({
                       font-bold relative
                       ${selectedCell && selectedCell.row === rowIndex && selectedCell.col === colIndex 
                         ? 'bg-purple-500/50 border-purple-400'
-                        : 'bg-white/5 border-gray-700'
+                        : 'bg-white/70 border-slate-400 dark:bg-white/5 dark:border-gray-700'
                       }
                       transition-colors duration-200
                     `}
                     onClick={() => onCellClick(rowIndex, colIndex)}
                   >
                     {cell.number && (
-                      <span className="absolute text-[9px] top-0 left-0.5 text-gray-400 font-normal">
+                      <span className="absolute text-[9px] top-0 left-0.5 text-slate-500 dark:text-gray-400 font-normal">
                         {cell.number}
                       </span>
                     )}
-                    <span className="text-white">
+                    <span className="text-slate-900 dark:text-white">
                       {userInput[rowIndex][colIndex]}
                     </span>
                   </motion.div>

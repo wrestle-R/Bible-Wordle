@@ -69,20 +69,20 @@ export default function Landing() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="bg-black/80 backdrop-blur-sm w-[90%] sm:w-full max-w-[520px] h-auto py-12 md:h-80 md:mr-16 mt-4 rounded-xl shadow-2xl border border-purple-500/20 overflow-hidden mx-4 transition-all duration-300 hover:border-purple-500/30"
+      className="bg-white/80 dark:bg-black/80 backdrop-blur-sm w-[90%] sm:w-full max-w-[520px] h-auto py-12 md:h-80 md:mr-16 mt-4 rounded-xl shadow-2xl border border-purple-500/20 overflow-hidden mx-4 transition-all duration-300 hover:border-purple-500/30"
     >
       <div className="flex flex-col justify-center items-center text-center h-full gap-5 md:gap-7 px-5 md:px-12">
         <HyperText
           text="BIBLE WORDLE"
-          className="text-3xl md:text-5xl font-bold pb-2 md:pb-12 text-white tracking-tight bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text "
+          className="text-3xl md:text-5xl font-bold pb-2 md:pb-12 text-slate-900 dark:text-white tracking-tight bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 bg-clip-text "
           duration={1200}
         />
-        <div className="flex flex-wrap justify-center gap-2 text-lg md:text-2xl text-gray-300">
+        <div className="flex flex-wrap justify-center gap-2 text-lg md:text-2xl text-slate-700 dark:text-gray-300">
           <span>Master</span>
           <AnimatedTextCycle words={categories} interval={2000} className="text-purple-400 font-semibold" />
           <span>in Scripture</span>
         </div>
-        <p className="text-base md:text-lg text-gray-300 leading-relaxed max-w-md">
+        <p className="text-base md:text-lg text-slate-700 dark:text-gray-300 leading-relaxed max-w-md">
           Try to guess today's biblical word in 6 tries?
         </p>
         <motion.a 
@@ -102,7 +102,7 @@ export default function Landing() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: mounted && !verseLoading ? 1 : 0, y: mounted && !verseLoading ? 0 : 20 }}
       transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-      className="bg-black/60 backdrop-blur-sm w-[90%] sm:w-full max-w-[520px] py-4 px-5 md:px-6 rounded-lg shadow-lg border border-purple-500/20 mb-8 mx-4 hover:border-purple-500/30 transition-all duration-300"
+      className="bg-white/70 dark:bg-black/60 backdrop-blur-sm w-[90%] sm:w-full max-w-[520px] py-4 px-5 md:px-6 rounded-lg shadow-lg border border-purple-500/20 mb-8 mx-4 hover:border-purple-500/30 transition-all duration-300"
     >
       {!verseLoading && dailyVerse && (
         <div className="flex flex-col gap-2 text-center">
@@ -110,7 +110,7 @@ export default function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.4 }}
-            className="text-xs md:text-sm text-purple-300 font-semibold tracking-wide uppercase"
+            className="text-xs md:text-sm text-purple-700 dark:text-purple-300 font-semibold tracking-wide uppercase"
           >
             Today's Daily Verse
           </motion.p>
@@ -118,7 +118,7 @@ export default function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.4 }}
-            className="text-sm md:text-base text-gray-300 italic leading-relaxed"
+            className="text-sm md:text-base text-slate-700 dark:text-gray-300 italic leading-relaxed"
           >
             "{dailyVerse.verse}"
           </motion.p>
@@ -136,7 +136,7 @@ export default function Landing() {
   )
 
   return (
-    <div className="bg-black min-h-screen overflow-hidden">
+    <div className="bg-slate-100 dark:bg-black min-h-screen overflow-hidden">
       <Navbar />
       {isMobile ? (
         <div className="min-h-screen flex flex-col items-center justify-center pt-16 px-4 gap-6">

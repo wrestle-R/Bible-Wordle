@@ -4,16 +4,16 @@ import { FiAward, FiTrendingUp, FiZap, FiClock, FiGrid, FiHash } from 'react-ico
 import { createPortal } from 'react-dom';
 
 const StatCard = ({ title, value, icon: Icon, description }) => (
-  <div className="bg-purple-900/10 backdrop-blur-sm p-4 rounded-lg border border-purple-500/30">
+  <div className="bg-white/80 dark:bg-purple-900/10 backdrop-blur-sm p-4 rounded-lg border border-purple-500/30">
     <div className="flex items-start gap-3">
       <div className="p-2 bg-purple-500/10 rounded-lg">
         <Icon className="w-5 h-5 text-purple-400" />
       </div>
       <div>
-        <h3 className="text-sm text-purple-300 font-medium">{title}</h3>
-        <p className="text-2xl font-bold text-white">{value}</p>
+        <h3 className="text-sm text-purple-700 dark:text-purple-300 font-medium">{title}</h3>
+        <p className="text-2xl font-bold text-slate-900 dark:text-white">{value}</p>
         {description && (
-          <p className="text-xs text-gray-400 mt-1">{description}</p>
+          <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">{description}</p>
         )}
       </div>
     </div>
@@ -40,15 +40,15 @@ export default function Profile({ stats, crosswordStats, onClose }) {
         <motion.div
           initial={{ scale: 0.95 }}
           animate={{ scale: 1 }}
-          className="bg-black/80 max-w-2xl mx-auto rounded-xl border border-purple-500/30 overflow-hidden"
+          className="bg-white/95 dark:bg-black/80 max-w-2xl mx-auto rounded-xl border border-purple-500/30 overflow-hidden"
           onClick={e => e.stopPropagation()}
         >
           <div className="p-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white">Statistics</h2>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Statistics</h2>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-slate-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white transition-colors"
               >
                 ×
               </button>
@@ -61,7 +61,7 @@ export default function Profile({ stats, crosswordStats, onClose }) {
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                   gameType === 'wordle' 
                     ? 'bg-purple-600 text-white' 
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white'
                 }`}
               >
                 <FiHash /> Wordle
@@ -71,7 +71,7 @@ export default function Profile({ stats, crosswordStats, onClose }) {
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                   gameType === 'crossword' 
                     ? 'bg-purple-600 text-white' 
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white'
                 }`}
               >
                 <FiGrid /> Crossword
@@ -108,17 +108,17 @@ export default function Profile({ stats, crosswordStats, onClose }) {
                   />
                 </div>
 
-                <div className="bg-purple-900/10 rounded-lg p-4">
-                  <h3 className="text-lg font-semibold text-white mb-4">
+                <div className="bg-white/80 dark:bg-purple-900/10 rounded-lg p-4 border border-purple-500/20">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
                     Guess Distribution
                   </h3>
                   <div className="space-y-2">
                     {Object.entries(stats.distribution).map(([guess, count]) => (
                       <div key={guess} className="flex items-center gap-2">
-                        <div className="w-4 text-sm text-gray-400">{guess}</div>
+                        <div className="w-4 text-sm text-slate-500 dark:text-gray-400">{guess}</div>
                         <div className="flex-1 bg-purple-900/20 rounded">
                           <div
-                            className="bg-purple-500/20 rounded py-1 px-2 text-xs text-purple-200"
+                            className="bg-purple-500/20 rounded py-1 px-2 text-xs text-purple-800 dark:text-purple-200"
                             style={{
                               width: `${(count / stats.gamesWon) * 100}%`,
                               minWidth: count > 0 ? '2rem' : '0',
@@ -163,7 +163,7 @@ export default function Profile({ stats, crosswordStats, onClose }) {
                     />
                   </div>
                 ) : (
-                  <div className="text-gray-400 text-center py-8">
+                  <div className="text-slate-600 dark:text-gray-400 text-center py-8">
                     No crossword stats available yet. Complete a crossword to see your progress!
                   </div>
                 )}
