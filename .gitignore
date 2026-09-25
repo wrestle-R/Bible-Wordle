@@ -25,3 +25,6 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Local content-audit notes and prompts
+/docs/
