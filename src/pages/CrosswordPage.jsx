@@ -614,20 +614,12 @@ export default function CrosswordPage() {
     <div className="crossword-page min-h-screen bg-background pb-52 text-foreground md:pb-8" data-completed={gameCompleted} onKeyDown={handleKeyDown} tabIndex={0}>
       <Navbar />
       <main className="mx-auto w-full max-w-6xl px-3 pb-8 pt-24 sm:px-5 lg:px-8">
-        <header className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">Daily puzzle</p>
+        <header className="mb-6 flex flex-col items-center gap-3 text-center sm:mb-8">
           <h1
             className="mb-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
           >
             Bible Crossword
           </h1>
-          <p
-            className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base"
-          >
-            Test your biblical knowledge with today's crossword puzzle
-          </p>
-          </div>
           {isPracticeMode && (
             <span className="inline-flex w-fit items-center rounded-md border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary">
               Practice mode
@@ -723,11 +715,11 @@ export default function CrosswordPage() {
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
           </div>
         ) : crosswordData ? (
-          <div className="grid items-start gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(19rem,0.95fr)] xl:gap-6">
+          <div className="grid grid-cols-1 items-start gap-4 xl:gap-6">
             <Card className="min-w-0 gap-0 overflow-hidden border-border bg-card shadow-sm">
               <CardContent className="flex justify-center p-2.5 sm:p-4">
                   <div
-                    className="grid w-full max-w-[38rem] gap-[clamp(1px,0.3vw,3px)]"
+                    className="grid w-full gap-[clamp(1px,0.3vw,3px)]"
                     style={{ 
                       gridTemplateColumns: `repeat(${crosswordData.dimensions.cols}, minmax(0, 1fr))`
                     }}
@@ -780,7 +772,7 @@ export default function CrosswordPage() {
               </CardContent>
             </Card>
 
-            <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-1">
+            <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2">
               {/* Across Clues */}
               <Card className="min-w-0 gap-0 border-border bg-card shadow-sm">
                 <CardHeader className="gap-1 px-4 pb-3 pt-4">
