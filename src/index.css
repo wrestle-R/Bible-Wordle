@@ -85,6 +85,16 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+@media (hover: none) and (pointer: coarse) {
+  .crossword-mobile-keyboard {
+    display: block;
+  }
+
+  .crossword-page:not([data-completed="true"]) {
+    padding-bottom: 14rem;
+  }
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

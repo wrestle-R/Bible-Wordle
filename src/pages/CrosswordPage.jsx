@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { FiClock, FiHelpCircle, FiCheck, FiRefreshCw, FiAward, FiTrendingUp, FiTarget, FiCalendar, FiBarChart2 } from "react-icons/fi";
 import { auth } from "../firebase.config";
 import Navbar from "../components/Navbar";
+import CrosswordKeyboard from "../components/CrosswordKeyboard";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   getTodayCrosswordData, 
   createSimpleCrosswordData,
@@ -88,7 +90,21 @@ export default function CrosswordPage() {
         
         // Generate crossword data
         const crossword = createSimpleCrosswordData(words);
+        if (!crossword) {
+          throw new Error("Could not build today's crossword");
+        }
         setCrosswordData(crossword);
+
+        const firstEntry = crossword.entries[0];
+        if (firstEntry) {
+          setSelectedWord(firstEntry);
+          setSelectedCell({
+            row: firstEntry.position.y,
+            col: firstEntry.position.x,
+            entry: firstEntry,
+            letterIndex: 0,
+          });
+        }
         
         // Initialize user input grid - from session storage if available
         const maxRow = crossword.dimensions.rows;
@@ -196,7 +212,10 @@ export default function CrosswordPage() {
     
     const { row, col, letterIndex, entry } = selectedCell;
     
-    if (e.key === 'Backspace' || e.key === 'Delete') {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      checkAnswers();
+    } else if (e.key === 'Backspace' || e.key === 'Delete') {
       // Delete the current letter
       const newInput = [...userInput];
       newInput[row][col] = '';
@@ -376,7 +395,7 @@ export default function CrosswordPage() {
   
   // Check answers button functionality fix
   const checkAnswers = async () => {
-    if (!crosswordData || !auth.currentUser) return;
+    if (!crosswordData) return;
     
     let allCorrect = true;
     let allFilled = true;
@@ -451,6 +470,34 @@ export default function CrosswordPage() {
     }
   };
 
+  const handleVirtualKey = (key) => {
+    if (key === "ENTER") {
+      checkAnswers();
+      return;
+    }
+    if (!selectedCell || !selectedWord) return;
+
+    const { row, col, letterIndex, entry } = selectedCell;
+    if (key === "BACKSPACE") {
+      setUserInput((current) => {
+        const next = current.map((line) => [...line]);
+        next[row][col] = "";
+        return next;
+      });
+      if (letterIndex > 0) moveToAdjacent(-1);
+      return;
+    }
+
+    if (/^[A-Z]$/.test(key)) {
+      setUserInput((current) => {
+        const next = current.map((line) => [...line]);
+        next[row][col] = key;
+        return next;
+      });
+      if (letterIndex < entry.solution.length - 1) moveToAdjacent(1);
+    }
+  };
+
   // Close validation modal
   const closeValidationModal = () => {
     setShowValidationModal(false);
@@ -458,7 +505,7 @@ export default function CrosswordPage() {
   
   // Handle game completion
   const handleGameComplete = async (completed) => {
-    if (gameCompleted || !auth.currentUser) return;
+    if (gameCompleted) return;
     
     // Stop the timer immediately
     if (timerInterval.current) {
@@ -471,6 +518,10 @@ export default function CrosswordPage() {
     
     // Save stats if not in practice mode
     if (!isPracticeMode) {
+      markCrosswordAsPlayed();
+    }
+
+    if (!isPracticeMode && auth.currentUser) {
       const today = new Date().toISOString().split('T')[0];
       const stats = await getCrosswordStats();
       
@@ -496,9 +547,6 @@ export default function CrosswordPage() {
             lastPlayed: updatedStats.lastPlayed || null
           });
         }
-        
-        markCrosswordAsPlayed();
-      } else {
         
       }
     }
@@ -563,107 +611,110 @@ export default function CrosswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-black text-slate-900 dark:text-white" onKeyDown={handleKeyDown} tabIndex={0}>
+    <div className="crossword-page min-h-screen bg-background pb-52 text-foreground md:pb-8" data-completed={gameCompleted} onKeyDown={handleKeyDown} tabIndex={0}>
       <Navbar />
-      <div className="max-w-4xl mx-auto px-4 py-8 pt-24">
-        <div className="mb-8 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }} 
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-2"
+      <main className="mx-auto w-full max-w-6xl px-3 pb-8 pt-24 sm:px-5 lg:px-8">
+        <header className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">Daily puzzle</p>
+          <h1
+            className="mb-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
           >
             Bible Crossword
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1, transition: { delay: 0.2 } }}
-            className="text-purple-700 dark:text-purple-300"
+          </h1>
+          <p
+            className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base"
           >
             Test your biblical knowledge with today's crossword puzzle
-          </motion.p>
-        </div>
+          </p>
+          </div>
+          {isPracticeMode && (
+            <span className="inline-flex w-fit items-center rounded-md border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary">
+              Practice mode
+            </span>
+          )}
+        </header>
 
         {/* Stats Dashboard */}
         {isLoggedIn ? (
-          <div className="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="bg-purple-900/20 rounded-lg p-4 border border-purple-500/30">
-              <div className="flex items-center gap-2 mb-1">
-                <FiTrendingUp className="text-purple-400" />
-                <span className="text-sm text-purple-700 dark:text-purple-300">Current Streak</span>
+          <div className="mb-5 grid grid-cols-2 gap-2 sm:mb-6 sm:grid-cols-4 sm:gap-3">
+            <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
+              <div className="mb-1 flex items-center gap-2">
+                <FiTrendingUp className="text-primary" />
+                <span className="text-xs text-muted-foreground sm:text-sm">Current streak</span>
               </div>
-              <div className="text-2xl font-bold text-slate-900 dark:text-white">{userStats.currentStreak}</div>
+              <div className="text-2xl font-bold tabular-nums text-foreground">{userStats.currentStreak}</div>
             </div>
 
-            <div className="bg-blue-900/20 rounded-lg p-4 border border-blue-500/30">
-              <div className="flex items-center gap-2 mb-1">
-                <FiAward className="text-blue-400" />
-                <span className="text-sm text-blue-700 dark:text-blue-300">Best Streak</span>
+            <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
+              <div className="mb-1 flex items-center gap-2">
+                <FiAward className="text-primary" />
+                <span className="text-xs text-muted-foreground sm:text-sm">Best streak</span>
               </div>
-              <div className="text-2xl font-bold text-slate-900 dark:text-white">{userStats.maxStreak}</div>
+              <div className="text-2xl font-bold tabular-nums text-foreground">{userStats.maxStreak}</div>
             </div>
 
-            <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/30">
-              <div className="flex items-center gap-2 mb-1">
-                <FiTarget className="text-green-400" />
-                <span className="text-sm text-green-700 dark:text-green-300">Success Rate</span>
+            <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
+              <div className="mb-1 flex items-center gap-2">
+                <FiTarget className="text-primary" />
+                <span className="text-xs text-muted-foreground sm:text-sm">Success rate</span>
               </div>
-              <div className="text-2xl font-bold text-slate-900 dark:text-white">
+              <div className="text-2xl font-bold tabular-nums text-foreground">
                 {userStats.gamesPlayed > 0 
                   ? `${Math.round((userStats.gamesWon / userStats.gamesPlayed) * 100)}%` 
                   : '0%'}
               </div>
             </div>
 
-            <div className="bg-amber-900/20 rounded-lg p-4 border border-amber-500/30">
-              <div className="flex items-center gap-2 mb-1">
-                <FiClock className="text-amber-400" />
-                <span className="text-sm text-amber-700 dark:text-amber-300">Best Time</span>
+            <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
+              <div className="mb-1 flex items-center gap-2">
+                <FiClock className="text-primary" />
+                <span className="text-xs text-muted-foreground sm:text-sm">Best time</span>
               </div>
-              <div className="text-2xl font-bold text-slate-900 dark:text-white">{formatTime(userStats.bestTime)}</div>
+              <div className="text-2xl font-bold tabular-nums text-foreground">{formatTime(userStats.bestTime)}</div>
             </div>
           </div>
         ) : (
-          <div className="mb-6 p-4 bg-purple-900/20 rounded-lg border border-purple-500/30">
-            <div className="text-center text-purple-700 dark:text-purple-300">
-              Sign in to track your stats and compete with others!
+          <div className="mb-5 rounded-xl border border-border bg-card px-4 py-3 sm:mb-6">
+            <div className="text-sm text-muted-foreground">
+              Sign in to save your crossword stats and build a daily streak.
             </div>
           </div>
         )}
 
         {/* Stats & Controls */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-2 text-purple-700 dark:text-purple-300">
-            <FiClock className="w-5 h-5" />
-            <span className="font-medium">{formatTime(timeElapsed)}</span>
-          </div>
-          {isPracticeMode && (
-            <div className="text-xs sm:text-sm text-purple-700 dark:text-purple-400 px-3 py-1 bg-purple-100 dark:bg-purple-900/20 rounded-full">
-              Practice Mode
+        <Card className="mb-4 gap-0 border-border bg-card shadow-sm sm:mb-5">
+          <CardContent className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4">
+            <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+              <span className="inline-flex h-10 shrink-0 items-center gap-2 rounded-lg bg-secondary px-3 font-mono text-base font-semibold tabular-nums text-secondary-foreground">
+                <FiClock aria-hidden="true" />
+                {formatTime(timeElapsed)}
+              </span>
+              <p className="min-w-0 text-sm leading-snug text-muted-foreground">
+                {selectedWord ? (
+                  <><span className="font-semibold text-foreground">{selectedWord.number} {selectedWord.direction}</span><span className="mx-1.5">·</span>{selectedWord.clue}</>
+                ) : "Select a square or clue to get started."}
+              </p>
             </div>
-          )}
-          
-          <div className="flex gap-2">
-            <button
-              onClick={() => setShowInstructions(true)}
-              className="flex items-center gap-1 text-purple-700 hover:text-purple-900 transition-colors dark:text-purple-300 dark:hover:text-purple-100"
-            >
-              <FiHelpCircle className="w-5 h-5" />
-            </button>
-            <button
-              onClick={resetCrossword} 
-              className="p-2 rounded-full hover:bg-purple-200/70 text-purple-700 dark:hover:bg-purple-900/30 dark:text-purple-300"
-              title="Reset Crossword"
-            >
-              <FiRefreshCw className="w-5 h-5" />
-            </button>
-            <button
-              onClick={checkAnswers} 
-              className="p-2 rounded-full hover:bg-purple-200/70 text-purple-700 dark:hover:bg-purple-900/30 dark:text-purple-300"
-              title="Check Answers"
-            >
-              <FiCheck className="w-5 h-5" />
-            </button>
-          </div>
+            <div className="flex shrink-0 items-center gap-2">
+              <Button type="button" variant="outline" size="sm" onClick={() => setShowInstructions(true)} aria-label="How to play">
+                <FiHelpCircle aria-hidden="true" />
+                <span className="hidden sm:inline">How to play</span>
+              </Button>
+              <Button type="button" variant="outline" size="icon" onClick={resetCrossword} aria-label="Reset crossword" title="Reset crossword">
+                <FiRefreshCw aria-hidden="true" />
+              </Button>
+              <Button type="button" size="sm" onClick={checkAnswers} className="hidden md:inline-flex">
+                <FiCheck aria-hidden="true" />
+                Check
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="mb-4 flex items-center justify-between gap-3 px-1 text-xs text-muted-foreground sm:mb-5">
+          <span>Choose a square, then type or use the on-screen keys.</span>
+          {crosswordData && <span className="shrink-0 tabular-nums">{crosswordData.entries.length} clues</span>}
         </div>
 
         {/* Loading State */}
@@ -672,14 +723,12 @@ export default function CrosswordPage() {
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
           </div>
         ) : crosswordData ? (
-          <div className="flex flex-col gap-6">
-            {/* Crossword Grid - Full Width */}
-            <div className="w-full">
-              <div className="bg-white/80 dark:bg-black/30 rounded-lg border border-purple-500/20 p-2">
-                <div className="overflow-auto flex justify-center pb-2">
-                  <div className="grid gap-0.5" 
+          <div className="grid items-start gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(19rem,0.95fr)] xl:gap-6">
+            <Card className="min-w-0 gap-0 overflow-hidden border-border bg-card shadow-sm">
+              <CardContent className="flex justify-center p-2.5 sm:p-4">
+                  <div
+                    className="grid w-full max-w-[38rem] gap-[clamp(1px,0.3vw,3px)]"
                     style={{ 
-                      gridTemplateRows: `repeat(${crosswordData.dimensions.rows}, minmax(0, 1fr))`,
                       gridTemplateColumns: `repeat(${crosswordData.dimensions.cols}, minmax(0, 1fr))`
                     }}
                   >
@@ -695,33 +744,32 @@ export default function CrosswordPage() {
                           return (
                             <React.Fragment key={`cell-${rowIndex}-${colIndex}`}>
                               {isCell ? (
-                                <div 
-                                  className={`
-                                    w-8 h-8 sm:w-10 sm:h-10
-                                    border-2
-                                    flex items-center justify-center
-                                    font-bold relative
-                                    ${isSelected 
-                                      ? 'bg-purple-500/50 border-purple-400'
-                                      : isInWord
-                                        ? 'bg-purple-500/20 border-purple-400/50'
-                                        : 'bg-white/80 border-slate-400 dark:bg-white/5 dark:border-gray-700'
-                                    }
-                                    transition-colors duration-200
-                                  `}
+                                <button
+                                  type="button"
+                                  aria-label={`Row ${rowIndex + 1}, column ${colIndex + 1}${cellNumber !== null ? `, clue ${cellNumber}` : ""}${userInput[rowIndex]?.[colIndex] ? `, ${userInput[rowIndex][colIndex]}` : ", empty"}`}
+                                  aria-pressed={Boolean(isSelected)}
                                   onClick={() => handleCellClick(rowIndex, colIndex)}
+                                  className={`
+                                    relative flex aspect-square min-w-0 touch-manipulation items-center justify-center rounded-[3px] border text-[clamp(0.55rem,2.8vw,1.2rem)] font-bold leading-none tabular-nums transition-colors duration-150 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
+                                    ${isSelected 
+                                      ? 'border-primary bg-primary/30 text-foreground'
+                                      : isInWord
+                                        ? 'border-primary/50 bg-primary/10 text-foreground'
+                                        : 'border-border bg-background text-foreground hover:border-primary/60'
+                                    }
+                                  `}
                                 >
                                   {cellNumber !== null && (
-                                    <span className="absolute text-[9px] top-0 left-0.5 text-slate-500 dark:text-gray-400 font-normal z-10">
+                                    <span className="absolute left-0.5 top-0 text-[clamp(0.38rem,1.4vw,0.58rem)] font-medium leading-none text-muted-foreground">
                                       {cellNumber}
                                     </span>
                                   )}
-                                  <span className="text-slate-900 dark:text-white">
+                                  <span className="pt-0.5">
                                     {userInput[rowIndex]?.[colIndex] || ''}
                                   </span>
-                                </div>
+                                </button>
                               ) : (
-                                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-transparent" />
+                                <div aria-hidden="true" className="aspect-square min-w-0" />
                               )}
                             </React.Fragment>
                           );
@@ -729,65 +777,71 @@ export default function CrosswordPage() {
                       </React.Fragment>
                     ))}
                   </div>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
-            {/* Clues - Side by Side */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-1">
               {/* Across Clues */}
-              <div className="bg-white/80 dark:bg-black/30 rounded-lg border border-purple-500/20 p-4">
-                <h3 className="text-lg font-semibold text-purple-700 dark:text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
-                  Across
-                </h3>
+              <Card className="min-w-0 gap-0 border-border bg-card shadow-sm">
+                <CardHeader className="gap-1 px-4 pb-3 pt-4">
+                  <CardTitle className="text-base">Across</CardTitle>
+                  <CardDescription>Select a clue to jump to its first square.</CardDescription>
+                </CardHeader>
+                <CardContent className="max-h-72 space-y-1 overflow-y-auto px-2 pb-3 sm:px-3">
                 {crosswordData.entries
                   .filter(entry => entry.direction === 'across')
                   .sort((a, b) => a.number - b.number)
                   .map((entry, i) => (
-                    <div 
+                    <button
+                      type="button"
                       key={`across-${entry.number}-${i}`}
                       className={`
-                        px-3 py-2 rounded cursor-pointer mb-1
+                        flex w-full items-start rounded-lg px-2.5 py-2 text-left text-sm leading-snug transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
                         ${selectedWord && selectedWord.id === entry.id 
-                          ? 'bg-purple-500/20 border-l-4 border-purple-400' 
-                          : 'hover:bg-purple-200/50 dark:hover:bg-purple-900/20'
+                          ? 'bg-primary/10 text-foreground'
+                          : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                         }
                       `}
                       onClick={() => handleClueClick(entry)}
                     >
-                      <span className="font-medium text-purple-700 dark:text-purple-300 mr-2">{entry.number}.</span>
-                      <span className="text-slate-700 dark:text-gray-100">{entry.clue}</span>
-                    </div>
+                      <span className="mr-2 min-w-6 shrink-0 font-semibold tabular-nums text-primary">{entry.number}.</span>
+                      <span>{entry.clue}</span>
+                    </button>
                   ))
                 }
-              </div>
+                </CardContent>
+              </Card>
 
               {/* Down Clues */}
-              <div className="bg-white/80 dark:bg-black/30 rounded-lg border border-purple-500/20 p-4">
-                <h3 className="text-lg font-semibold text-purple-700 dark:text-purple-300 border-b border-purple-600/30 pb-2 mb-2">
-                  Down
-                </h3>
+              <Card className="min-w-0 gap-0 border-border bg-card shadow-sm">
+                <CardHeader className="gap-1 px-4 pb-3 pt-4">
+                  <CardTitle className="text-base">Down</CardTitle>
+                  <CardDescription>Select a clue to jump to its first square.</CardDescription>
+                </CardHeader>
+                <CardContent className="max-h-72 space-y-1 overflow-y-auto px-2 pb-3 sm:px-3">
                 {crosswordData.entries
                   .filter(entry => entry.direction === 'down')
                   .sort((a, b) => a.number - b.number)
                   .map((entry, i) => (
-                    <div 
+                    <button
+                      type="button"
                       key={`down-${entry.number}-${i}`}
                       className={`
-                        px-3 py-2 rounded cursor-pointer mb-1
+                        flex w-full items-start rounded-lg px-2.5 py-2 text-left text-sm leading-snug transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
                         ${selectedWord && selectedWord.id === entry.id 
-                          ? 'bg-purple-500/20 border-l-4 border-purple-400' 
-                          : 'hover:bg-purple-200/50 dark:hover:bg-purple-900/20'
+                          ? 'bg-primary/10 text-foreground'
+                          : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                         }
                       `}
                       onClick={() => handleClueClick(entry)}
                     >
-                      <span className="font-medium text-purple-700 dark:text-purple-300 mr-2">{entry.number}.</span>
-                      <span className="text-slate-700 dark:text-gray-100">{entry.clue}</span>
-                    </div>
+                      <span className="mr-2 min-w-6 shrink-0 font-semibold tabular-nums text-primary">{entry.number}.</span>
+                      <span>{entry.clue}</span>
+                    </button>
                   ))
                 }
-              </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         ) : (
@@ -795,14 +849,15 @@ export default function CrosswordPage() {
             Failed to load crossword data
           </div>
         )}
-      </div>
+      </main>
+      {!gameCompleted && <CrosswordKeyboard onKeyPress={handleVirtualKey} />}
 
       {/* Success Message */}
       {gameCompleted && (
-        <div className="fixed bottom-0 inset-x-0 p-4 bg-green-900/70 backdrop-blur-sm border-t border-green-500/30 z-40">
-          <div className="max-w-md mx-auto text-center">
-            <h3 className="text-xl font-bold text-green-300 mb-2">Crossword Complete!</h3>
-            <p className="text-slate-100">You finished in {formatTime(timeElapsed)}</p>
+        <div className="fixed inset-x-3 bottom-3 z-40 mx-auto max-w-md rounded-xl border border-primary/30 bg-card/95 p-4 text-center shadow-xl backdrop-blur sm:inset-x-auto sm:bottom-5">
+          <div>
+            <h3 className="mb-1 text-lg font-bold text-foreground">Crossword complete</h3>
+            <p className="text-sm text-muted-foreground">You finished in {formatTime(timeElapsed)}</p>
           </div>
         </div>
       )}
