@@ -166,18 +166,20 @@ export default function HowToPlay() {
         ) : (
           <motion.section variants={itemVariants} className="bg-white/80 dark:bg-black/30 backdrop-blur-md border border-slate-300 dark:border-gray-800 rounded-lg p-4 sm:p-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-6">How to Play</h2>
-            <div className="space-y-4 sm:space-y-6 text-slate-700 dark:text-gray-300 text-sm sm:text-base">
-              <p>Complete the biblical crossword puzzle:</p>
-              <ul className="list-disc list-inside space-y-2">
-                <li>Click on a square or clue to start typing</li>
-                <li>Use arrow keys to navigate between squares</li>
-                <li>Click a filled square to toggle direction (across/down)</li>
-                <li>Click "Check" to validate your answers</li>
-              </ul>
+            <div className="space-y-4 text-sm text-slate-700 dark:text-gray-300 sm:space-y-6 sm:text-base">
+              <p>Fill the grid using the Across and Down clues:</p>
+              <ol className="list-inside list-decimal space-y-2 sm:space-y-3">
+                <li>Select a clue to jump to its first square, or tap any square in the grid.</li>
+                <li>At a crossing, select the square again to switch between Across and Down.</li>
+                <li>Enter letters with your keyboard. On a phone or tablet, use the on-screen letter keys.</li>
+                <li>Use the arrow keys to move through the selected answer. Backspace deletes a letter.</li>
+                <li>Choose <strong>Check</strong> when you want to review your answers. The timer runs while you play.</li>
+                <li>Use the reset button to clear the grid and start the puzzle again.</li>
+              </ol>
               
-              <div className="bg-purple-900/20 border border-purple-500/30 rounded-lg p-3 sm:p-4 mt-4">
+              <div className="mt-4 rounded-lg border border-purple-500/30 bg-purple-900/20 p-3 sm:mt-6 sm:p-4">
                 <p className="text-xs sm:text-sm">
-                  Each crossword features carefully selected biblical terms and references. Complete the puzzle to improve your biblical knowledge and understanding of scripture.
+                  Sign in to save your crossword stats and streak. You can still play and check a puzzle without signing in.
                 </p>
               </div>
             </div>

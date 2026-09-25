@@ -715,12 +715,13 @@ export default function CrosswordPage() {
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
           </div>
         ) : crosswordData ? (
-          <div className="grid grid-cols-1 items-start gap-4 xl:gap-6">
+          <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-5">
             <Card className="min-w-0 gap-0 overflow-hidden border-border bg-card shadow-sm">
-              <CardContent className="flex justify-center p-2.5 sm:p-4">
+              <CardContent className="flex justify-center p-2.5 sm:p-4 lg:px-6 xl:px-8">
                   <div
-                    className="grid w-full gap-[clamp(1px,0.3vw,3px)]"
+                    className="crossword-grid-board grid w-full gap-[clamp(1px,0.3vw,3px)]"
                     style={{ 
+                      "--crossword-board-max-width": `${(crosswordData.dimensions.cols / crosswordData.dimensions.rows) * 35}vh`,
                       gridTemplateColumns: `repeat(${crosswordData.dimensions.cols}, minmax(0, 1fr))`
                     }}
                   >
