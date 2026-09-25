@@ -613,8 +613,8 @@ export default function CrosswordPage() {
   return (
     <div className="crossword-page min-h-screen bg-background pb-52 text-foreground md:pb-8" data-completed={gameCompleted} onKeyDown={handleKeyDown} tabIndex={0}>
       <Navbar />
-      <main className="mx-auto w-full max-w-6xl px-3 pb-8 pt-24 sm:px-5 lg:px-8">
-        <header className="mb-6 flex flex-col items-center gap-3 text-center sm:mb-8">
+      <main className="mx-auto w-full max-w-5xl px-3 pb-8 pt-24 sm:px-5 lg:px-12 lg:pt-24">
+        <header className="mb-6 flex flex-col items-center gap-3 text-center sm:mb-8 lg:mb-3">
           <h1
             className="mb-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
           >
@@ -629,7 +629,7 @@ export default function CrosswordPage() {
 
         {/* Stats Dashboard */}
         {isLoggedIn ? (
-          <div className="mb-5 grid grid-cols-2 gap-2 sm:mb-6 sm:grid-cols-4 sm:gap-3">
+          <div className="mb-5 grid grid-cols-2 gap-2 sm:mb-6 lg:mb-3 sm:grid-cols-4 sm:gap-3">
             <div className="rounded-xl border border-border bg-card p-3 sm:p-4">
               <div className="mb-1 flex items-center gap-2">
                 <FiTrendingUp className="text-primary" />
@@ -667,7 +667,7 @@ export default function CrosswordPage() {
             </div>
           </div>
         ) : (
-          <div className="mb-5 rounded-xl border border-border bg-card px-4 py-3 sm:mb-6">
+          <div className="mb-5 rounded-xl border border-border bg-card px-4 py-3 sm:mb-6 lg:mb-3">
             <div className="text-sm text-muted-foreground">
               Sign in to save your crossword stats and build a daily streak.
             </div>
@@ -675,8 +675,8 @@ export default function CrosswordPage() {
         )}
 
         {/* Stats & Controls */}
-        <Card className="mb-4 gap-0 border-border bg-card shadow-sm sm:mb-5">
-          <CardContent className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4">
+        <Card className="mb-4 gap-0 border-border bg-card shadow-sm sm:mb-5 lg:mb-3 lg:py-0">
+          <CardContent className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4 lg:py-2">
             <div className="flex min-w-0 items-center gap-3 sm:gap-4">
               <span className="inline-flex h-10 shrink-0 items-center gap-2 rounded-lg bg-secondary px-3 font-mono text-base font-semibold tabular-nums text-secondary-foreground">
                 <FiClock aria-hidden="true" />
@@ -704,7 +704,7 @@ export default function CrosswordPage() {
           </CardContent>
         </Card>
 
-        <div className="mb-4 flex items-center justify-between gap-3 px-1 text-xs text-muted-foreground sm:mb-5">
+        <div className="mb-4 flex items-center justify-between gap-3 px-1 text-xs text-muted-foreground sm:mb-5 lg:mb-3">
           <span>Choose a square, then type or use the on-screen keys.</span>
           {crosswordData && <span className="shrink-0 tabular-nums">{crosswordData.entries.length} clues</span>}
         </div>
@@ -715,13 +715,13 @@ export default function CrosswordPage() {
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
           </div>
         ) : crosswordData ? (
-          <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-5">
-            <Card className="min-w-0 gap-0 overflow-hidden border-border bg-card shadow-sm">
-              <CardContent className="flex justify-center p-2.5 sm:p-4 lg:px-6 xl:px-8">
+          <div className="grid grid-cols-1 items-start gap-4">
+            <Card className="min-w-0 gap-0 overflow-hidden border-border bg-card shadow-sm lg:py-0">
+              <CardContent className="flex justify-center p-2.5 sm:p-4 lg:px-12 xl:px-16">
                   <div
                     className="crossword-grid-board grid w-full gap-[clamp(1px,0.3vw,3px)]"
                     style={{ 
-                      "--crossword-board-max-width": `${(crosswordData.dimensions.cols / crosswordData.dimensions.rows) * 35}vh`,
+                      "--crossword-ratio": crosswordData.dimensions.cols / crosswordData.dimensions.rows,
                       gridTemplateColumns: `repeat(${crosswordData.dimensions.cols}, minmax(0, 1fr))`
                     }}
                   >
@@ -743,7 +743,7 @@ export default function CrosswordPage() {
                                   aria-pressed={Boolean(isSelected)}
                                   onClick={() => handleCellClick(rowIndex, colIndex)}
                                   className={`
-                                    relative flex aspect-square min-w-0 touch-manipulation items-center justify-center rounded-[3px] border text-[clamp(0.55rem,2.8vw,1.2rem)] font-bold leading-none tabular-nums transition-colors duration-150 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
+                                    relative flex aspect-square min-w-0 touch-manipulation items-center justify-center rounded-[3px] border text-[clamp(0.55rem,2.8vw,1.2rem)] lg:text-[clamp(0.7rem,1.8vh,1.2rem)] font-bold leading-none tabular-nums transition-colors duration-150 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
                                     ${isSelected 
                                       ? 'border-primary bg-primary/30 text-foreground'
                                       : isInWord
@@ -775,12 +775,12 @@ export default function CrosswordPage() {
 
             <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2">
               {/* Across Clues */}
-              <Card className="min-w-0 gap-0 border-border bg-card shadow-sm">
+              <Card className="min-w-0 gap-0 border-border bg-card shadow-sm lg:py-0">
                 <CardHeader className="gap-1 px-4 pb-3 pt-4">
                   <CardTitle className="text-base">Across</CardTitle>
                   <CardDescription>Select a clue to jump to its first square.</CardDescription>
                 </CardHeader>
-                <CardContent className="max-h-72 space-y-1 overflow-y-auto px-2 pb-3 sm:px-3">
+                <CardContent className="crossword-clue-list space-y-1 px-2 pb-3 sm:px-3">
                 {crosswordData.entries
                   .filter(entry => entry.direction === 'across')
                   .sort((a, b) => a.number - b.number)
@@ -806,12 +806,12 @@ export default function CrosswordPage() {
               </Card>
 
               {/* Down Clues */}
-              <Card className="min-w-0 gap-0 border-border bg-card shadow-sm">
+              <Card className="min-w-0 gap-0 border-border bg-card shadow-sm lg:py-0">
                 <CardHeader className="gap-1 px-4 pb-3 pt-4">
                   <CardTitle className="text-base">Down</CardTitle>
                   <CardDescription>Select a clue to jump to its first square.</CardDescription>
                 </CardHeader>
-                <CardContent className="max-h-72 space-y-1 overflow-y-auto px-2 pb-3 sm:px-3">
+                <CardContent className="crossword-clue-list space-y-1 px-2 pb-3 sm:px-3">
                 {crosswordData.entries
                   .filter(entry => entry.direction === 'down')
                   .sort((a, b) => a.number - b.number)
@@ -994,7 +994,7 @@ export default function CrosswordPage() {
           onClick={() => setShowInstructions(false)}
         >
           <div
-            className="bg-white/95 dark:bg-black/80 p-6 rounded-xl border border-purple-500/30 max-w-lg w-full"
+            className="bg-white/95 dark:bg-black/80 p-6 rounded-xl border border-purple-500/30 max-w-lg w-full max-h-[85dvh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-start mb-4">
@@ -1009,15 +1009,17 @@ export default function CrosswordPage() {
             <div className="space-y-4 text-slate-700 dark:text-gray-300">
               <p>Fill in the crossword grid with Biblical words based on the clues provided.</p>
               <ul className="list-disc list-inside space-y-2">
-                <li>Click/tap on a square to select it</li>
-                <li>Type letters to fill in the answers</li>
-                <li>Click on clues to navigate to their position</li>
-                <li>Use arrow keys to move between cells</li>
-                <li>When finished, click "Check" to verify your answers</li>
+                <li>Across answers run left to right; Down answers run top to bottom. Crossing answers share a letter.</li>
+                <li>Select a clue to jump to its first square, or click/tap a square.</li>
+                <li>Select the same crossing square again to switch between Across and Down.</li>
+                <li>Type with your keyboard, or use the on-screen keys on a phone or tablet. The cursor advances as you type.</li>
+                <li>Use arrow keys along the selected answer to move. Backspace clears a letter and moves back.</li>
+                <li>Choose "Check" (or press Enter) to see correct, incorrect, and incomplete answers. You can keep editing and check again.</li>
+                <li>The reset button clears the grid and restarts the timer.</li>
               </ul>
               <div className="mt-4 bg-purple-100 dark:bg-purple-900/20 p-4 rounded-lg">
                 <p className="text-purple-800 dark:text-purple-200">
-                  Complete the puzzle to earn points and improve your stats!
+                  Fill every answer correctly to complete the puzzle. Sign in to save your stats and streak; replaying a completed daily puzzle is practice.
                 </p>
               </div>
             </div>

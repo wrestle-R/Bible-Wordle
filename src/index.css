@@ -85,9 +85,11 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Fill the desktop viewport, leaving the first Across and Down clues visible.
+   The remaining clues continue in the normal page scroll. */
 @media (min-width: 1024px) {
   .crossword-grid-board {
-    max-width: min(100%, var(--crossword-board-max-width));
+    max-width: min(100%, calc(max(180px, calc(100dvh - 500px)) * var(--crossword-ratio)));
     gap: 1px;
   }
 }
