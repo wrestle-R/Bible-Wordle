@@ -5,6 +5,8 @@ import { auth, provider, signInWithPopup } from "../firebase.config";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -44,40 +46,33 @@ export default function SignUp() {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="bg-white dark:bg-black w-[400px] rounded-lg shadow-xl border border-slate-300 dark:border-gray-800 overflow-hidden"
+      className="w-[min(400px,calc(100vw-2rem))]"
     >
-      <div className="flex flex-col items-center justify-center p-8 space-y-6">
-        <motion.h1
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-3xl font-bold text-slate-900 dark:text-white"
-        >
-          Welcome
-        </motion.h1>
-        <motion.p
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-slate-600 dark:text-gray-400 text-center"
-        >
-          Sign in to track your progress and compete with others
-        </motion.p>
-        <motion.button
+      <Card className="gap-0 overflow-hidden border-primary/20 bg-card/95 shadow-xl backdrop-blur-sm">
+      <CardHeader className="items-center gap-3 px-8 pt-8 text-center">
+        <CardTitle className="text-3xl font-bold">Welcome</CardTitle>
+        <CardDescription className="max-w-xs text-base">
+          Sign in to track your progress and compete with others.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex justify-center px-8 py-8">
+        <Button
+          type="button"
           onClick={handleGoogleSignIn}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-lg hover:bg-gray-100 transition-colors font-medium"
+          variant="outline"
+          size="lg"
+          className="w-full border-border bg-background font-medium transition-transform hover:scale-[1.02]"
         >
-          <FcGoogle className="w-5 h-5" />
+          <FcGoogle />
           Continue with Google
-        </motion.button>
-      </div>
+        </Button>
+      </CardContent>
+      </Card>
     </motion.div>
   );
 
   return (
-    <div className="bg-slate-100 dark:bg-black min-h-screen">
+    <div className="min-h-screen bg-background">
       <Navbar />
       {isMobile ? (
         <div className="min-h-screen flex items-center justify-center">

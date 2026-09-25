@@ -21,6 +21,7 @@
     "framer-motion": "^12.9.1",
     "lucide-react": "^0.503.0",
     "motion": "^12.9.1",
+    "radix-ui": "^1.6.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",

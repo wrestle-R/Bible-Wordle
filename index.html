@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/icon-Photoroom.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      try {
+        const savedTheme = localStorage.getItem("bw_theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", savedTheme ? savedTheme === "dark" : prefersDark);
+      } catch {}
+    </script>
     <title>Bible Wordle | Scripture Word Game</title>
     <meta name="description" content="Test your Bible knowledge with Bible Wordle! A word-guessing game featuring biblical words, characters, places, and events from Scripture." />
     <meta name="keywords" content="Bible game, Wordle, Scripture, Bible words, Christian games, Bible trivia, Bible knowledge" />

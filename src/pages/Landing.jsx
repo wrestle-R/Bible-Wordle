@@ -4,6 +4,8 @@ import { HyperText } from "../components/HyperText"
 import AnimatedTextCycle from "../components/TextCycle"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function Landing() {
   const categories = ["Prophets", "Kings", "Places", "Events", "Characters"]
@@ -69,31 +71,28 @@ export default function Landing() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="bg-white/80 dark:bg-black/80 backdrop-blur-sm w-[90%] sm:w-full max-w-[520px] h-auto py-12 md:h-80 md:mr-16 mt-4 rounded-xl shadow-2xl border border-purple-500/20 overflow-hidden mx-4 transition-all duration-300 hover:border-purple-500/30"
+      className="mx-4 mt-4 w-[90%] max-w-[520px] sm:w-full md:mr-16"
     >
-      <div className="flex flex-col justify-center items-center text-center h-full gap-5 md:gap-7 px-5 md:px-12">
+      <Card className="h-auto gap-0 overflow-hidden border-primary/20 bg-card/90 py-12 shadow-2xl backdrop-blur-sm transition-colors duration-300 hover:border-primary/40 md:h-80 md:py-0">
+      <CardContent className="flex h-full flex-col items-center justify-center gap-5 px-5 text-center md:gap-7 md:px-12">
         <HyperText
           text="BIBLE WORDLE"
-          className="text-3xl md:text-5xl font-bold pb-2 md:pb-12 text-slate-900 dark:text-white tracking-tight bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 bg-clip-text "
+          className="pb-2 text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-purple-700 bg-clip-text text-transparent md:pb-12 md:text-5xl"
           duration={1200}
         />
-        <div className="flex flex-wrap justify-center gap-2 text-lg md:text-2xl text-slate-700 dark:text-gray-300">
+        <div className="flex flex-wrap justify-center gap-2 text-lg text-foreground md:text-2xl">
           <span>Master</span>
           <AnimatedTextCycle words={categories} interval={2000} className="text-purple-400 font-semibold" />
           <span>in Scripture</span>
         </div>
-        <p className="text-base md:text-lg text-slate-700 dark:text-gray-300 leading-relaxed max-w-md">
+        <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
           Try to guess today's biblical word in 6 tries?
         </p>
-        <motion.a 
-          href="/play"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-2 px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-medium rounded-lg hover:from-purple-700 hover:to-purple-800 transition-all duration-300 shadow-lg shadow-purple-900/30"
-        >
-          Play Now
-        </motion.a>
-      </div>
+        <Button asChild size="lg" className="mt-2 h-auto rounded-lg px-8 py-3 font-medium shadow-lg shadow-primary/25 transition-transform hover:scale-105 active:scale-95">
+          <a href="/play">Play Now</a>
+        </Button>
+      </CardContent>
+      </Card>
     </motion.div>
   )
 
@@ -102,15 +101,16 @@ export default function Landing() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: mounted && !verseLoading ? 1 : 0, y: mounted && !verseLoading ? 0 : 20 }}
       transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-      className="bg-white/70 dark:bg-black/60 backdrop-blur-sm w-[90%] sm:w-full max-w-[520px] py-4 px-5 md:px-6 rounded-lg shadow-lg border border-purple-500/20 mb-8 mx-4 hover:border-purple-500/30 transition-all duration-300"
+      className="mx-4 mb-8 w-[90%] max-w-[520px] sm:w-full"
     >
       {!verseLoading && dailyVerse && (
-        <div className="flex flex-col gap-2 text-center">
+        <Card className="gap-0 border-primary/20 bg-card/80 py-4 shadow-lg backdrop-blur-sm transition-colors duration-300 hover:border-primary/40">
+        <CardContent className="flex flex-col gap-2 px-5 text-center md:px-6">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.4 }}
-            className="text-xs md:text-sm text-purple-700 dark:text-purple-300 font-semibold tracking-wide uppercase"
+            className="text-xs font-semibold tracking-wide text-primary uppercase md:text-sm"
           >
             Today's Daily Verse
           </motion.p>
@@ -118,7 +118,7 @@ export default function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.4 }}
-            className="text-sm md:text-base text-slate-700 dark:text-gray-300 italic leading-relaxed"
+            className="text-sm italic leading-relaxed text-muted-foreground md:text-base"
           >
             "{dailyVerse.verse}"
           </motion.p>
@@ -126,17 +126,18 @@ export default function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.4 }}
-            className="text-xs md:text-sm text-purple-400 font-medium"
+            className="text-xs font-medium text-primary md:text-sm"
           >
             — {dailyVerse.reference}
           </motion.p>
-        </div>
+        </CardContent>
+        </Card>
       )}
     </motion.div>
   )
 
   return (
-    <div className="bg-slate-100 dark:bg-black min-h-screen overflow-hidden">
+    <div className="min-h-screen overflow-hidden bg-background">
       <Navbar />
       {isMobile ? (
         <div className="min-h-screen flex flex-col items-center justify-center pt-16 px-4 gap-6">
