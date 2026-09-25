@@ -962,7 +962,7 @@ export default function Wordle({ wordData, onGameComplete }) {
   }
 
   const getTestamentContent = () => {
-    const book = wordData.verse_location.split(" ")[0]
+    const book = wordData.verse_location.replace(/^\d+\s+/, "").split(" ")[0]
     return `This word is from the ${newTestament.includes(book) ? "New" : "Old"} Testament`
   }
 
@@ -988,7 +988,14 @@ export default function Wordle({ wordData, onGameComplete }) {
       "places": "Place",
       "events": "Event",
       "event": "Event",
-      "apostle": "Apostle"
+      "apostle": "Apostle",
+      "priest": "Priest",
+      "patriarch": "Patriarch",
+      "matriarch": "Matriarch",
+      "biblical figure": "Biblical Figure",
+      "early christian": "Early Christian",
+      "animal": "Animal",
+      "object": "Object"
     };
     
     // Get properly formatted category name
@@ -1008,7 +1015,14 @@ export default function Wordle({ wordData, onGameComplete }) {
       "Symbol": "A representation carrying deeper spiritual significance in Scripture",
       "Place": "A location where significant biblical events unfolded",
       "Event": "A momentous happening that revealed God's plan in history",
-      "Apostle": "One of Christ's chosen disciples sent to establish His church"
+      "Apostle": "One of Christ's chosen disciples sent to proclaim the gospel",
+      "Priest": "A person appointed to serve in Israel's worship",
+      "Patriarch": "A foundational father in the biblical family line",
+      "Matriarch": "A foundational mother in the biblical family line",
+      "Biblical Figure": "A person named in the biblical account",
+      "Early Christian": "A believer who served the early church",
+      "Animal": "An animal connected to a biblical account",
+      "Object": "An object connected to biblical worship or history"
     };
 
     // Provide custom fallback descriptions based on category name

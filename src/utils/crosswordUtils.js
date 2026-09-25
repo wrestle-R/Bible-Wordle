@@ -41,7 +41,9 @@ export const getTodayCrosswordData = async () => {
     // Deterministic shuffle based on date - same worldwide for a given day
     const shuffledWords = deterministicShuffle(words, dateSeed);
     
-    return shuffledWords.slice(0, 20); // Take 20 words for better selection
+    // Keep a broad candidate pool so the placement pass can reliably find
+    // five across and five down entries after answer normalization.
+    return shuffledWords.slice(0, 35);
   } catch (error) {
     console.error("Error loading crossword data:", error);
     return [];
